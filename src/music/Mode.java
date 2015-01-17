@@ -1,6 +1,6 @@
 package music;
 
-public class Modo {
+public class Mode {
     String nome;
     String[] note;
     String tonica;
@@ -8,7 +8,7 @@ public class Modo {
     int[] generatrice;
     int partenza;
 
-    public Modo(String tonica, String nome, int[] generatrice, int partenza)
+    public Mode(String tonica, String nome, int[] generatrice, int partenza)
     {
         this.tonica = tonica;
         this.nome = nome;

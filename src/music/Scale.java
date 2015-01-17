@@ -1,9 +1,6 @@
 package music;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JPanel;
 
 public class Scale{
     int[] scalaMaggiore = {0,2,2,1,2,2,2,1};
@@ -15,10 +12,10 @@ public class Scale{
     int[] esatonale = {0,2,2,2,2,2};
     int[] tonoSemitono = {0,2,1,2,1,2,1,2,1};
     int[] semitonoTono = {0,1,2,1,2,1,2,1,2};
-    Note n;
+    Notes n;
 
     public Scale(){
-        n = new Note();
+        n = new Notes();
     }
 
     public String[] scala(String nota,int[] ts){

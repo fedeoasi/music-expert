@@ -17,7 +17,7 @@ public class Chord {
         this.nome = nome;
         boolean esiste = false;
         Scale s = new Scale();
-        Note n = new Note();
+        Notes n = new Notes();
         String[] scala = null;
 
         //Accordi maggiori e dominanti
@@ -35,14 +35,14 @@ public class Chord {
             if(nome!="7#5")
             note.add(scala[4]);
             else {
-                Modo m = new Modo(tonica,nome,s.scalaMinMel,3);
+                Mode m = new Mode(tonica,nome,s.scalaMinMel,3);
                 note.add(m.getNote()[4]);
-                m = new Modo(tonica,nome,s.scalaMinMel,7);
+                m = new Mode(tonica,nome,s.scalaMinMel,7);
                 scale.add(m.getDistanze());
             }
             //aggiunge la settima minore
             if(nome=="7" || nome=="9" || nome=="13" || nome=="7#5"){
-                Modo m = new Modo(tonica,nome,s.scalaMaggiore,5);
+                Mode m = new Mode(tonica,nome,s.scalaMaggiore,5);
                 note.add(m.getNote()[6]);
                 scale.add(m.getDistanze());
                 //note.add(n.noteb[n.getIndice(scala[6])-1]);
@@ -70,14 +70,14 @@ public class Chord {
                  note.add(scala[0]);
                 note.add(scala[2]);
                 if(nome!="m7b5" && nome!="m9b5"){
-                    Modo m = new Modo(tonica,nome,s.scalaMaggiore,2);
+                    Mode m = new Mode(tonica,nome,s.scalaMaggiore,2);
                     scale.add(m.getDistanze());
                     scale.add(s.scalaMinNat);
                     note.add(scala[4]);
                 }
                 
                 else {
-                    Modo m = new Modo(tonica, nome,s.scalaMaggiore,7);
+                    Mode m = new Mode(tonica, nome,s.scalaMaggiore,7);
                     note.add(m.getNote()[4]);
                     scale.add(m.getDistanze());
                     //note.add(n.noteb[(n.getIndice(scala[4])-1)%12]);

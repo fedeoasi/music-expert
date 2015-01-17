@@ -38,7 +38,7 @@ public class Player{
     int chan = 10;
     int instr = 3;
 
-    Note n = new Note();
+    Notes n = new Notes();
 
     int volume = 100;
     int bpm = 120;
@@ -165,7 +165,7 @@ public class Player{
     public void costruisciAccordo(ArrayList<Integer> distanze, String tonica,
             int inizio, int fine){
         try {
-            Note n = new Note();
+            Notes n = new Notes();
             //inizio
             inizioTraccia();
 

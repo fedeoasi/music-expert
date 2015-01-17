@@ -23,9 +23,9 @@ public class MusicExpert extends JFrame implements ActionListener{
     int indice;
     ChordsPanel accordi = new ChordsPanel(this);
     ScaleGui scale = new ScaleGui(this);
-    ModiGui modi = new ModiGui(this);
-    GiroAccordi giroAccordi = new GiroAccordi(this);
-    Pentagramma pentagramma = new Pentagramma();
+    ModeGui modi = new ModeGui(this);
+    ChordProgression giroAccordi = new ChordProgression(this);
+    PentagramPanel pentagramma = new PentagramPanel();
     int instr = 0;
 
     public MusicExpert(){
@@ -90,7 +90,7 @@ public class MusicExpert extends JFrame implements ActionListener{
 
     public void disegnaAccordo(ArrayList<String> notes, ArrayList<Integer> altezze) {
         tp.remove(4);
-        pentagramma = new Pentagramma(notes, altezze,true);
+        pentagramma = new PentagramPanel(notes, altezze,true);
         tp.add("AccordoPentagramma",pentagramma);
         tp.setSelectedComponent(pentagramma);
 
@@ -98,7 +98,7 @@ public class MusicExpert extends JFrame implements ActionListener{
 
     public void disegnaScala(ArrayList<String> notes, ArrayList<Integer> altezze){
         tp.remove(4);
-        pentagramma = new Pentagramma(notes,altezze,false);
+        pentagramma = new PentagramPanel(notes,altezze,false);
         tp.add("ScalaPentagramma",pentagramma);
         tp.setSelectedComponent(pentagramma);
     }
@@ -114,7 +114,7 @@ public class MusicExpert extends JFrame implements ActionListener{
     }
 
 
-    public GiroAccordi getGiroAccordi() {
+    public ChordProgression getGiroAccordi() {
         return giroAccordi;
 
     }

@@ -15,7 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-public class ModiGui extends JPanel implements ActionListener, Playable {
+public class ModeGui extends JPanel implements ActionListener, Playable {
     String[] note = {"C","G","D","A","E","B","F#","C#","F","Bb","Eb","Ab",
             "Db","Gb","Cb"};
     String[] scale = {"Scala Maggiore","Scala Minore Armonica",
@@ -37,16 +37,16 @@ public class ModiGui extends JPanel implements ActionListener, Playable {
 
     String tonica;
 
-    Modo m = null;
+    Mode m = null;
     int[] generatrice;
     Scale s = new Scale();
-    Note n = new Note();
+    Notes n = new Notes();
     Player p = null;
 
     int oct=0;
     MusicExpert me = null;
 
-    public ModiGui(MusicExpert me){
+    public ModeGui(MusicExpert me){
         super(new BorderLayout());
         setBorder(new EmptyBorder(5,5,5,5));
         this.me=me;
@@ -88,7 +88,7 @@ public class ModiGui extends JPanel implements ActionListener, Playable {
             String tonica = ((String)nota.getSelectedItem());
             String nome = ((String)modo.getSelectedItem());
             Integer partenza = modo.getSelectedIndex()+1;
-            m = new Modo(tonica,nome,generatrice,partenza);
+            m = new Mode(tonica,nome,generatrice,partenza);
             String[] temp = m.getNote();
             ta.append(nome + " di " + tonica + ":\n");
             for(int i=0; i<temp.length; i++)

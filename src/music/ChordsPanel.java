@@ -35,7 +35,7 @@ public class ChordsPanel extends JPanel implements ActionListener{
     JButton save = new JButton("Save");
     JCheckBox ottava = new JCheckBox("+1 ottava");
 
-    Note n = new Note();
+    Notes n = new Notes();
     MusicExpert me = null;
 
     public ChordsPanel(MusicExpert me){

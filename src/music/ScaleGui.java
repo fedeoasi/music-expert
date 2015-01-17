@@ -2,14 +2,11 @@ package music;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -22,7 +19,7 @@ import javax.swing.border.EtchedBorder;
 
 public class ScaleGui extends JPanel implements ActionListener, Playable{
     Scale s = new Scale();
-    Note n = new Note();
+    Notes n = new Notes();
     String[] ris;
     String[] note = {"G","D","A","E","B","F#","C#","F","Bb","Eb","Ab",
             "Db","Gb","Cb"};

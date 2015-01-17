@@ -15,7 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class GiroAccordi extends JPanel implements Playable, ActionListener{
+public class ChordProgression extends JPanel implements Playable, ActionListener{
     ArrayList<Chord> accordi = new ArrayList<Chord>();
     ArrayList<JLabel> labels = new ArrayList<JLabel>();
     int bpm;
@@ -37,7 +37,7 @@ public class GiroAccordi extends JPanel implements Playable, ActionListener{
     ArrayList<ArrayList<Integer>> aa = new ArrayList<ArrayList<Integer>>();
     ArrayList<ArrayList<Integer>> ad = new ArrayList<ArrayList<Integer>>();
 
-    public GiroAccordi(MusicExpert me){
+    public ChordProgression(MusicExpert me){
         super(new BorderLayout());
         this.me = me;
         JPanel north = new JPanel(new FlowLayout());
