@@ -20,7 +20,7 @@ public class ScaleGui extends JPanel implements ActionListener, Playable {
     String[] scale = {"Scala Maggiore", "Scala Minore Naturale",
             "Scala Minore Armonica", "Scala Minore Melodica"};
 
-    JLabel l = new JLabel("Inserisci tonica e scala:");
+    JLabel l = new JLabel("Inserisci tonic e scala:");
     JComboBox nota = new JComboBox();
     JComboBox scala = new JComboBox();
     JButton ok = new JButton("Ok");
@@ -82,7 +82,7 @@ public class ScaleGui extends JPanel implements ActionListener, Playable {
             distanze[0] = 0;
             for (int i = 1; i < ris.length; i++)
                 distanze[i] = n.distanza(ris[i - 1], ris[i]);
-            //risuona la tonica alla fine
+            //risuona la tonic alla fine
             distanze[7] = n.distanza(ris[ris.length - 1], ris[0]);
             if (p == null)
                 p = new Player(distanze);

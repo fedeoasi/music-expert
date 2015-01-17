@@ -18,7 +18,7 @@ public class Note {
         this.nome = nome;
         this.altezza = altezza;
 
-        if (!n.isNaturale(nome)) {
+        if (!n.isNatural(nome)) {
             char[] nomeNota = nome.toCharArray();
             if (nomeNota.length == 2) {
                 char[] alt = new char[1];

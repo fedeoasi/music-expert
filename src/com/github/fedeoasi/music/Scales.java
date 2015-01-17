@@ -64,7 +64,7 @@ public class Scales {
         if (scala == null) return -1;
         int num = 0;
         for (int i = 0; i < scala.length; i++)
-            if (!n.isNaturale(scala[i]))
+            if (!n.isNatural(scala[i]))
                 num++;
         return num;
     }

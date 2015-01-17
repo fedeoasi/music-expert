@@ -75,7 +75,7 @@ public class ChordsPanel extends JPanel implements ActionListener {
         if (e.getSource() == ok) {
             a = new Chord(((String) noteBox.getSelectedItem()),
                     ((String) chordBox.getSelectedItem()));
-            ArrayList<String> temp = a.getNote();
+            ArrayList<String> temp = a.getNotes();
             ta.append(a.getSigla() + "\n");
             for (int i = 0; i < temp.size(); i++) {
                 ta.append(temp.get(i) + "  ");
@@ -113,7 +113,7 @@ public class ChordsPanel extends JPanel implements ActionListener {
         if (a == null) {
             JOptionPane.showMessageDialog(this, "Nessun Accordo selezionato");
         } else {
-            me.disegnaAccordo(a.getNote(), a.getAltezze());
+            me.disegnaAccordo(a.getNotes(), a.getPitches());
         }
     }
 

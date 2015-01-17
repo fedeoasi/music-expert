@@ -59,7 +59,7 @@ public class PentagramPanel extends JPanel implements MouseListener {
 
         for (int i = 0; i < notes.size(); i++) {
             String nome = notes.get(i);
-            if (note.isNaturale(notes.get(i)) == false) {
+            if (note.isNatural(notes.get(i)) == false) {
                 char[] c = {notes.get(i).charAt(0)};
                 String s = new String(c);
                 nome = new String(c);
@@ -83,7 +83,7 @@ public class PentagramPanel extends JPanel implements MouseListener {
     public void disegnaAccordo() {
         for (int i = 0; i < notes.size(); i++) {
             String nome = notes.get(i);
-            if (note.isNaturale(notes.get(i)) == false) {
+            if (note.isNatural(notes.get(i)) == false) {
                 char[] c = {notes.get(i).charAt(0)};
                 //notes.set(i,new String(c));
                 nome = new String(c);

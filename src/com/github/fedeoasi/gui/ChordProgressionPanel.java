@@ -88,7 +88,7 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
         if (solista) {
             player.setVolume(100);
             for (int i = 0; i < accordi.size(); i++)
-                player.costruisciMelodia(aa, ad, accordi.get(i).getTonica(), 0, 16 * i, i);
+                player.costruisciMelodia(aa, ad, accordi.get(i).getTonic(), 0, 16 * i, i);
         }
         player.start();
 
@@ -138,7 +138,7 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
         solista = true;
         for (int i = 0; i < accordi.size(); i++) {
             a = new ArrayList<Integer>();
-            int[] s = accordi.get(i).getScale().get(0);
+            int[] s = accordi.get(i).getScales().get(0);
             for (int k = 1; k < s.length; k++)
                 s[k] = s[k] + s[k - 1];
             rand = random.nextInt(gradi.size());

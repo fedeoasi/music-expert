@@ -114,14 +114,14 @@ public class Player {
     }
 
     public void costruisciTraccia(Chord a) {
-        costruisciAccordo(a.getDistanze(), a.getTonica(), 0, 15);
+        costruisciAccordo(a.getIntervals(), a.getTonic(), 0, 15);
     }
 
     public void costruisciGiro(ArrayList<Chord> a) {
 
         for (int i = 0; i < a.size(); i++)
             for (int j = 0; j < 4; j++)
-                costruisciAccordo(a.get(i).getDistanze(), a.get(i).getTonica(), 16 * (i) + 4 * j, 16 * i + 4 * (j + 1));
+                costruisciAccordo(a.get(i).getIntervals(), a.get(i).getTonic(), 16 * (i) + 4 * j, 16 * i + 4 * (j + 1));
 
     }
 
@@ -136,7 +136,7 @@ public class Player {
             int l = notapartenza + oct;
             for (int i = 0; i < distanze.length; i++) {
                 l = l + distanze[i];
-                //creaNota(chan, notapartenza+distanze[i],4*i,4*(i+1));
+                //creaNota(chan, notapartenza+intervals[i],4*i,4*(i+1));
                 creaNota(chan, l, 4 * i, 4 * (i + 1));
             }
 
@@ -165,13 +165,13 @@ public class Player {
             //inizio
             inizioTraccia();
 
-            //System.out.println(tonica);
+            //System.out.println(tonic);
             int l = notapartenza + n.getIndice(tonica);
 
 
             for (int i = 0; i < distanze.size(); i++) {
                 l = l + distanze.get(i);
-                //creaNota(chan, notapartenza+distanze[i],4*i,4*(i+1));
+                //creaNota(chan, notapartenza+intervals[i],4*i,4*(i+1));
                 creaNota(chan, l, inizio, fine);
             }
 
@@ -400,7 +400,7 @@ public class Player {
             for (int i = 0; i < distanze2.get(numAccordo).size(); i++) {
                 fine = in + durate.get(numAccordo).get(i);
                 //l=l+distanze2.get(i);
-                //creaNota(chan, notapartenza+distanze[i],4*i,4*(i+1));
+                //creaNota(chan, notapartenza+intervals[i],4*i,4*(i+1));
                 creaNota(chan, l + distanze2.get(numAccordo).get(i), in, fine);
                 in = fine;
             }

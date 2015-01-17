@@ -18,19 +18,19 @@ public class Mode {
         for (int i = 0; i < 7; i++)
             gen[i] = generatrice[i + 1];
         distanze[0] = 0;
-        //System.out.print(distanze[0]);
+        //System.out.print(intervals[0]);
         for (int i = 1; i < gen.length + 1; i++) {
             temp = (partenza - 2 + i) % 7;
             distanze[i] = gen[temp];
-            //System.out.print("  " + distanze[i]);
+            //System.out.print("  " + intervals[i]);
         }
         System.out.println();
 
         Scales s = new Scales();
         note = s.scala(tonica, distanze);
 
-        /*for(int i=0; i<note.length; i++)
-            System.out.print(note[i] + "  ");
+        /*for(int i=0; i<notes.length; i++)
+            System.out.print(notes[i] + "  ");
         System.out.println();
         */
 
