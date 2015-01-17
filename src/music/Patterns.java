@@ -2,7 +2,6 @@ package music;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -21,7 +20,7 @@ public class Patterns {
     ArrayList<Integer> d = new ArrayList<Integer>();
 
 
-    public Patterns(){
+    public Patterns() {
         file = new File("Patterns/pattern.txt");
         try {
             fr = new FileReader(file);
@@ -29,23 +28,23 @@ public class Patterns {
             s = new Scanner(br);
 
 
-            while(s.hasNextInt()){
+            while (s.hasNextInt()) {
                 g = new ArrayList<Integer>();
-                int n=0;
-                while(s.hasNextInt()&& n!=100){
+                int n = 0;
+                while (s.hasNextInt() && n != 100) {
                     n = s.nextInt();
                     g.add(n);
                 }
-                g.remove(g.size()-1);
+                g.remove(g.size() - 1);
                 gradi.add(g);
 
-                n=0;
+                n = 0;
                 d = new ArrayList<Integer>();
-                while(s.hasNextInt()&& n!=100){
+                while (s.hasNextInt() && n != 100) {
                     n = s.nextInt();
                     d.add(n);
                 }
-                d.remove(d.size()-1);
+                d.remove(d.size() - 1);
                 durate.add(d);
 
             }
@@ -70,7 +69,7 @@ public class Patterns {
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         new Patterns();
     }
 }

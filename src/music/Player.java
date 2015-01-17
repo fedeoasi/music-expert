@@ -1,16 +1,11 @@
 package music;
 
+import javax.sound.midi.*;
+import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
-import javax.sound.midi.*;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
-public class Player{
+public class Player {
     Sequencer sequencer = null;
     Track track;
     Sequence sequence = null;
@@ -33,7 +28,7 @@ public class Player{
     JButton save = new JButton("Save");
 
     int notapartenza = 45;
-    static int[] distanze = {0,2,4,0,0,2,4,0,4,5,7};
+    static int[] distanze = {0, 2, 4, 0, 0, 2, 4, 0, 4, 5, 7};
 
     int chan = 10;
     int instr = 3;
@@ -51,20 +46,20 @@ public class Player{
         this.volume = volume;
     }
 
-    public Player(){
+    public Player() {
         super();
         init();
         inizializza();
     }
 
-    public Player(int[] distanze){
+    public Player(int[] distanze) {
         super();
         init();
         inizializza();
         this.distanze = distanze;
     }
 
-    public Player(Chord accordo){
+    public Player(Chord accordo) {
         super();
         init();
         inizializza();
@@ -74,32 +69,33 @@ public class Player{
     public Player(Chord accordo, int oct, int instr) {
         super();
         this.instr = instr;
-        notapartenza+=oct;
+        notapartenza += oct;
         init();
         inizializza();
         costruisciTraccia(accordo);
     }
 
-    private void init(){
-        try{
-            if(synth == null)
+    private void init() {
+        try {
+            if (synth == null)
                 synth = MidiSystem.getSynthesizer();
-        if(synth == null) System.out.println("Synth non disponibile");
-        else{
-            synth.open();
-            Soundbank sb= synth.getDefaultSoundbank();
-            if(sb!=null) instruments = sb.getInstruments();
-            //for(int i=0; i<instruments.length; i++)
-            //System.out.println(instruments[i]);
-            synth.loadInstrument(instruments[0]);
-            channels = synth.getChannels();
-            channel = channels[5];
-        }
+            if (synth == null) System.out.println("Synth non disponibile");
+            else {
+                synth.open();
+                Soundbank sb = synth.getDefaultSoundbank();
+                if (sb != null) instruments = sb.getInstruments();
+                //for(int i=0; i<instruments.length; i++)
+                //System.out.println(instruments[i]);
+                synth.loadInstrument(instruments[0]);
+                channels = synth.getChannels();
+                channel = channels[5];
+            }
 
             sequencer = MidiSystem.getSequencer();
             sequencer.open();
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
-        catch(Exception e){    System.out.println(e.toString());}
 
 
     }
@@ -107,41 +103,41 @@ public class Player{
     public void inizializza() {
 
 
-        try{
-            sequence = new Sequence(Sequence.PPQ,3);
+        try {
+            sequence = new Sequence(Sequence.PPQ, 3);
             //System.out.println(sequence.getResolution());
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
-
-        catch(Exception e ) { System.out.println(e.toString());}
         track = sequence.createTrack();
         //System.out.println("crea traccia :" + track.size());
     }
 
-    public void costruisciTraccia(Chord a){
-        costruisciAccordo(a.getDistanze(),a.tonica,0,15);
+    public void costruisciTraccia(Chord a) {
+        costruisciAccordo(a.getDistanze(), a.tonica, 0, 15);
     }
 
-    public void costruisciGiro(ArrayList<Chord> a){
+    public void costruisciGiro(ArrayList<Chord> a) {
 
-        for(int i=0; i<a.size(); i++)
-            for(int j=0; j<4; j++)
-            costruisciAccordo(a.get(i).getDistanze(),a.get(i).tonica,16*(i)+4*j,16*i+4*(j+1));
+        for (int i = 0; i < a.size(); i++)
+            for (int j = 0; j < 4; j++)
+                costruisciAccordo(a.get(i).getDistanze(), a.get(i).tonica, 16 * (i) + 4 * j, 16 * i + 4 * (j + 1));
 
     }
 
-    public void costruisciMelodia(int[] distanze, int notapartenza, int oct){
-        this.distanze= distanze;
+    public void costruisciMelodia(int[] distanze, int notapartenza, int oct) {
+        this.distanze = distanze;
         this.notapartenza = notapartenza;
 
         try {
             //inizio
             inizioTraccia();
 
-            int l=notapartenza + oct;
-            for(int i=0; i<distanze.length; i++){
-                l=l+distanze[i];
+            int l = notapartenza + oct;
+            for (int i = 0; i < distanze.length; i++) {
+                l = l + distanze[i];
                 //creaNota(chan, notapartenza+distanze[i],4*i,4*(i+1));
-                creaNota(chan,l,4*i,4*(i+1));
+                creaNota(chan, l, 4 * i, 4 * (i + 1));
             }
 
             //fine
@@ -163,20 +159,20 @@ public class Player{
 
 
     public void costruisciAccordo(ArrayList<Integer> distanze, String tonica,
-            int inizio, int fine){
+                                  int inizio, int fine) {
         try {
             Notes n = new Notes();
             //inizio
             inizioTraccia();
 
             //System.out.println(tonica);
-            int l=notapartenza + n.getIndice(tonica);
+            int l = notapartenza + n.getIndice(tonica);
 
 
-            for(int i=0; i<distanze.size(); i++){
-                l=l+distanze.get(i);
+            for (int i = 0; i < distanze.size(); i++) {
+                l = l + distanze.get(i);
                 //creaNota(chan, notapartenza+distanze[i],4*i,4*(i+1));
-                creaNota(chan,l,inizio,fine);
+                creaNota(chan, l, inizio, fine);
             }
 
             //fine
@@ -195,19 +191,19 @@ public class Player{
         }
     }
 
-    public void costruisciScala(int[] dist){
+    public void costruisciScala(int[] dist) {
         try {
-        //inizio
-        inizioTraccia();
+            //inizio
+            inizioTraccia();
 
-        for(int i=0; i<dist.length; i++){
-            creaNota(chan, notapartenza+dist[i],4*i,4*(i+1));
-        }
+            for (int i = 0; i < dist.length; i++) {
+                creaNota(chan, notapartenza + dist[i], 4 * i, 4 * (i + 1));
+            }
 
-        //fine
-        fineTraccia();
+            //fine
+            fineTraccia();
 
-        sequencer.setSequence(sequence);
+            sequencer.setSequence(sequence);
 
         /*
         //sequencer.setTempoInBPM(60);
@@ -215,14 +211,14 @@ public class Player{
         System.out.println(sequence.getResolution());
         */
 
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
 
-    public void costruisciBatteria(int numBattute){
+    public void costruisciBatteria(int numBattute) {
         track = sequence.createTrack();
 
         mex = new ShortMessage();
@@ -236,27 +232,27 @@ public class Player{
         track.add(me);
 
 
-        for(int i=0; i<numBattute; i++){
+        for (int i = 0; i < numBattute; i++) {
             //charleston
-            for(int j=0; j<8; j++)
-            creaNota2(9,42,16*i+2*j,16*i+2*(j+1));
+            for (int j = 0; j < 8; j++)
+                creaNota2(9, 42, 16 * i + 2 * j, 16 * i + 2 * (j + 1));
             //cassa
-            creaNota2(9,35,16*i+0,16*i+2);
-            creaNota2(9,35,16*i+8,16*i+10);
-            creaNota2(9,35,16*i+10,16*i+12);
+            creaNota2(9, 35, 16 * i + 0, 16 * i + 2);
+            creaNota2(9, 35, 16 * i + 8, 16 * i + 10);
+            creaNota2(9, 35, 16 * i + 10, 16 * i + 12);
             //rullante
-            creaNota2(9,38,16*i+4,16*i+6);
-            creaNota2(9,38,16*i+12,16*i+14);
+            creaNota2(9, 38, 16 * i + 4, 16 * i + 6);
+            creaNota2(9, 38, 16 * i + 12, 16 * i + 14);
         }
 
 
         mex = new ShortMessage();
-            try {
-                mex.setMessage(192, 9, 1, numBattute*16);
-            } catch (InvalidMidiDataException e1) {
-                e1.printStackTrace();
-            }
-        me = new MidiEvent(mex,20);
+        try {
+            mex.setMessage(192, 9, 1, numBattute * 16);
+        } catch (InvalidMidiDataException e1) {
+            e1.printStackTrace();
+        }
+        me = new MidiEvent(mex, 20);
         track.add(me);
 
         try {
@@ -267,10 +263,10 @@ public class Player{
         }
     }
 
-    private void creaNota2(int canale, int tipo, int inizio, int fine){
+    private void creaNota2(int canale, int tipo, int inizio, int fine) {
         mex = new ShortMessage();
 
-        try{
+        try {
             mex = new ShortMessage();
             mex.setMessage(144, canale, tipo, 100);
             //mex.setMessage(144,n,volume);
@@ -282,14 +278,15 @@ public class Player{
             //mex.setMessage(128,n,volume);
             me = new MidiEvent(mex, fine);
             track.add(me);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch(Exception e) {e.printStackTrace(); }
     }
 
-    private void inizioTraccia(){
+    private void inizioTraccia() {
         mex = new ShortMessage();
         try {
-            mex.setMessage(192,instr,100);
+            mex.setMessage(192, instr, 100);
             //mex.setMessage(192, chan, 1, 100);
         } catch (InvalidMidiDataException e) {
             e.printStackTrace();
@@ -298,30 +295,30 @@ public class Player{
         track.add(me);
     }
 
-    private void fineTraccia(){
+    private void fineTraccia() {
         mex = new ShortMessage();
         try {
-            mex.setMessage(192,instr,100);
+            mex.setMessage(192, instr, 100);
             //mex.setMessage(192, 8, 1, 1);
         } catch (InvalidMidiDataException e) {
             e.printStackTrace();
         }
-        MidiEvent me = new MidiEvent(mex,20);
+        MidiEvent me = new MidiEvent(mex, 20);
         track.add(me);
     }
 
-    public void creaNota(int chan,int n,int inizio,int fine){
+    public void creaNota(int chan, int n, int inizio, int fine) {
         mex = new ShortMessage();
         try {
             mex = new ShortMessage();
             //mex.setMessage(144+5, chan, n, 100);
-            mex.setMessage(144,n,volume);
+            mex.setMessage(144, n, volume);
             MidiEvent me = new MidiEvent(mex, inizio);
             track.add(me);
 
             mex = new ShortMessage();
             //mex.setMessage(128+5, chan, n, 100);
-            mex.setMessage(128,n,volume);
+            mex.setMessage(128, n, volume);
             me = new MidiEvent(mex, fine);
             track.add(me);
 
@@ -331,7 +328,7 @@ public class Player{
         }
     }
 
-    public void start(){
+    public void start() {
         Sequence s = sequencer.getSequence();
 
         //inizializza();
@@ -343,34 +340,35 @@ public class Player{
     }
 
     public void stop() {
-        if(sequencer.isRunning()){
+        if (sequencer.isRunning()) {
             sequencer.stop();
             inizializza();
-        }
-        else System.out.println("sono gi� fermo");
+        } else System.out.println("sono gi� fermo");
     }
 
-    public void save(){
+    public void save() {
         File f = null;
         JFileChooser fc = new JFileChooser("MyMidi");
-        if(fc.showSaveDialog(null)==JFileChooser.APPROVE_OPTION){
+        if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 
 
             f = fc.getSelectedFile();
-         if(f!=null)
-             System.out.println(f);
+            if (f != null)
+                System.out.println(f);
 
-         int[] fileTypes = MidiSystem.getMidiFileTypes(sequence);
-         if(fileTypes.length==0) System.out.println("Non posso salvare");
-         else{
-             try {
-                MidiSystem.write(sequence,fileTypes[0],f);
-            } catch (Exception e1) { e1.printStackTrace();    }
-         }
+            int[] fileTypes = MidiSystem.getMidiFileTypes(sequence);
+            if (fileTypes.length == 0) System.out.println("Non posso salvare");
+            else {
+                try {
+                    MidiSystem.write(sequence, fileTypes[0], f);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
         }
     }
 
-    public void setChan(int chan){
+    public void setChan(int chan) {
         this.chan = chan;
     }
 
@@ -379,7 +377,7 @@ public class Player{
 
     }
 
-    public int getNotapartenza(){
+    public int getNotapartenza() {
         return notapartenza;
     }
 
@@ -388,22 +386,22 @@ public class Player{
     }
 
     public void costruisciMelodia(ArrayList<ArrayList<Integer>> distanze2,
-            ArrayList<ArrayList<Integer>> durate, String tonica,
-            int oct,int inizio, int numAccordo) {
-            int in;
-            int fine;
+                                  ArrayList<ArrayList<Integer>> durate, String tonica,
+                                  int oct, int inizio, int numAccordo) {
+        int in;
+        int fine;
 
         try {
             //inizio
             inizioTraccia();
 
-            int l=notapartenza + oct + n.getIndice(tonica)+12;
+            int l = notapartenza + oct + n.getIndice(tonica) + 12;
             in = inizio;
-            for(int i=0; i<distanze2.get(numAccordo).size(); i++){
+            for (int i = 0; i < distanze2.get(numAccordo).size(); i++) {
                 fine = in + durate.get(numAccordo).get(i);
                 //l=l+distanze2.get(i);
                 //creaNota(chan, notapartenza+distanze[i],4*i,4*(i+1));
-                creaNota(chan,l+distanze2.get(numAccordo).get(i),in,fine);
+                creaNota(chan, l + distanze2.get(numAccordo).get(i), in, fine);
                 in = fine;
             }
 
@@ -428,12 +426,12 @@ public class Player{
         return sequencer;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         JFrame f = new JFrame("Prova");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Player p = new Player();
         Sequencer s = p.getSequencer();
-        s.addMetaEventListener(new MetaEventListener(){
+        s.addMetaEventListener(new MetaEventListener() {
 
             public void meta(MetaMessage m) {
                 System.out.println(m.getType());
@@ -449,12 +447,12 @@ public class Player{
     }
 
     public void meta(MetaMessage m) {
-        if(m.getType()==57){
+        if (m.getType() == 57) {
             System.out.println("ciao");
         }
     }
 
-    protected void setBPM(int bpm){
+    protected void setBPM(int bpm) {
         this.bpm = bpm;
     }
 

@@ -8,20 +8,19 @@ public class Mode {
     int[] generatrice;
     int partenza;
 
-    public Mode(String tonica, String nome, int[] generatrice, int partenza)
-    {
+    public Mode(String tonica, String nome, int[] generatrice, int partenza) {
         this.tonica = tonica;
         this.nome = nome;
         this.generatrice = generatrice;
         this.partenza = partenza;
         int temp;
         int[] gen = new int[7];
-        for(int i=0; i<7; i++)
-            gen[i]=generatrice[i+1];
+        for (int i = 0; i < 7; i++)
+            gen[i] = generatrice[i + 1];
         distanze[0] = 0;
         //System.out.print(distanze[0]);
-        for(int i=1; i<gen.length+1; i++){
-            temp = (partenza-2+i)% 7;
+        for (int i = 1; i < gen.length + 1; i++) {
+            temp = (partenza - 2 + i) % 7;
             distanze[i] = gen[temp];
             //System.out.print("  " + distanze[i]);
         }

@@ -1,26 +1,18 @@
 package music;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-public class ChordsPanel extends JPanel implements ActionListener{
-    static final String[] note = {"A","Bb","B","C","C#","D","Eb","E","F","F#","G","Ab"};
-    static final String[] chords ={"","M7","M9","M13","m","m7","m9","m6","m13",
-            "m7b5","m9b5","7","9","13","7#5","7b9","7b5"};
+public class ChordsPanel extends JPanel implements ActionListener {
+    static final String[] note = {"A", "Bb", "B", "C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab"};
+    static final String[] chords = {"", "M7", "M9", "M13", "m", "m7", "m9", "m6", "m13",
+            "m7b5", "m9b5", "7", "9", "13", "7#5", "7b9", "7b5"};
     JComboBox noteBox = new JComboBox();
     JComboBox chordBox = new JComboBox();
     JButton ok = new JButton("Ok");
@@ -28,7 +20,7 @@ public class ChordsPanel extends JPanel implements ActionListener{
     Player p = null;
 
     Chord a = null;
-    int oct=0;
+    int oct = 0;
 
     JButton play = new JButton("Play");
     JButton stop = new JButton("Stop");
@@ -38,14 +30,14 @@ public class ChordsPanel extends JPanel implements ActionListener{
     Notes n = new Notes();
     MusicExpert me = null;
 
-    public ChordsPanel(MusicExpert me){
+    public ChordsPanel(MusicExpert me) {
         super();
         this.me = me;
-        setBorder(new EmptyBorder(5,5,5,5));
+        setBorder(new EmptyBorder(5, 5, 5, 5));
         setLayout(new BorderLayout());
-        for(int i=0; i<note.length; i++)
+        for (int i = 0; i < note.length; i++)
             noteBox.addItem(note[i]);
-        for(int i=0; i<chords.length; i++)
+        for (int i = 0; i < chords.length; i++)
             chordBox.addItem(chords[i]);
         ok.addActionListener(this);
 
@@ -57,8 +49,8 @@ public class ChordsPanel extends JPanel implements ActionListener{
 
         ta.setEditable(false);
         JScrollPane sp = new JScrollPane(ta);
-        EmptyBorder eb = new EmptyBorder(5,5,2,5);
-        sp.setBorder(new CompoundBorder(eb,new EtchedBorder()));
+        EmptyBorder eb = new EmptyBorder(5, 5, 2, 5);
+        sp.setBorder(new CompoundBorder(eb, new EtchedBorder()));
 
         JPanel south = new JPanel(new FlowLayout());
         south.add(play);
@@ -70,65 +62,58 @@ public class ChordsPanel extends JPanel implements ActionListener{
         south.add(ottava);
         ottava.addActionListener(this);
 
-        add(north,BorderLayout.NORTH);
-        add(sp,BorderLayout.CENTER);
-        add(south,BorderLayout.SOUTH);
+        add(north, BorderLayout.NORTH);
+        add(sp, BorderLayout.CENTER);
+        add(south, BorderLayout.SOUTH);
         setVisible(true);
     }
 
 
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==ok){
-            a = new Chord(((String)noteBox.getSelectedItem()),
-                    ((String)chordBox.getSelectedItem()));
+        if (e.getSource() == ok) {
+            a = new Chord(((String) noteBox.getSelectedItem()),
+                    ((String) chordBox.getSelectedItem()));
             ArrayList<String> temp = a.getNote();
             ta.append(a.sigla + "\n");
-            for(int i=0;i<temp.size();i++){
+            for (int i = 0; i < temp.size(); i++) {
                 ta.append(temp.get(i) + "  ");
-                if(i==temp.size()-1) ta.append("\n\n");
+                if (i == temp.size() - 1) ta.append("\n\n");
             }
-        }
-
-        else if(e.getSource()==play){
-            if(p==null)
-            p = new Player(new Chord(((String)noteBox.getSelectedItem()),
-                        ((String)chordBox.getSelectedItem())),oct,me.getInstrument());
+        } else if (e.getSource() == play) {
+            if (p == null)
+                p = new Player(new Chord(((String) noteBox.getSelectedItem()),
+                        ((String) chordBox.getSelectedItem())), oct, me.getInstrument());
             p.inizializza();
             p.setInstrument(me.getInstrument());
             p.setNotapartenza(p.getNotapartenza() + oct);
-            p.costruisciTraccia(new Chord(((String)noteBox.getSelectedItem()),
-                    ((String)chordBox.getSelectedItem())));
+            p.costruisciTraccia(new Chord(((String) noteBox.getSelectedItem()),
+                    ((String) chordBox.getSelectedItem())));
             p.start();
-        }
-        else if(e.getSource()==stop){
-            if(p!=null)
+        } else if (e.getSource() == stop) {
+            if (p != null)
                 p.stop();
-        }
-        else if(e.getSource()==save){
-            if(p!=null)
+        } else if (e.getSource() == save) {
+            if (p != null)
                 p.save();
-        }
-
-
-        else if(e.getSource()==ottava){
-            if(ottava.isSelected())
-                oct=12;
-            else oct=0;
+        } else if (e.getSource() == ottava) {
+            if (ottava.isSelected())
+                oct = 12;
+            else oct = 0;
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         new MusicExpert();
     }
 
 
     public void generaPentagramma() {
-        if (a==null) JOptionPane.showMessageDialog(this,"Nessun Accordo selezionato");
-        else{
+        if (a == null) JOptionPane.showMessageDialog(this, "Nessun Accordo selezionato");
+        else {
             //ArrayList<Integer> altezze = new ArrayList<Integer>();
 
             //for(int i=0; i<a.note.size(); i++)
-                //altezze.add(57 + n.getIndice(a.tonica));
+            //altezze.add(57 + n.getIndice(a.tonica));
 
             me.disegnaAccordo(a.note, a.getAltezze());
 

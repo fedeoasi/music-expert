@@ -1,20 +1,14 @@
 package music;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-public class PentagramPanel extends JPanel implements MouseListener{
+public class PentagramPanel extends JPanel implements MouseListener {
     Graphics2D g2 = null;
     Notes note = new Notes();
 
@@ -25,89 +19,85 @@ public class PentagramPanel extends JPanel implements MouseListener{
 
     public PentagramPanel() {
         super();
-        setFont(new Font(Font.DIALOG,Font.BOLD,20));
-        setBorder(new EmptyBorder(5,5,5,5));
-        setPreferredSize(new Dimension(300,200));
+        setFont(new Font(Font.DIALOG, Font.BOLD, 20));
+        setBorder(new EmptyBorder(5, 5, 5, 5));
+        setPreferredSize(new Dimension(300, 200));
         setBackground(Color.WHITE);
     }
 
     public PentagramPanel(ArrayList<String> notes, ArrayList<Integer> altezze, boolean isAccordo) {
         super();
-        setFont(new Font(Font.DIALOG,Font.BOLD,18));
+        setFont(new Font(Font.DIALOG, Font.BOLD, 18));
         accordo = isAccordo;
         this.notes = notes;
         this.altezze = altezze;
-        setBorder(new EmptyBorder(5,5,5,5));
-        setPreferredSize(new Dimension(300,200));
+        setBorder(new EmptyBorder(5, 5, 5, 5));
+        setPreferredSize(new Dimension(300, 200));
         setBackground(Color.WHITE);
     }
 
 
-    public void paint(Graphics g){
+    public void paint(Graphics g) {
         g2 = (Graphics2D) g;
-        for(int i=0; i<5; i++)
-            g.drawLine(0, 70+(20*i), this.getWidth(), 70+(20*i));
+        for (int i = 0; i < 5; i++)
+            g.drawLine(0, 70 + (20 * i), this.getWidth(), 70 + (20 * i));
 
-        if(accordo == true){
-            if(notes!= null && altezze!=null)
+        if (accordo == true) {
+            if (notes != null && altezze != null)
                 disegnaAccordo();
-        }
-
-        else {
-            if(notes!= null && altezze!=null)
+        } else {
+            if (notes != null && altezze != null)
                 disegnaMelodia();
         }
 
 
-
     }
 
-    public void disegnaMelodia(){
+    public void disegnaMelodia() {
 
-      for(int i=0; i<notes.size(); i++){
-          String nome = notes.get(i);
-          if(note.isNaturale(notes.get(i))==false){
-                  char[] c = {notes.get(i).charAt(0)};
-                  String s = new String(c);
-                  nome = new String(c);
-              }
-              int indice = note.getIndiceNaturale(nome);
-            int ottava = note.ottava(notes.get(i),altezze.get(i));
-                //((altezze.get(i)-45)/12);
-            System.out.println(altezze.get(i)+" "+ottava);
-            Note n = new Note(notes.get(i),altezze.get(i),20+(60*i),250-(indice*10)-(ottava*70));
+        for (int i = 0; i < notes.size(); i++) {
+            String nome = notes.get(i);
+            if (note.isNaturale(notes.get(i)) == false) {
+                char[] c = {notes.get(i).charAt(0)};
+                String s = new String(c);
+                nome = new String(c);
+            }
+            int indice = note.getIndiceNaturale(nome);
+            int ottava = note.ottava(notes.get(i), altezze.get(i));
+            //((altezze.get(i)-45)/12);
+            System.out.println(altezze.get(i) + " " + ottava);
+            Note n = new Note(notes.get(i), altezze.get(i), 20 + (60 * i), 250 - (indice * 10) - (ottava * 70));
             //System.out.println(g2);
             g2.fill(n.getE());
             g2.draw(n.getL());
-            for(int j=0; j<n.getOpt().size(); j++)
+            for (int j = 0; j < n.getOpt().size(); j++)
                 g2.draw(n.getOpt().get(j));
-            if(n.getAlterazione()!="")
-                g2.drawString(n.getAlterazione(),(float)n.getE().getMinX()- 20,
-                        (float)n.getE().getMaxY()-3);
-      }
+            if (n.getAlterazione() != "")
+                g2.drawString(n.getAlterazione(), (float) n.getE().getMinX() - 20,
+                        (float) n.getE().getMaxY() - 3);
+        }
     }
 
-    public void disegnaAccordo(){
-        for(int i=0; i<notes.size(); i++)
-        {
+    public void disegnaAccordo() {
+        for (int i = 0; i < notes.size(); i++) {
             String nome = notes.get(i);
-            if(note.isNaturale(notes.get(i))==false){
-                      char[] c = {notes.get(i).charAt(0)};
-                      //notes.set(i,new String(c));
-                      nome = new String(c);
-                      //System.out.println(notes.get(i)+ "  "+ s);
-                  }
+            if (note.isNaturale(notes.get(i)) == false) {
+                char[] c = {notes.get(i).charAt(0)};
+                //notes.set(i,new String(c));
+                nome = new String(c);
+                //System.out.println(notes.get(i)+ "  "+ s);
+            }
             int indice = note.getIndiceNaturale(nome);
-            int ottava = ((altezze.get(i)-45)/12);
-            Note n = new Note(notes.get(i),altezze.get(i),20,250-(indice*10)-(ottava*70));
+            int ottava = ((altezze.get(i) - 45) / 12);
+            Note n = new Note(notes.get(i), altezze.get(i), 20, 250 - (indice * 10) - (ottava * 70));
             //System.out.println(g2);
             g2.fill(n.getE());
             //g2.draw(n.getL());
-            for(int j=0; j<n.getOpt().size(); j++)
-            g2.draw(n.getOpt().get(j));
-            if(n.getAlterazione()!="")
-                g2.drawString(n.getAlterazione(),(float)n.getE().getMinX()- 20,
-                        (float)n.getE().getMaxY());
+            for (int j = 0; j < n.getOpt().size(); j++)
+                g2.draw(n.getOpt().get(j));
+            if (n.getAlterazione() != "")
+                g2.drawString(n.getAlterazione(), (float) n.getE().getMinX() - 20,
+                        (float) n.getE().getMaxY());
         }
     }
 
@@ -122,8 +112,14 @@ public class PentagramPanel extends JPanel implements MouseListener{
         f.pack();
         f.setVisible(true);
 
-        notes.add("E");  notes.add("F");  notes.add("G");  notes.add("A");
-        altezze.add(64); altezze.add(65); altezze.add(67); altezze.add(69);
+        notes.add("E");
+        notes.add("F");
+        notes.add("G");
+        notes.add("A");
+        altezze.add(64);
+        altezze.add(65);
+        altezze.add(67);
+        altezze.add(69);
 
 
         try {
@@ -132,8 +128,10 @@ public class PentagramPanel extends JPanel implements MouseListener{
             e.printStackTrace();
         }
 
-        notes.remove(0); notes.remove(2);
-        altezze.remove(0); altezze.remove(2);
+        notes.remove(0);
+        notes.remove(2);
+        altezze.remove(0);
+        altezze.remove(2);
 
         f.remove(p);
         p = new PentagramPanel();
