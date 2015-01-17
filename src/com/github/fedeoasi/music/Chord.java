@@ -4,26 +4,22 @@ import java.util.ArrayList;
 
 public class Chord {
     String sigla;
-    String nome;
+    String name;
     ArrayList<Integer> distanze = new ArrayList<Integer>();
     ArrayList<String> note = new ArrayList<String>();
     ArrayList<Integer> altezze = new ArrayList<Integer>();
     ArrayList<int[]> scale = new ArrayList<int[]>();
     String tonica;
-    //int[] altezze;
 
-    public Chord(String tonica, String nome){
+    public Chord(String tonica, String name){
         this.tonica = tonica;
-        this.nome = nome;
+        this.name = name;
         boolean esiste = false;
         Scales s = new Scales();
         Notes n = new Notes();
         String[] scala = null;
 
-        //Accordi maggiori e dominanti
-        if (nome.equals("") || nome.equals("M7") || nome.equals("M9") || nome.equals("M13") || nome.equals("7")
-            || nome.equals("9") || nome.equals("13") || nome.equals("7#5") || nome.equals("7b9")){
-
+        if (isMajor(name) || isDominant(name)){
             //scale.add()
             esiste = true;
             scala = s.scalaMaggiore(tonica);
@@ -32,65 +28,64 @@ public class Chord {
             //aggiunge la terza maggiore
             note.add(scala[2]);
             //aggiunge la quinta giusta
-            if(nome!="7#5")
+            if(isNotAugmented(name))
             note.add(scala[4]);
             else {
-                Mode m = new Mode(tonica,nome,s.scalaMinMel,3);
+                Mode m = new Mode(tonica,name,s.scalaMinMel,3);
                 note.add(m.getNote()[4]);
-                m = new Mode(tonica,nome,s.scalaMinMel,7);
+                m = new Mode(tonica,name,s.scalaMinMel,7);
                 scale.add(m.getDistanze());
             }
             //aggiunge la settima minore
-            if(nome=="7" || nome=="9" || nome=="13" || nome=="7#5"){
-                Mode m = new Mode(tonica,nome,s.scalaMaggiore,5);
+            if(isDominant(name)){
+                Mode m = new Mode(tonica,name,s.scalaMaggiore,5);
                 note.add(m.getNote()[6]);
                 scale.add(m.getDistanze());
                 //note.add(n.noteb[n.getIndice(scala[6])-1]);
             }
             else scale.add(s.scalaMaggiore);
             //aggiunge la settima maggiore
-            if(nome=="M7" || nome=="M9" || nome=="M13")
+            if(hasMajorSeventh(name))
                 note.add(scala[6]);
             //aggiunge la nona maggiore
-            if(nome=="M9" || nome=="M13" || nome=="9" || nome=="13")
+            if(hasMajorNinth(name))
                 note.add(scala[8%7]);
             //aggiunge la sesta o tredicesima maggiore
-            if(nome=="M13" || nome=="13")
+            if(hasThirteenth(name))
                 note.add(scala[12%7]);
-            sigla = tonica + nome;
+            sigla = tonica + name;
             //printAccordo();
         }
 
         //Accordi minori e semidiminuiti 
-        else if (nome=="m" || nome=="m7" || nome=="m9" || nome=="m13" || nome =="m6"
-             || nome=="m7b5" || nome=="m9b5"){
+        else if (isMinor(name) || isSemiDiminished(name)){
                  esiste = true;
                  scala = s.scalaMinNat(tonica);
                 //aggiunge la tonica
                  note.add(scala[0]);
                 note.add(scala[2]);
-                if(nome!="m7b5" && nome!="m9b5"){
-                    Mode m = new Mode(tonica,nome,s.scalaMaggiore,2);
+                if(name!="m7b5" && name!="m9b5"){
+                    Mode m = new Mode(tonica,name,s.scalaMaggiore,2);
                     scale.add(m.getDistanze());
                     scale.add(s.scalaMinNat);
                     note.add(scala[4]);
                 }
 
                 else {
-                    Mode m = new Mode(tonica, nome,s.scalaMaggiore,7);
+                    Mode m = new Mode(tonica, name,s.scalaMaggiore,7);
                     note.add(m.getNote()[4]);
                     scale.add(m.getDistanze());
                     //note.add(n.noteb[(n.getIndice(scala[4])-1)%12]);
                 }
-                if(nome=="m6")
+                if(name.equals("m6"))
                     note.add(n.noted[(n.getIndice(scala[5])+1)%12]);
-                if(nome=="m7" || nome=="m9" || nome=="m13"|| nome=="m7b5" || nome=="m9b5")
+                if(name.equals("m7") || name.equals("m9") || name.equals("m13") || name.equals("m7b5") || name.equals("m9b5"))
                     note.add(scala[6]);
-                if(nome=="m9" || nome=="m13" || nome=="m9b5")
+                if(name.equals("m9") || name.equals("m13") || name.equals("m9b5"))
                     note.add(scala[8%7]);
-                if(nome=="m13")
+                if(name.equals("m13"))
                     note.add(n.noted[(n.getIndice(scala[5])+1)%12]);
-                sigla = tonica + nome;
+                sigla = tonica + name;
                 //printAccordo();
         }
 
@@ -110,19 +105,45 @@ public class Chord {
 
         }
 
+    private boolean hasThirteenth(String name) {
+        return name.equals("M13") || name.equals("13");
+    }
+
+    private boolean hasMajorNinth(String name) {
+        return name.equals("M9") || name.equals("M13") || name.equals("9") || name.equals("13");
+    }
+
+    private boolean hasMajorSeventh(String name) {
+        return name.equals("M7") || name.equals("M9") || name.equals("M13");
+    }
+
+    private boolean isSemiDiminished(String name) {
+        return name.equals("m7b5") || name.equals("m9b5");
+    }
+
+    private boolean isMinor(String name) {
+        return name.equals("m") || name.equals("m7") || name.equals("m9") || name.equals("m13") || name.equals("m6");
+    }
+
+    private boolean isNotAugmented(String name) {
+        return !name.equals("7#5");
+    }
+
+    private boolean isDominant(String nome) {
+        return nome.equals("7") || nome.equals("9") || nome.equals("13")
+                || nome.equals("7#5") || nome.equals("7b9") || nome.equals("7#5");
+    }
+
+    private boolean isMajor(String nome) {
+        return nome.equals("") || nome.equals("M7") || nome.equals("M9") || nome.equals("M13");
+    }
+
     public ArrayList<Integer> getDistanze(){
         return distanze;
     }
 
     public ArrayList<String> getNote(){
         return note;
-    }
-
-    public void printAccordo(){
-        System.out.print(sigla + ":  ");
-        for(int i=0; i<note.size();i++)
-            System.out.print(note.get(i));
-        System.out.println();
     }
 
     public ArrayList<Integer> getAltezze() {
@@ -137,8 +158,8 @@ public class Chord {
         return sigla;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
     public String getTonica() {

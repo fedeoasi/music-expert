@@ -1,7 +1,6 @@
 package com.github.fedeoasi.gui;
 
-import com.github.fedeoasi.gui.ChordsDialog;
-import com.github.fedeoasi.gui.MusicExpert;
+import com.github.fedeoasi.lang.Strings;
 import com.github.fedeoasi.music.*;
 
 import javax.sound.midi.MetaEventListener;
