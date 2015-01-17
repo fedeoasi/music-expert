@@ -16,41 +16,45 @@ public class Notes {
         return false;
     }
 
-    public String next(String nota) {
-        for (int i = 0; i < noteNaturali.length; i++)
-            if (noteNaturali[i].equals(nota))
-                if (i + 1 < 7)
+    public String nextNatural(String nota) {
+        for (int i = 0; i < noteNaturali.length; i++) {
+            if (noteNaturali[i].equals(nota)) {
+                if (i + 1 < 7) {
                     return noteNaturali[i + 1];
-                else return noteNaturali[(i + 1) % 7];
-        char[] c = {nota.charAt(0)};
-        return next(new String(c));
+                } else {
+                    return noteNaturali[(i + 1) % 7];
+                }
+            }
+        }
+        char[] c = { nota.charAt(0) };
+        return nextNatural(new String(c));
     }
 
-    public int controllo(String nota, String[] note) {
+    public int indexOf(String nota, String[] note) {
         for (int i = 0; i < note.length; i++)
             if (note[i].equals(nota))
                 return i;
         return -1;
     }
 
-    public int distanza(String nota1, String nota2) {
+    public int distance(String nota1, String nota2) {
         int n1 = -1, n2 = -1;
         //System.out.println(nota1 + "  " + nota2);
-        n1 = controllo(nota1, noted1);
+        n1 = indexOf(nota1, noted1);
         if (n1 == -1) {
-            n1 = controllo(nota1, noteb1);
+            n1 = indexOf(nota1, noteb1);
         }
         if (n1 == -1) {
-            n1 = controllo(nota1, noted);
+            n1 = indexOf(nota1, noted);
         }
         if (n1 == -1) {
-            n1 = controllo(nota1, noteb);
+            n1 = indexOf(nota1, noteb);
         }
         if (n1 == -1) {
-            n1 = controllo(nota1, noted2);
+            n1 = indexOf(nota1, noted2);
         }
         if (n1 == -1) {
-            n1 = controllo(nota1, noteb2);
+            n1 = indexOf(nota1, noteb2);
         }
         if (n1 == -1) {
             System.out.print(nota1 + "  " + nota2 + " ");
@@ -58,21 +62,21 @@ public class Notes {
             return -1;
         }
 
-        n2 = controllo(nota2, noted1);
+        n2 = indexOf(nota2, noted1);
         if (n2 == -1) {
-            n2 = controllo(nota2, noteb1);
+            n2 = indexOf(nota2, noteb1);
         }
         if (n2 == -1) {
-            n2 = controllo(nota2, noted);
+            n2 = indexOf(nota2, noted);
         }
         if (n2 == -1) {
-            n2 = controllo(nota2, noteb);
+            n2 = indexOf(nota2, noteb);
         }
         if (n2 == -1) {
-            n2 = controllo(nota2, noted2);
+            n2 = indexOf(nota2, noted2);
         }
         if (n2 == -1) {
-            n2 = controllo(nota2, noteb2);
+            n2 = indexOf(nota2, noteb2);
         }
         if (n2 == -1) {
             System.out.print(nota1 + "  " + nota2 + " ");
@@ -85,13 +89,13 @@ public class Notes {
         else return 12 + n2 - n1;
     }
 
-    public boolean esiste(String nota) {
+    public boolean exists(String nota) {
         return true;
     }
 
-    public int getIndiceNaturale(String nota) {
+    public int getIndexInNaturalScale(String nota) {
         int indice = -1;
-        indice = controllo(nota, noteNaturali);
+        indice = indexOf(nota, noteNaturali);
         if (indice == -1) {
             System.out.println("bu!Errore nota " + nota);
             return -1;
@@ -99,23 +103,23 @@ public class Notes {
         return indice;
     }
 
-    public int getIndice(String nota) {
+    public int getIndex(String nota) {
         int indice = -1;
-        indice = controllo(nota, noted1);
+        indice = indexOf(nota, noted1);
         if (indice == -1) {
-            indice = controllo(nota, noteb1);
+            indice = indexOf(nota, noteb1);
         }
         if (indice == -1) {
-            indice = controllo(nota, noted);
+            indice = indexOf(nota, noted);
         }
         if (indice == -1) {
-            indice = controllo(nota, noteb);
+            indice = indexOf(nota, noteb);
         }
         if (indice == -1) {
-            indice = controllo(nota, noted2);
+            indice = indexOf(nota, noted2);
         }
         if (indice == -1) {
-            indice = controllo(nota, noteb2);
+            indice = indexOf(nota, noteb2);
         }
         if (indice == -1) {
             System.out.println("Errore nota");
@@ -151,21 +155,6 @@ public class Notes {
 
     public static void main(String[] args) {
         Notes n = new Notes();
-        System.out.println(n.isNatural("B"));
-        System.out.println(n.isNatural("A#"));
-        System.out.println();
-        System.out.println(n.next("B"));
-        System.out.println(n.next("E"));
-        System.out.println(n.next("C#"));
-        System.out.println(n.next("E#"));
-        System.out.println(n.next("Bb"));
-        System.out.println();
-        System.out.println(n.distanza("C", "D"));
-        System.out.println(n.distanza("Bb", "Bb"));
-        System.out.println(n.distanza("C#", "Db"));
-        System.out.println(n.distanza("Bb", "Ab"));
-        System.out.println(n.distanza("D", "C"));
-
         Scales s = new Scales();
 
         System.out.println("Giro delle Quinte");
@@ -216,11 +205,6 @@ public class Notes {
         new Chord("A", "m");
         new Chord("A", "m6");
         new Chord("A", "m13");
-
-        System.out.println(n.distanza("F", "A"));
-
-        System.out.println(n.isNatural("C"));
-        System.out.println(n.isNatural("C#"));
     }
 
     public int ottava(String nome, int altezza) {

@@ -166,7 +166,7 @@ public class Player {
             inizioTraccia();
 
             //System.out.println(tonic);
-            int l = notapartenza + n.getIndice(tonica);
+            int l = notapartenza + n.getIndex(tonica);
 
 
             for (int i = 0; i < distanze.size(); i++) {
@@ -395,7 +395,7 @@ public class Player {
             //inizio
             inizioTraccia();
 
-            int l = notapartenza + oct + n.getIndice(tonica) + 12;
+            int l = notapartenza + oct + n.getIndex(tonica) + 12;
             in = inizio;
             for (int i = 0; i < distanze2.get(numAccordo).size(); i++) {
                 fine = in + durate.get(numAccordo).get(i);

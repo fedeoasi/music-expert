@@ -81,14 +81,14 @@ public class ScaleGui extends JPanel implements ActionListener, Playable {
             int[] distanze = new int[8];
             distanze[0] = 0;
             for (int i = 1; i < ris.length; i++)
-                distanze[i] = n.distanza(ris[i - 1], ris[i]);
+                distanze[i] = n.distance(ris[i - 1], ris[i]);
             //risuona la tonic alla fine
-            distanze[7] = n.distanza(ris[ris.length - 1], ris[0]);
+            distanze[7] = n.distance(ris[ris.length - 1], ris[0]);
             if (p == null)
                 p = new Player(distanze);
             p.inizializza();
             p.setInstrument(me.getInstrument());
-            p.costruisciMelodia(distanze, 45 + n.getIndice(ris[0]), oct);
+            p.costruisciMelodia(distanze, 45 + n.getIndex(ris[0]), oct);
             p.start();
         }
     }
@@ -125,9 +125,9 @@ public class ScaleGui extends JPanel implements ActionListener, Playable {
             for (int i = 0; i < ris.length; i++)
                 notes.add(ris[i]);
             notes.add(ris[0]);
-            altezze.add(57 + n.getIndice(tonica));
+            altezze.add(57 + n.getIndex(tonica));
             for (int i = 1; i < notes.size(); i++)
-                altezze.add(altezze.get(i - 1) + n.distanza(notes.get(i - 1), notes.get(i)));
+                altezze.add(altezze.get(i - 1) + n.distance(notes.get(i - 1), notes.get(i)));
 
             for (int i = 0; i < notes.size(); i++)
                 System.out.print(notes.get(i) + "  ");

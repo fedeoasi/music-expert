@@ -40,7 +40,7 @@ public class Chord {
                 Mode m = new Mode(tonic, chordType, s.scalaMaggiore, 5);
                 notes.add(m.getNote()[6]);
                 scales.add(m.getDistanze());
-                //notes.add(n.noteb[n.getIndice(scala[6])-1]);
+                //notes.add(n.noteb[n.getIndex(scala[6])-1]);
             } else scales.add(s.scalaMaggiore);
             //aggiunge la settima maggiore
             if (hasMajorSeventh(chordType))
@@ -71,10 +71,10 @@ public class Chord {
                 Mode m = new Mode(tonic, chordType, s.scalaMaggiore, 7);
                 notes.add(m.getNote()[4]);
                 scales.add(m.getDistanze());
-                //notes.add(n.noteb[(n.getIndice(scala[4])-1)%12]);
+                //notes.add(n.noteb[(n.getIndex(scala[4])-1)%12]);
             }
             if (chordType.equals("m6")) {
-                notes.add(n.noted[(n.getIndice(scala[5]) + 1) % 12]);
+                notes.add(n.noted[(n.getIndex(scala[5]) + 1) % 12]);
             }
             if (chordType.equals("m7") || chordType.equals("m9") || chordType.equals("m13") || chordType.equals("m7b5") || chordType.equals("m9b5")) {
                 notes.add(scala[6]);
@@ -83,7 +83,7 @@ public class Chord {
                 notes.add(scala[8 % 7]);
             }
             if (chordType.equals("m13")) {
-                notes.add(n.noted[(n.getIndice(scala[5]) + 1) % 12]);
+                notes.add(n.noted[(n.getIndex(scala[5]) + 1) % 12]);
             }
             sigla = tonic + chordType;
         }
@@ -94,9 +94,9 @@ public class Chord {
         else {
             intervals.add(0);
             for (int i = 1; i < notes.size(); i++)
-                intervals.add(n.distanza(notes.get(i - 1), notes.get(i)));
+                intervals.add(n.distance(notes.get(i - 1), notes.get(i)));
 
-            pitches.add(57 + n.getIndice(tonic));
+            pitches.add(57 + n.getIndex(tonic));
             for (int i = 1; i < intervals.size(); i++)
                 pitches.add(pitches.get(i - 1) + intervals.get(i));
         }

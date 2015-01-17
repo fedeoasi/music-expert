@@ -64,7 +64,7 @@ public class PentagramPanel extends JPanel implements MouseListener {
                 String s = new String(c);
                 nome = new String(c);
             }
-            int indice = note.getIndiceNaturale(nome);
+            int indice = note.getIndexInNaturalScale(nome);
             int ottava = note.ottava(notes.get(i), altezze.get(i));
             //((altezze.get(i)-45)/12);
             System.out.println(altezze.get(i) + " " + ottava);
@@ -89,7 +89,7 @@ public class PentagramPanel extends JPanel implements MouseListener {
                 nome = new String(c);
                 //System.out.println(notes.get(i)+ "  "+ s);
             }
-            int indice = note.getIndiceNaturale(nome);
+            int indice = note.getIndexInNaturalScale(nome);
             int ottava = ((altezze.get(i) - 45) / 12);
             Note n = new Note(notes.get(i), altezze.get(i), 20, 250 - (indice * 10) - (ottava * 70));
             //System.out.println(g2);

@@ -1,7 +1,5 @@
 package com.github.fedeoasi.music;
 
-import java.awt.event.ActionEvent;
-
 public class Scales {
     public int[] scalaMaggiore = {0, 2, 2, 1, 2, 2, 2, 1};
     public int[] scalaMinNat = {0, 2, 1, 2, 2, 1, 2, 2};
@@ -20,25 +18,25 @@ public class Scales {
 
     public String[] scala(String nota, int[] ts) {
         String[] scala = new String[7];
-        if (!n.esiste(nota)) return null;
+        if (!n.exists(nota)) return null;
         scala[0] = nota;
         for (int i = 1; i < 7; i++) {
-            int distn = n.distanza(scala[i - 1], n.next(scala[i - 1]));
+            int distn = n.distance(scala[i - 1], n.nextNatural(scala[i - 1]));
             if (distn == ts[i])
-                scala[i] = n.next(scala[i - 1]);
+                scala[i] = n.nextNatural(scala[i - 1]);
             else if (distn > ts[i])
-                scala[i] = n.noteb(n.getIndice(scala[i - 1]) + ts[i]);
+                scala[i] = n.noteb(n.getIndex(scala[i - 1]) + ts[i]);
             else if (distn < ts[i])
-                scala[i] = n.noted(n.getIndice(scala[i - 1]) + ts[i]);
+                scala[i] = n.noted(n.getIndex(scala[i - 1]) + ts[i]);
 
             char[] n1 = {scala[i - 1].charAt(0)};
             char[] n2 = {scala[i].charAt(0)};
             String nota1 = new String(n1);
             String nota2 = new String(n2);
             if (nota2.equals(nota1)) {
-                scala[i] = n.noteb2(n.getIndice(scala[i - 1]) + ts[i]);
-            } else if (nota2.equals(n.next(n.next(nota1)))) {
-                scala[i] = n.noted2(n.getIndice(scala[i - 1]) + ts[i]);
+                scala[i] = n.noteb2(n.getIndex(scala[i - 1]) + ts[i]);
+            } else if (nota2.equals(n.nextNatural(n.nextNatural(nota1)))) {
+                scala[i] = n.noted2(n.getIndex(scala[i - 1]) + ts[i]);
             }
         }
         return scala;
@@ -75,10 +73,4 @@ public class Scales {
         System.out.print(getNumAlterazioni(scala));
         System.out.println();
     }
-
-    public void actionPerformed(ActionEvent arg0) {
-        // TODO Auto-generated method stub
-
-    }
-
 }
