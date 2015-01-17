@@ -1,4 +1,8 @@
-package music;
+package com.github.fedeoasi.gui;
+
+import com.github.fedeoasi.gui.ChordsDialog;
+import com.github.fedeoasi.gui.MusicExpert;
+import com.github.fedeoasi.music.*;
 
 import javax.sound.midi.MetaEventListener;
 import javax.sound.midi.MetaMessage;
@@ -10,7 +14,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ChordProgression extends JPanel implements Playable, ActionListener {
+public class ChordProgressionPanel extends JPanel implements Playable, ActionListener {
+    Random random = new Random();
     ArrayList<Chord> accordi = new ArrayList<Chord>();
     ArrayList<JLabel> labels = new ArrayList<JLabel>();
     int bpm;
@@ -32,7 +37,7 @@ public class ChordProgression extends JPanel implements Playable, ActionListener
     ArrayList<ArrayList<Integer>> aa = new ArrayList<ArrayList<Integer>>();
     ArrayList<ArrayList<Integer>> ad = new ArrayList<ArrayList<Integer>>();
 
-    public ChordProgression(MusicExpert me) {
+    public ChordProgressionPanel(MusicExpert me) {
         super(new BorderLayout());
         this.me = me;
         JPanel north = new JPanel(new FlowLayout());
@@ -81,10 +86,10 @@ public class ChordProgression extends JPanel implements Playable, ActionListener
         player.setVolume(50);
         player.costruisciGiro(accordi);
         player.costruisciBatteria(accordi.size());
-        if (solista == true) {
+        if (solista) {
             player.setVolume(100);
             for (int i = 0; i < accordi.size(); i++)
-                player.costruisciMelodia(aa, ad, accordi.get(i).tonica, 0, 16 * i, i);
+                player.costruisciMelodia(aa, ad, accordi.get(i).getTonica(), 0, 16 * i, i);
         }
         player.start();
 
@@ -127,7 +132,8 @@ public class ChordProgression extends JPanel implements Playable, ActionListener
         ArrayList<Integer> a = new ArrayList<Integer>();
         //if(player==null) JOptionPane.showMessageDialog(this,"Nessun giro selezionato");
         //else{
-        int rand = new Random().nextInt(p.gradi.size());
+        ArrayList<ArrayList<Integer>> gradi = p.getGradi();
+        int rand = random.nextInt(gradi.size());
         //System.out.println("rand: "+ rand);
 
         solista = true;
@@ -136,16 +142,16 @@ public class ChordProgression extends JPanel implements Playable, ActionListener
             int[] s = accordi.get(i).getScale().get(0);
             for (int k = 1; k < s.length; k++)
                 s[k] = s[k] + s[k - 1];
-            rand = new Random().nextInt(p.gradi.size());
+            rand = random.nextInt(gradi.size());
             //System.out.println("rand: "+ rand);
-            for (int j = 0; j < p.gradi.get(rand).size(); j++) {
+            for (int j = 0; j < gradi.get(rand).size(); j++) {
                 //System.out.println(p.gradi.get(rand).get(j)-1);
-                a.add(s[p.gradi.get(rand).get(j) - 1]);
+                a.add(s[gradi.get(rand).get(j) - 1]);
                 //System.out.println(a.get(j));
                 //a.add();
             }
             aa.add(a);
-            ad.add(p.durate.get(rand));
+            ad.add(p.getDurate().get(rand));
         }
     }
 
@@ -160,7 +166,7 @@ public class ChordProgression extends JPanel implements Playable, ActionListener
 
         accordi.add(accordo);
         //System.out.println(accordo.sigla);
-        JLabel l = new JLabel(accordo.sigla);
+        JLabel l = new JLabel(accordo.getSigla());
         labels.add(l);
         centro.add(l);
         setVisible(false);

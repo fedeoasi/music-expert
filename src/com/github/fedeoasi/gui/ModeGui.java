@@ -1,4 +1,6 @@
-package music;
+package com.github.fedeoasi.gui;
+
+import com.github.fedeoasi.music.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -31,7 +33,7 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
 
     Mode m = null;
     int[] generatrice;
-    Scale s = new Scale();
+    Scales s = new Scales();
     Notes n = new Notes();
     Player p = null;
 

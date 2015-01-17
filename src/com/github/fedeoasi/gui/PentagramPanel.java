@@ -1,4 +1,7 @@
-package music;
+package com.github.fedeoasi.gui;
+
+import com.github.fedeoasi.music.Note;
+import com.github.fedeoasi.music.Notes;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -15,7 +18,6 @@ public class PentagramPanel extends JPanel implements MouseListener {
     boolean accordo = false;
     static ArrayList<String> notes = new ArrayList<String>();
     static ArrayList<Integer> altezze = new ArrayList<Integer>();
-
 
     public PentagramPanel() {
         super();

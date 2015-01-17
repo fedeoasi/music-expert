@@ -1,4 +1,6 @@
-package music;
+package com.github.fedeoasi.gui;
+
+import com.github.fedeoasi.music.*;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -24,7 +26,7 @@ public class MusicExpert extends JFrame implements ActionListener{
     ChordsPanel accordi = new ChordsPanel(this);
     ScaleGui scale = new ScaleGui(this);
     ModeGui modi = new ModeGui(this);
-    ChordProgression giroAccordi = new ChordProgression(this);
+    ChordProgressionPanel giroAccordi = new ChordProgressionPanel(this);
     PentagramPanel pentagramma = new PentagramPanel();
     int instr = 0;
 
@@ -114,7 +116,7 @@ public class MusicExpert extends JFrame implements ActionListener{
     }
 
 
-    public ChordProgression getGiroAccordi() {
+    public ChordProgressionPanel getGiroAccordi() {
         return giroAccordi;
 
     }

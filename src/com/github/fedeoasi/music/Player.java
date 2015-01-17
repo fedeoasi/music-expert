@@ -1,4 +1,4 @@
-package music;
+package com.github.fedeoasi.music;
 
 import javax.sound.midi.*;
 import javax.swing.*;
@@ -452,9 +452,7 @@ public class Player {
         }
     }
 
-    protected void setBPM(int bpm) {
+    public void setBPM(int bpm) {
         this.bpm = bpm;
     }
-
-
 }

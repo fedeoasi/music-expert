@@ -1,13 +1,13 @@
-package music;
+package com.github.fedeoasi.music;
 
 public class Notes {
-    String[] noteNaturali = {"A", "B", "C", "D", "E", "F", "G"};
-    String[] noted = {"A","A#","B","B#","C#","D","D#","E","E#","F#","G","G#"};
-    String[] noteb = {"A","Bb","Cb","C","Db","D","Eb","Fb","F","Gb","G","Ab"};
-    String[] noted1 = {"A","A#","B","C","C#","D","D#","E","F","F#","G","G#"};
-    String[] noteb1 = {"A","Bb","B","C","Db","D","Eb","E","F","Gb","G","Ab"};
-    String[] noted2 = {"G##","A#","A##","B#","C#","C##","D#","D##","E#","F#","F##","G#"};
-    String[] noteb2 = {"Bbb","Bb","Cb","Dbb","Db","Ebb","Eb","Fb","Gbb","Gb","Abb","Ab"};
+    public String[] noteNaturali = {"A", "B", "C", "D", "E", "F", "G"};
+    public String[] noted = {"A","A#","B","B#","C#","D","D#","E","E#","F#","G","G#"};
+    public String[] noteb = {"A","Bb","Cb","C","Db","D","Eb","Fb","F","Gb","G","Ab"};
+    public String[] noted1 = {"A","A#","B","C","C#","D","D#","E","F","F#","G","G#"};
+    public String[] noteb1 = {"A","Bb","B","C","Db","D","Eb","E","F","Gb","G","Ab"};
+    public String[] noted2 = {"G##","A#","A##","B#","C#","C##","D#","D##","E#","F#","F##","G#"};
+    public String[] noteb2 = {"Bbb","Bb","Cb","Dbb","Db","Ebb","Eb","Fb","Gbb","Gb","Abb","Ab"};
 
     public boolean isNaturale(String nota){
         for(int i=0; i<noteNaturali.length; i++)
@@ -170,7 +170,7 @@ public class Notes {
         System.out.println(n.distanza("Bb","Ab"));
         System.out.println(n.distanza("D","C"));
 
-        Scale s = new Scale();
+        Scales s = new Scales();
 
         System.out.println("Giro delle Quinte");
         s.printScala(s.scalaMaggiore("C"));

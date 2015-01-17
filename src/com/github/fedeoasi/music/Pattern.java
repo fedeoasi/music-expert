@@ -1,4 +1,4 @@
-package music;
+package com.github.fedeoasi.music;
 
 import java.util.ArrayList;
 
@@ -18,6 +18,4 @@ public class Pattern {
     public ArrayList<Integer> getDurate() {
         return durate;
     }
-
-
 }

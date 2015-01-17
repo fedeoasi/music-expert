@@ -1,4 +1,8 @@
-package music;
+package com.github.fedeoasi.gui;
+
+import com.github.fedeoasi.gui.ChordsPanel;
+import com.github.fedeoasi.gui.MusicExpert;
+import com.github.fedeoasi.music.Chord;
 
 import java.awt.FlowLayout;
 import java.awt.Point;

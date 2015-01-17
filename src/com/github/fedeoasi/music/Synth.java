@@ -1,4 +1,4 @@
-package music;
+package com.github.fedeoasi.music;
 
 import javax.sound.midi.*;
 import javax.swing.*;

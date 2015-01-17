@@ -1,10 +1,10 @@
-package music;
+package com.github.fedeoasi.music;
 
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
-class Note {
+public class Note {
     private Ellipse2D e;
     private Line2D l;
     private String nome;

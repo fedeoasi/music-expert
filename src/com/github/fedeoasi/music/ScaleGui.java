@@ -1,4 +1,6 @@
-package music;
+package com.github.fedeoasi.music;
+
+import com.github.fedeoasi.gui.MusicExpert;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -10,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ScaleGui extends JPanel implements ActionListener, Playable {
-    Scale s = new Scale();
+    Scales s = new Scales();
     Notes n = new Notes();
     String[] ris;
     String[] note = {"G", "D", "A", "E", "B", "F#", "C#", "F", "Bb", "Eb", "Ab",

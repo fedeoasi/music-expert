@@ -1,4 +1,6 @@
-package music;
+package com.github.fedeoasi.gui;
+
+import com.github.fedeoasi.gui.MusicExpert;
 
 import javax.swing.*;
 import java.awt.*;

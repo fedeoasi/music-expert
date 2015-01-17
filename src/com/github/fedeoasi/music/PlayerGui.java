@@ -1,4 +1,4 @@
-package music;
+package com.github.fedeoasi.music;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;

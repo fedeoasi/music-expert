@@ -1,4 +1,4 @@
-package music;
+package com.github.fedeoasi.music;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,14 +19,16 @@ public class Patterns {
     ArrayList<Integer> g = new ArrayList<Integer>();
     ArrayList<Integer> d = new ArrayList<Integer>();
 
-
     public Patterns() {
+        initialize();
+    }
+
+    private void initialize() {
         file = new File("Patterns/pattern.txt");
         try {
             fr = new FileReader(file);
             br = new BufferedReader(fr);
             s = new Scanner(br);
-
 
             while (s.hasNextInt()) {
                 g = new ArrayList<Integer>();
@@ -67,6 +69,18 @@ public class Patterns {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<ArrayList<Integer>> getGradi() {
+        return gradi;
+    }
+
+    public ArrayList<ArrayList<Integer>> getDurate() {
+        return durate;
+    }
+
+    public void setDurate(ArrayList<ArrayList<Integer>> durate) {
+        this.durate = durate;
     }
 
     public static void main(String[] args) {

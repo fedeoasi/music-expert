@@ -1,4 +1,4 @@
-package music;
+package com.github.fedeoasi.music;
 
 public interface Playable {
     public void play();

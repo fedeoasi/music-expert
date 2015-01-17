@@ -1,4 +1,4 @@
-package music;
+package com.github.fedeoasi.music;
 
 public class Mode {
     String nome;
@@ -26,7 +26,7 @@ public class Mode {
         }
         System.out.println();
 
-        Scale s = new Scale();
+        Scales s = new Scales();
         note = s.scala(tonica, distanze);
 
         /*for(int i=0; i<note.length; i++)

@@ -1,4 +1,9 @@
-package music;
+package com.github.fedeoasi.gui;
+
+import com.github.fedeoasi.gui.MusicExpert;
+import com.github.fedeoasi.music.Chord;
+import com.github.fedeoasi.music.Notes;
+import com.github.fedeoasi.music.Player;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -10,8 +15,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ChordsPanel extends JPanel implements ActionListener {
-    static final String[] note = {"A", "Bb", "B", "C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab"};
-    static final String[] chords = {"", "M7", "M9", "M13", "m", "m7", "m9", "m6", "m13",
+    public static final String[] note = {"A", "Bb", "B", "C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab"};
+    public static final String[] chords = {"", "M7", "M9", "M13", "m", "m7", "m9", "m6", "m13",
             "m7b5", "m9b5", "7", "9", "13", "7#5", "7b9", "7b5"};
     JComboBox noteBox = new JComboBox();
     JComboBox chordBox = new JComboBox();
@@ -74,7 +79,7 @@ public class ChordsPanel extends JPanel implements ActionListener {
             a = new Chord(((String) noteBox.getSelectedItem()),
                     ((String) chordBox.getSelectedItem()));
             ArrayList<String> temp = a.getNote();
-            ta.append(a.sigla + "\n");
+            ta.append(a.getSigla() + "\n");
             for (int i = 0; i < temp.size(); i++) {
                 ta.append(temp.get(i) + "  ");
                 if (i == temp.size() - 1) ta.append("\n\n");
@@ -115,8 +120,7 @@ public class ChordsPanel extends JPanel implements ActionListener {
             //for(int i=0; i<a.note.size(); i++)
             //altezze.add(57 + n.getIndice(a.tonica));
 
-            me.disegnaAccordo(a.note, a.getAltezze());
-
+            me.disegnaAccordo(a.getNote(), a.getAltezze());
         }
 
     }
