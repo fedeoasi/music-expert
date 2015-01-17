@@ -114,14 +114,14 @@ public class Player {
     }
 
     public void costruisciTraccia(Chord a) {
-        costruisciAccordo(a.getDistanze(), a.tonica, 0, 15);
+        costruisciAccordo(a.getDistanze(), a.getTonica(), 0, 15);
     }
 
     public void costruisciGiro(ArrayList<Chord> a) {
 
         for (int i = 0; i < a.size(); i++)
             for (int j = 0; j < 4; j++)
-                costruisciAccordo(a.get(i).getDistanze(), a.get(i).tonica, 16 * (i) + 4 * j, 16 * i + 4 * (j + 1));
+                costruisciAccordo(a.get(i).getDistanze(), a.get(i).getTonica(), 16 * (i) + 4 * j, 16 * i + 4 * (j + 1));
 
     }
 

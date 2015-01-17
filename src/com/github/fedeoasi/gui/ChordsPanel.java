@@ -1,7 +1,7 @@
 package com.github.fedeoasi.gui;
 
-import com.github.fedeoasi.gui.MusicExpert;
 import com.github.fedeoasi.music.Chord;
+import com.github.fedeoasi.music.Chords;
 import com.github.fedeoasi.music.Notes;
 import com.github.fedeoasi.music.Player;
 
@@ -15,9 +15,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ChordsPanel extends JPanel implements ActionListener {
-    public static final String[] note = {"A", "Bb", "B", "C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab"};
-    public static final String[] chords = {"", "M7", "M9", "M13", "m", "m7", "m9", "m6", "m13",
-            "m7b5", "m9b5", "7", "9", "13", "7#5", "7b9", "7b5"};
     JComboBox noteBox = new JComboBox();
     JComboBox chordBox = new JComboBox();
     JButton ok = new JButton("Ok");
@@ -40,10 +37,10 @@ public class ChordsPanel extends JPanel implements ActionListener {
         this.me = me;
         setBorder(new EmptyBorder(5, 5, 5, 5));
         setLayout(new BorderLayout());
-        for (int i = 0; i < note.length; i++)
-            noteBox.addItem(note[i]);
-        for (int i = 0; i < chords.length; i++)
-            chordBox.addItem(chords[i]);
+        for (int i = 0; i < Chords.note.length; i++)
+            noteBox.addItem(Chords.note[i]);
+        for (int i = 0; i < Chords.chords.length; i++)
+            chordBox.addItem(Chords.chords[i]);
         ok.addActionListener(this);
 
         JPanel north = new JPanel(new FlowLayout());
@@ -113,35 +110,18 @@ public class ChordsPanel extends JPanel implements ActionListener {
 
 
     public void generaPentagramma() {
-        if (a == null) JOptionPane.showMessageDialog(this, "Nessun Accordo selezionato");
-        else {
-            //ArrayList<Integer> altezze = new ArrayList<Integer>();
-
-            //for(int i=0; i<a.note.size(); i++)
-            //altezze.add(57 + n.getIndice(a.tonica));
-
+        if (a == null) {
+            JOptionPane.showMessageDialog(this, "Nessun Accordo selezionato");
+        } else {
             me.disegnaAccordo(a.getNote(), a.getAltezze());
         }
-
     }
-
 
     public Player getP() {
         return p;
     }
 
-
     public void setP(Player p) {
         this.p = p;
-    }
-
-
-    public String[] getNote() {
-        return note;
-    }
-
-
-    public String[] getChords() {
-        return chords;
     }
 }
