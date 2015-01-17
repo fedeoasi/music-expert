@@ -1,5 +1,8 @@
 package com.github.fedeoasi.music;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Notes {
     public String[] noteNaturali = {"A", "B", "C", "D", "E", "F", "G"};
     public String[] noted = {"A", "A#", "B", "B#", "C#", "D", "D#", "E", "E#", "F#", "G", "G#"};
@@ -8,6 +11,8 @@ public class Notes {
     public String[] noteb1 = {"A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"};
     public String[] noted2 = {"G##", "A#", "A##", "B#", "C#", "C##", "D#", "D##", "E#", "F#", "F##", "G#"};
     public String[] noteb2 = {"Bbb", "Bb", "Cb", "Dbb", "Db", "Ebb", "Eb", "Fb", "Gbb", "Gb", "Abb", "Ab"};
+
+    private Map<String, Integer> indexByNote;
 
     public boolean isNatural(String nota) {
         for (int i = 0; i < noteNaturali.length; i++)
@@ -38,55 +43,13 @@ public class Notes {
     }
 
     public int distance(String nota1, String nota2) {
-        int n1 = -1, n2 = -1;
-        //System.out.println(nota1 + "  " + nota2);
-        n1 = indexOf(nota1, noted1);
-        if (n1 == -1) {
-            n1 = indexOf(nota1, noteb1);
+        int n1 = getIndex(nota1);
+        int n2 = getIndex(nota2);
+        int diff = n2 - n1;
+        if (diff >= 0) {
+            return diff;
         }
-        if (n1 == -1) {
-            n1 = indexOf(nota1, noted);
-        }
-        if (n1 == -1) {
-            n1 = indexOf(nota1, noteb);
-        }
-        if (n1 == -1) {
-            n1 = indexOf(nota1, noted2);
-        }
-        if (n1 == -1) {
-            n1 = indexOf(nota1, noteb2);
-        }
-        if (n1 == -1) {
-            System.out.print(nota1 + "  " + nota2 + " ");
-            System.out.println("Errore nota1");
-            return -1;
-        }
-
-        n2 = indexOf(nota2, noted1);
-        if (n2 == -1) {
-            n2 = indexOf(nota2, noteb1);
-        }
-        if (n2 == -1) {
-            n2 = indexOf(nota2, noted);
-        }
-        if (n2 == -1) {
-            n2 = indexOf(nota2, noteb);
-        }
-        if (n2 == -1) {
-            n2 = indexOf(nota2, noted2);
-        }
-        if (n2 == -1) {
-            n2 = indexOf(nota2, noteb2);
-        }
-        if (n2 == -1) {
-            System.out.print(nota1 + "  " + nota2 + " ");
-            System.out.println("Errore nota2");
-            return -1;
-        }
-
-        if (n2 >= n1)
-            return n2 - n1;
-        else return 12 + n2 - n1;
+        return 12 + diff;
     }
 
     public boolean exists(String nota) {
@@ -104,28 +67,12 @@ public class Notes {
     }
 
     public int getIndex(String nota) {
-        int indice = -1;
-        indice = indexOf(nota, noted1);
-        if (indice == -1) {
-            indice = indexOf(nota, noteb1);
+        ensureIndexByNote();
+        Integer index = indexByNote.get(nota);
+        if(index == null) {
+            index = -1;
         }
-        if (indice == -1) {
-            indice = indexOf(nota, noted);
-        }
-        if (indice == -1) {
-            indice = indexOf(nota, noteb);
-        }
-        if (indice == -1) {
-            indice = indexOf(nota, noted2);
-        }
-        if (indice == -1) {
-            indice = indexOf(nota, noteb2);
-        }
-        if (indice == -1) {
-            System.out.println("Errore nota");
-            return -1;
-        }
-        return indice;
+        return index;
     }
 
     public String noteb(int i) {
@@ -240,5 +187,23 @@ public class Notes {
 
         }
         return alterazione;
+    }
+
+    private void ensureIndexByNote() {
+        if(indexByNote == null) {
+            indexByNote = new HashMap<String, Integer>();
+            indexNotes(noteb);
+            indexNotes(noted);
+            indexNotes(noteb1);
+            indexNotes(noted1);
+            indexNotes(noteb2);
+            indexNotes(noted2);
+        }
+    }
+
+    private void indexNotes(String[] notes) {
+        for (int i = 0; i < notes.length; i++) {
+            indexByNote.put(notes[i], i);
+        }
     }
 }

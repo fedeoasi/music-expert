@@ -25,7 +25,8 @@ public class NotesTest {
         assertEquals("F", n.nextNatural("E#"));
         assertEquals("C", n.nextNatural("Bb"));
     }
-    
+
+    @Test
     public void distanceTest() {
         assertEquals(2, n.distance("C", "D"));
         assertEquals(0, n.distance("Bb", "Bb"));
@@ -33,5 +34,10 @@ public class NotesTest {
         assertEquals(10, n.distance("Bb", "Ab"));
         assertEquals(10, n.distance("D", "C"));
         assertEquals(4, n.distance("F", "A"));
+    }
+
+    @Test
+    public void getIndexTest() {
+        assertEquals(0, n.getIndex("A"));
     }
 }
