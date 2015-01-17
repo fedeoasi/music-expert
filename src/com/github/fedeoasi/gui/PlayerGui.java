@@ -1,16 +1,14 @@
-package com.github.fedeoasi.music;
+package com.github.fedeoasi.gui;
 
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import com.github.fedeoasi.music.Playable;
+import com.github.fedeoasi.music.Player;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PlayerGui extends JPanel implements ActionListener, ChangeListener {
     JButton play = new JButton("Play");
@@ -22,21 +20,14 @@ public class PlayerGui extends JPanel implements ActionListener, ChangeListener 
     Player p = null;
     Playable playable = null;
 
-
-
-    public PlayerGui(){
-        super(new FlowLayout());
-        init();
-    }
-
-    public PlayerGui(Playable playable){
+    public PlayerGui(Playable playable) {
         super(new FlowLayout());
         this.playable = playable;
         init();
     }
 
-    private void init(){
-        bpm.setModel(new SpinnerNumberModel(120,20,300,1));
+    private void init() {
+        bpm.setModel(new SpinnerNumberModel(120, 20, 300, 1));
         bpm.addChangeListener(this);
         add(play);
         add(stop);
@@ -52,28 +43,20 @@ public class PlayerGui extends JPanel implements ActionListener, ChangeListener 
     }
 
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==play){
+        if (e.getSource() == play) {
             playable.play();
-        }
-
-        else if(e.getSource()==stop){
+        } else if (e.getSource() == stop) {
             playable.stop();
-        }
-        else if(e.getSource()==save){
+        } else if (e.getSource() == save) {
             playable.save();
-        }
-        else if(e.getSource()==ottava){
+        } else if (e.getSource() == ottava) {
             playable.ottava(ottava.isSelected());
-        }
-        else if(e.getSource()==loop){
+        } else if (e.getSource() == loop) {
             playable.loop(loop.isSelected());
         }
-
     }
 
     public void stateChanged(ChangeEvent e) {
-        playable.ChangeBPM(((Integer)bpm.getValue()));
-
+        playable.ChangeBPM(((Integer) bpm.getValue()));
     }
-
 }

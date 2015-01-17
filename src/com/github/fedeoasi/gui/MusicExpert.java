@@ -1,7 +1,5 @@
 package com.github.fedeoasi.gui;
 
-import com.github.fedeoasi.music.*;
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

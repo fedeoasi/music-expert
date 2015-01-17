@@ -1,6 +1,9 @@
-package com.github.fedeoasi.music;
+package com.github.fedeoasi.gui;
 
-import com.github.fedeoasi.gui.MusicExpert;
+import com.github.fedeoasi.music.Notes;
+import com.github.fedeoasi.music.Playable;
+import com.github.fedeoasi.music.Player;
+import com.github.fedeoasi.music.Scales;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -39,10 +42,12 @@ public class ScaleGui extends JPanel implements ActionListener, Playable {
         setBorder(new EmptyBorder(5, 5, 5, 5));
         JPanel north = new JPanel(new FlowLayout());
         north.add(l);
-        for (int i = 0; i < note.length; i++)
+        for (int i = 0; i < note.length; i++) {
             nota.addItem(note[i]);
-        for (int i = 0; i < scale.length; i++)
+        }
+        for (int i = 0; i < scale.length; i++) {
             scala.addItem(scale[i]);
+        }
         north.add(nota);
         north.add(scala);
         ok.addActionListener(this);
