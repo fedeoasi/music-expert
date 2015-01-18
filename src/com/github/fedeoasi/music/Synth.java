@@ -66,10 +66,7 @@ public class Synth extends JPanel implements ActionListener {
         }
     }
 
-    public void actionPerformed(ActionEvent arg0) {
-
-
-    }
+    public void actionPerformed(ActionEvent arg0) { }
 
     public void creaNota(int instr, int altezza, int inizio, int fine) {
         createEvent(NOTEON + instr, altezza, inizio);
@@ -81,7 +78,7 @@ public class Synth extends JPanel implements ActionListener {
      */
     public static void main(String[] args) {
         JFrame f = new JFrame("Pentagramma");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         Synth s = new Synth();
         s.open();
         f.add(s);
