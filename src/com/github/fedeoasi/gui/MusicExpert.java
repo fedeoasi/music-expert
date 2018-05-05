@@ -1,6 +1,6 @@
 package com.github.fedeoasi.gui;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ public class MusicExpert extends JFrame implements ActionListener{
     JMenu options = new JMenu("Opzioni");
     JMenuItem generaPentagramma = new JMenuItem("Genera Pentagramma");
     JMenuItem cambiaStrumento = new JMenuItem("Cambia Strumento");
+    JMenuItem cambiaStile = new JMenuItem("Cambia stile");
     JMenuItem exit = new JMenuItem("exit");
     JTabbedPane tp = new JTabbedPane();
     int indice;
@@ -26,6 +27,7 @@ public class MusicExpert extends JFrame implements ActionListener{
     ModeGui modi = new ModeGui(this);
     ChordProgressionPanel giroAccordi = new ChordProgressionPanel(this);
     PentagramPanel pentagramma = new PentagramPanel();
+    JPanel pentaPanel = new JPanel(new BorderLayout());
     int instr = 0;
 
     public MusicExpert(){
@@ -38,8 +40,10 @@ public class MusicExpert extends JFrame implements ActionListener{
         mb.add(file);
         generaPentagramma.addActionListener(this);
         cambiaStrumento.addActionListener(this);
+        cambiaStile.addActionListener(this);
         options.add(generaPentagramma);
         options.add(cambiaStrumento);
+        options.add(cambiaStile);
         mb.add(options);
         add(mb, BorderLayout.NORTH);
 
@@ -51,10 +55,13 @@ public class MusicExpert extends JFrame implements ActionListener{
         tp.add("Modi",modi);
         tp.add("Giro Accordi", giroAccordi);
         tp.add("Pentagramma",pentagramma);
+        tp.add("Pentagramma",pentaPanel);
 
         add(tp,BorderLayout.CENTER);
 
         setSize(800,600);
+        Dimension d = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation(d.width / 2 - getWidth() / 2, d.height / 2 - getHeight() / 2);
         //pack();
         setVisible(true);
     }
@@ -85,12 +92,17 @@ public class MusicExpert extends JFrame implements ActionListener{
         else if(e.getSource()==cambiaStrumento){
             new InstrumentDialog(this);
         }
+        else if(e.getSource()==cambiaStile){
+            new StileDialog(this);
+        }
     }
 
 
     public void disegnaAccordo(ArrayList<String> notes, ArrayList<Integer> altezze) {
         tp.remove(4);
         pentagramma = new PentagramPanel(notes, altezze,true);
+        pentaPanel.removeAll();
+        pentaPanel.add(pentagramma,BorderLayout.CENTER);
         tp.add("AccordoPentagramma",pentagramma);
         tp.setSelectedComponent(pentagramma);
 
@@ -117,5 +129,9 @@ public class MusicExpert extends JFrame implements ActionListener{
     public ChordProgressionPanel getGiroAccordi() {
         return giroAccordi;
 
+    }
+
+    public void cambiaStile(int stile) {
+        giroAccordi.setStyle(stile);
     }
 }
