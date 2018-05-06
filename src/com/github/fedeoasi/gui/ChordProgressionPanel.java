@@ -104,7 +104,7 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
                     "Nessun accordo selezionato");
         } else {
             if (player == null) {
-                player = new Player(accordi.get(0));
+                player = new Player();
                 s = player.getSequencer();
                 s.addMetaEventListener(new MetaEventListener() {
 

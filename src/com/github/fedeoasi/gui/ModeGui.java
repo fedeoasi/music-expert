@@ -134,8 +134,9 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
                 distanze[i] = n.distance(ris[i - 1], ris[i]);
             //risuona la tonica alla fine
             distanze[7] = n.distance(ris[ris.length - 1], ris[0]);
-            if (p == null)
-                p = new Player(distanze);
+            if (p == null) {
+                p = new Player();
+            }
             p.inizializza();
             p.setInstrument(me.getInstrument());
             p.costruisciMelodia(distanze, 45 + n.getIndex(ris[0]), oct);

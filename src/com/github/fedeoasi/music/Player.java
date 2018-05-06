@@ -17,19 +17,7 @@ public class Player {
     private MidiChannel[] channels;
     private MidiChannel channel;
 
-    private JPanel buttons = new JPanel();
-    private JPanel center = new JPanel();
-
-    private JTextField tf = new JTextField(10);
-    private JLabel label = new JLabel();
-    private JButton changeInstr = new JButton("Change");
-
-    private JButton b = new JButton("Start");
-    private JButton stop = new JButton("Stop");
-    private JButton save = new JButton("Save");
-
     private int notapartenza = 45;
-    private static int[] distanze = {0, 2, 4, 0, 0, 2, 4, 0, 4, 5, 7};
 
     private int chan = 10;
     private int instr = 3;
@@ -55,48 +43,25 @@ public class Player {
         inizializza();
     }
 
-    public Player(int[] distanze) {
-        super();
-        init();
-        inizializza();
-        this.distanze = distanze;
-    }
-
-    public Player(Chord accordo) {
-        super();
-        init();
-        inizializza();
-        costruisciTraccia(accordo);
-    }
-
-    public Player(Chord accordo, int oct, int instr) {
-        super();
-        this.instr = instr;
-        notapartenza += oct;
-        init();
-        inizializza();
-        costruisciTraccia(accordo);
-    }
-
     private void init() {
         try {
             if (synth == null)
                 synth = MidiSystem.getSynthesizer();
             if (synth == null) System.out.println("Synth non disponibile");
             else {
-            synth.open();
-            instruments = synth.getAvailableInstruments();
+                synth.open();
+                instruments = synth.getAvailableInstruments();
             
             /*Causa Problemi su alcuni computer e rende inutilizzabile il synth 
             Soundbank sb= synth.getDefaultSoundbank();
             if(sb!=null) instruments = sb.getInstruments();
             */
 
-            //for(int i=0; i<instruments.length; i++)
-            //System.out.println(instruments[i]);
-            synth.loadInstrument(instruments[0]);
-            channels = synth.getChannels();
-            channel = channels[5];
+                //for(int i=0; i<instruments.length; i++)
+                //System.out.println(instruments[i]);
+                synth.loadInstrument(instruments[0]);
+                channels = synth.getChannels();
+                channel = channels[5];
             }
 
             sequencer = MidiSystem.getSequencer();
@@ -109,33 +74,29 @@ public class Player {
     }
 
     public void inizializza() {
-
-
         try {
             sequence = new Sequence(Sequence.PPQ, 12);
-            //System.out.println(sequence.getResolution());
         } catch (Exception e) {
             System.out.println(e.toString());
         }
         track = sequence.createTrack();
-        //System.out.println("crea traccia :" + track.size());
     }
 
     public void costruisciTraccia(Chord a) {
         costruisciAccordo(a.getIntervals(), a.getTonic(), 0, 15);
     }
 
-    public void costruisciGiro(ArrayList<Chord> a){
-            for(int i=0; i<a.size(); i++)
-            for(int j=0; j< tempo.getNum(); j++)
-            costruisciAccordo(a.get(i).getIntervals(),a.get(i).getTonic(),
-                    12 * tempo.getNum()*(i)+12*j,12*tempo.getNum()*i+12*(j+1));
-
+    public void costruisciGiro(ArrayList<Chord> chords) {
+        for (int i = 0; i < chords.size(); i++) {
+            for (int j = 0; j < tempo.getNum(); j++) {
+                int start = 12 * tempo.getNum() * (i) + 12 * j;
+                int end = 12 * tempo.getNum() * i + 12 * (j + 1);
+                costruisciAccordo(chords.get(i).getIntervals(), chords.get(i).getTonic(), start, end);
+            }
+        }
     }
 
-
     public void costruisciMelodia(int[] distanze, int notapartenza, int oct) {
-        this.distanze = distanze;
         this.notapartenza = notapartenza;
 
         try {
@@ -227,7 +188,7 @@ public class Player {
 
     }
 
-public void costruisciBatteria(int numBattute){
+    public void costruisciBatteria(int numBattute) {
         Sequence sequence2 = null;
         System.out.println("Apro midi file");
         File midiFile = new File("Styles/Batteria/rock1.mid");
@@ -240,26 +201,26 @@ public void costruisciBatteria(int numBattute){
         }
         System.out.println("ok");
         Track[] t = sequence2.getTracks();
-        for(int i=0; i<t.length; i++){
+        for (int i = 0; i < t.length; i++) {
             System.out.println(t[i]);
-            for(int j=0; j<t[0].size(); j++){
+            for (int j = 0; j < t[0].size(); j++) {
                 System.out.println(t[i].get(j));
                 MidiEvent m = t[i].get(j);
                 System.out.println(m.getTick());
                 //System.out.println(m.getMessage().getMessage()[0]);
             }
-            
+
         }
-        for(int i=0; i<t.length; i++){
+        for (int i = 0; i < t.length; i++) {
             Track bat = sequence.createTrack();
-            for(int j=0; j<t[i].size(); j++)
+            for (int j = 0; j < t[i].size(); j++)
                 bat.add(t[i].get(j));
         }
     }
-    
-    public void costruisciBatteria(int numBattute, int stile){
+
+    public void costruisciBatteria(int numBattute, int stile) {
         track = sequence.createTrack();
-        
+
         mex = new ShortMessage();
         try {
             //mex.setMessage(192,instr,100);
@@ -269,20 +230,20 @@ public void costruisciBatteria(int numBattute){
         }
         MidiEvent me = new MidiEvent(mex, 0);
         track.add(me);
-    
-        
-        Batteria b = new Batteria(this,numBattute,stile);
-        
-        
+
+
+        Batteria b = new Batteria(this, numBattute, stile);
+
+
         mex = new ShortMessage();
-            try {
-                mex.setMessage(192, 9, 1, numBattute*16);
-            } catch (InvalidMidiDataException e1) {
-                e1.printStackTrace();
-            }
-        me = new MidiEvent(mex,20);
+        try {
+            mex.setMessage(192, 9, 1, numBattute * 16);
+        } catch (InvalidMidiDataException e1) {
+            e1.printStackTrace();
+        }
+        me = new MidiEvent(mex, 20);
         track.add(me);
-        
+
         try {
             sequencer.setSequence(sequence);
         } catch (InvalidMidiDataException e) {
@@ -375,11 +336,9 @@ public void costruisciBatteria(int numBattute){
     }
 
     public void save() {
-        File f = null;
+        File f;
         JFileChooser fc = new JFileChooser("MyMidi");
         if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-
-
             f = fc.getSelectedFile();
             if (f != null)
                 System.out.println(f);
@@ -396,13 +355,8 @@ public void costruisciBatteria(int numBattute){
         }
     }
 
-    public void setChan(int chan) {
-        this.chan = chan;
-    }
-
     public void setInstrument(int instr) {
         this.instr = instr;
-
     }
 
     public int getNotapartenza() {

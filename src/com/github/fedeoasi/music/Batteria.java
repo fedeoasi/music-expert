@@ -9,7 +9,7 @@ public class Batteria {
                 for (int j = 0; j < 8; j++)
                     p.creaNota2(9, 42, 48 * i + 6 * j, 48 * i + 6 * (j + 1));
                 //cassa
-                p.creaNota2(9, 35, 48 * i + 0, 48 * i + 6);
+                p.creaNota2(9, 35, 48 * i, 48 * i + 6);
                 p.creaNota2(9, 35, 48 * i + 24, 48 * i + 30);
                 p.creaNota2(9, 35, 48 * i + 30, 48 * i + 36);
                 //rullante
@@ -27,7 +27,7 @@ public class Batteria {
                 for (int j = 0; j < 8; j++)
                     p.creaNota2(9, 51, 48 * i + 6 * j, 48 * i + 6 * (j + 1));
                 //cassa
-                p.creaNota2(9, 35, 48 * i + 0, 48 * i + 6);
+                p.creaNota2(9, 35, 48 * i, 48 * i + 6);
                 p.creaNota2(9, 35, 48 * i + 18, 48 * i + 24);
                 p.creaNota2(9, 35, 48 * i + 30, 48 * i + 36);
                 //rullante
@@ -42,7 +42,7 @@ public class Batteria {
 
                 for (int j = 0; j < 2; j++) {
                     //cassa
-                    p.creaNota2(9, 35, 48 * i + 0 + 24 * j, 48 * i + 6 + 24 * j);
+                    p.creaNota2(9, 35, 48 * i + 24 * j, 48 * i + 6 + 24 * j);
                     p.creaNota2(9, 35, 48 * i + 6 + 24 * j, 48 * i + 12 + 24 * j);
                     //rullante
                     p.creaNota2(9, 40, 48 * i + 12 + 24 * j, 48 * i + 18 + 24 * j);
@@ -62,7 +62,7 @@ public class Batteria {
 
                 for (int j = 0; j < 2; j++) {
                     //cassa
-                    p.creaNota2(9, 35, 48 * i + 0 + 24 * j, 48 * i + 6 + 24 * j);
+                    p.creaNota2(9, 35, 48 * i + 24 * j, 48 * i + 6 + 24 * j);
                     p.creaNota2(9, 35, 48 * i + 6 + 24 * j, 48 * i + 12 + 24 * j);
                     //rullante
                     p.creaNota2(9, 38, 48 * i + 12 + 24 * j, 48 * i + 18 + 24 * j);

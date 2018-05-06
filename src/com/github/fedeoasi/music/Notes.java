@@ -139,11 +139,6 @@ public class Notes {
         s.printScala(s.scalaMinArm("D"));
         s.printScala(s.scalaMinMel("D"));
 
-        new Player(s.scalaMaggiore);
-        new Player(s.scalaMinNat);
-        new Player(s.scalaMinArm);
-        new Player(s.scalaMinMel);
-
         new Chord("C", "");
         new Chord("C", "M7");
         new Chord("D", "M13");
