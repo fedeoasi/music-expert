@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class PentagramPanel extends JPanel implements MouseListener {
-    Graphics2D g2 = null;
-    Notes note = new Notes();
+    private Graphics2D g2 = null;
+    private Notes note = new Notes();
 
-    boolean accordo = false;
-    static ArrayList<String> notes = new ArrayList<String>();
-    static ArrayList<Integer> altezze = new ArrayList<Integer>();
+    private boolean accordo = false;
+    private static ArrayList<String> notes = new ArrayList<String>();
+    private static ArrayList<Integer> altezze = new ArrayList<Integer>();
 
     public PentagramPanel() {
         super();

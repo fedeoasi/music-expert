@@ -3,13 +3,13 @@ package com.github.fedeoasi.music;
 import java.util.ArrayList;
 
 public class Chord {
-    String sigla;
-    String chordType;
-    ArrayList<Integer> intervals = new ArrayList<Integer>();
-    ArrayList<String> notes = new ArrayList<String>();
-    ArrayList<Integer> pitches = new ArrayList<Integer>();
-    ArrayList<int[]> scales = new ArrayList<int[]>();
-    String tonic;
+    private String sigla;
+    private String chordType;
+    private ArrayList<Integer> intervals = new ArrayList<Integer>();
+    private ArrayList<String> notes = new ArrayList<String>();
+    private ArrayList<Integer> pitches = new ArrayList<Integer>();
+    private ArrayList<int[]> scales = new ArrayList<int[]>();
+    private String tonic;
 
     public Chord(String tonic, String chordType) {
         this.tonic = tonic;

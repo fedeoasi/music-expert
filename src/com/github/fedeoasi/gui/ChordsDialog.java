@@ -11,12 +11,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class ChordsDialog extends JDialog implements ActionListener, KeyListener {
-    JComboBox<String> noteBox = new JComboBox<String>();
-    JComboBox<String> chordBox = new JComboBox<String>();
-    JComboBox nBox = new JComboBox();
-    JButton ok = new JButton("Ok");
+    private JComboBox<String> noteBox = new JComboBox<String>();
+    private JComboBox<String> chordBox = new JComboBox<String>();
+    private JComboBox nBox = new JComboBox();
+    private JButton ok = new JButton("Ok");
 
-    MusicExpert me = null;
+    private MusicExpert me;
 
     public ChordsDialog(MusicExpert me) {
         super();
@@ -51,8 +51,7 @@ public class ChordsDialog extends JDialog implements ActionListener, KeyListener
             for (int i = 0; i < nBox.getSelectedIndex() + 1; i++) {
                 String chosenNote = (String) noteBox.getSelectedItem();
                 String chosenChord = (String) chordBox.getSelectedItem();
-                me.getGiroAccordi().addAccordo(new Chord(chosenNote,
-                        chosenChord));
+                me.getGiroAccordi().addAccordo(new Chord(chosenNote, chosenChord));
             }
         setVisible(false);
     }

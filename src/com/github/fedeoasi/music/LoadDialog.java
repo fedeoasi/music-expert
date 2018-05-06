@@ -15,12 +15,12 @@ import com.github.fedeoasi.gui.ChordProgressionPanel;
 import com.github.fedeoasi.gui.MusicExpert;
 
 public class LoadDialog extends JDialog implements ActionListener {
-	JComboBox canzone = new JComboBox();
-	JButton ok = new JButton("Ok");
-    ChordProgressionPanel g = null;
-	File f = null;
-	String[] files;
-	String[] canzoni;
+	private JComboBox canzone = new JComboBox();
+	private JButton ok = new JButton("Ok");
+    private ChordProgressionPanel g = null;
+	private File f = null;
+	private String[] files;
+	private String[] canzoni;
 	
 	public LoadDialog(MusicExpert me, ChordProgressionPanel g){
 		super();

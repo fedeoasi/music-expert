@@ -1,15 +1,15 @@
 package com.github.fedeoasi.music;
 
 public interface Playable {
-    public void play();
+    void play();
 
-    public void stop();
+    void stop();
 
-    public void save();
+    void save();
 
-    public void ottava(boolean isSelected);
+    void ottava(boolean isSelected);
 
-    public void loop(boolean isSelected);
+    void loop(boolean isSelected);
 
-    public void ChangeBPM(int bpm);
+    void ChangeBPM(int bpm);
 }

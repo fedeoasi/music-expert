@@ -15,26 +15,26 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ScaleGui extends JPanel implements ActionListener, Playable {
-    Scales s = new Scales();
-    Notes n = new Notes();
-    String[] ris;
-    String[] note = {"G", "D", "A", "E", "B", "F#", "C#", "F", "Bb", "Eb", "Ab",
+    private Scales s = new Scales();
+    private Notes n = new Notes();
+    private String[] ris;
+    private String[] note = {"G", "D", "A", "E", "B", "F#", "C#", "F", "Bb", "Eb", "Ab",
             "Db", "Gb", "Cb"};
-    String[] scale = {"Scala Maggiore", "Scala Minore Naturale",
+    private String[] scale = {"Scala Maggiore", "Scala Minore Naturale",
             "Scala Minore Armonica", "Scala Minore Melodica"};
 
-    JLabel l = new JLabel("Inserisci tonic e scala:");
-    JComboBox nota = new JComboBox();
-    JComboBox scala = new JComboBox();
-    JButton ok = new JButton("Ok");
+    private JLabel l = new JLabel("Inserisci tonic e scala:");
+    private JComboBox nota = new JComboBox();
+    private JComboBox scala = new JComboBox();
+    private JButton ok = new JButton("Ok");
 
-    JTextArea ta = new JTextArea();
+    private JTextArea ta = new JTextArea();
 
-    Player p = null;
-    int oct = 0;
+    private Player p = null;
+    private int oct = 0;
 
-    String tonica = null;
-    MusicExpert me;
+    private String tonica = null;
+    private MusicExpert me;
 
     public ScaleGui(MusicExpert me) {
         super(new BorderLayout());

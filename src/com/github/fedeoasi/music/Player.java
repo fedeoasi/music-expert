@@ -7,39 +7,39 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Player {
-    Sequencer sequencer = null;
-    Track track;
-    Sequence sequence = null;
-    ShortMessage mex;
+    private Sequencer sequencer = null;
+    private Track track;
+    private Sequence sequence = null;
+    private ShortMessage mex;
 
-    Synthesizer synth;
-    Instrument[] instruments;
-    MidiChannel[] channels;
-    MidiChannel channel;
+    private Synthesizer synth;
+    private Instrument[] instruments;
+    private MidiChannel[] channels;
+    private MidiChannel channel;
 
-    JPanel buttons = new JPanel();
-    JPanel center = new JPanel();
+    private JPanel buttons = new JPanel();
+    private JPanel center = new JPanel();
 
-    JTextField tf = new JTextField(10);
-    JLabel label = new JLabel();
-    JButton changeInstr = new JButton("Change");
+    private JTextField tf = new JTextField(10);
+    private JLabel label = new JLabel();
+    private JButton changeInstr = new JButton("Change");
 
-    JButton b = new JButton("Start");
-    JButton stop = new JButton("Stop");
-    JButton save = new JButton("Save");
+    private JButton b = new JButton("Start");
+    private JButton stop = new JButton("Stop");
+    private JButton save = new JButton("Save");
 
-    int notapartenza = 45;
-    static int[] distanze = {0, 2, 4, 0, 0, 2, 4, 0, 4, 5, 7};
+    private int notapartenza = 45;
+    private static int[] distanze = {0, 2, 4, 0, 0, 2, 4, 0, 4, 5, 7};
 
-    int chan = 10;
-    int instr = 3;
+    private int chan = 10;
+    private int instr = 3;
 
-    Notes n = new Notes();
+    private Notes n = new Notes();
 
-    int volume = 100;
-    int bpm = 120;
+    private int volume = 100;
+    private int bpm = 120;
 
-    Tempo tempo = new Tempo(4, 4);
+    private Tempo tempo = new Tempo(4, 4);
 
     public int getVolume() {
         return volume;

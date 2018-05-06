@@ -15,22 +15,22 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ChordsPanel extends JPanel implements ActionListener {
-    JComboBox noteBox = new JComboBox();
-    JComboBox chordBox = new JComboBox();
-    JButton ok = new JButton("Ok");
-    JTextArea ta = new JTextArea();
-    Player p = null;
+    private JComboBox noteBox = new JComboBox();
+    private JComboBox chordBox = new JComboBox();
+    private JButton ok = new JButton("Ok");
+    private JTextArea ta = new JTextArea();
+    private Player p = null;
 
-    Chord a = null;
-    int oct = 0;
+    private Chord a = null;
+    private int oct = 0;
 
-    JButton play = new JButton("Play");
-    JButton stop = new JButton("Stop");
-    JButton save = new JButton("Save");
-    JCheckBox ottava = new JCheckBox("+1 ottava");
+    private JButton play = new JButton("Play");
+    private JButton stop = new JButton("Stop");
+    private JButton save = new JButton("Save");
+    private JCheckBox ottava = new JCheckBox("+1 ottava");
 
-    Notes n = new Notes();
-    MusicExpert me = null;
+    private Notes n = new Notes();
+    private MusicExpert me = null;
 
     public ChordsPanel(MusicExpert me) {
         super();

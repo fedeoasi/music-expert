@@ -11,17 +11,17 @@ public class Synth extends JPanel implements ActionListener {
     final int NOTEON = 144;
     final int NOTEOFF = 128;
 
-    Sequencer sequencer;
-    Sequence sequence;
-    Synthesizer synth = null;
-    Instrument[] instruments;
-    MidiChannel[] channels;
-    MidiChannel channel;
+    private Sequencer sequencer;
+    private Sequence sequence;
+    private Synthesizer synth = null;
+    private Instrument[] instruments;
+    private MidiChannel[] channels;
+    private MidiChannel channel;
 
-    Track track;
+    private Track track;
 
-    JButton start = new JButton("Start");
-    JButton stop = new JButton("Stop");
+    private JButton start = new JButton("Start");
+    private JButton stop = new JButton("Stop");
 
     public Synth() {
         super(new FlowLayout());

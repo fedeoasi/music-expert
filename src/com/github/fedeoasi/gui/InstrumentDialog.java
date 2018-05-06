@@ -8,16 +8,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class InstrumentDialog extends JDialog implements ActionListener {
-    String[] instruments = {"Piano", "Bright Piano", "Electric Grand", "Honky Tonk Piano",
+    private String[] instruments = {"Piano", "Bright Piano", "Electric Grand", "Honky Tonk Piano",
             "Electric Piano 1", "Electric Piano 2", "Harpsichord", "Clavinet", "Celesta",
             "Glockenspiel", "Music Box", "Vibraphone", "Marimba", "Xylophone", "Tubular Bell"
             , "Dulcimer", "Hammond Organ", "Perc Organ", "Rock Organ", "Church Organ", "Reed Organ"
             , "Accordion", "Harmonica", "Tango Accordion", "Nylon Str Guitar", "Steel String Guitar"
             , "Jazz Electric Gtr", "Clean Guitar", "Muted Guitar", "Overdrive Guitar", "Distortion Guitar",
             "Guitar Harmonics"};
-    JComboBox instr = new JComboBox();
-    JButton ok = new JButton("ok");
-    MusicExpert me;
+    private JComboBox instr = new JComboBox();
+    private JButton ok = new JButton("ok");
+    private MusicExpert me;
 
     public InstrumentDialog(MusicExpert me) {
         super();

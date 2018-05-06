@@ -10,9 +10,9 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 
 public class StileDialog extends JDialog implements ActionListener{
-	MusicExpert me;
-	JComboBox stile = new JComboBox();
-	JButton ok = new JButton("Ok");
+	private MusicExpert me;
+	private JComboBox stile = new JComboBox();
+	private JButton ok = new JButton("Ok");
 	
 	public StileDialog(MusicExpert me){
 		super();
@@ -37,7 +37,4 @@ public class StileDialog extends JDialog implements ActionListener{
 		}
 		
 	}
-	
-	
-
 }

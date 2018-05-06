@@ -1,12 +1,12 @@
 package com.github.fedeoasi.music;
 
 public class Mode {
-    String nome;
-    String[] note;
-    String tonica;
-    int[] distanze = new int[8];
-    int[] generatrice;
-    int partenza;
+    private String nome;
+    private String[] note;
+    private String tonica;
+    private int[] distanze = new int[8];
+    private int[] generatrice;
+    private int partenza;
 
     public Mode(String tonica, String nome, int[] generatrice, int partenza) {
         this.tonica = tonica;

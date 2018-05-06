@@ -10,35 +10,35 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ModeGui extends JPanel implements ActionListener, Playable {
-    String[] note = {"C", "G", "D", "A", "E", "B", "F#", "C#", "F", "Bb", "Eb", "Ab",
+    private String[] note = {"C", "G", "D", "A", "E", "B", "F#", "C#", "F", "Bb", "Eb", "Ab",
             "Db", "Gb", "Cb"};
-    String[] scale = {"Scala Maggiore", "Scala Minore Armonica",
+    private String[] scale = {"Scala Maggiore", "Scala Minore Armonica",
             "Scala Minore Melodica"};
-    String[] modiMaggiori = {"Ionica", "Dorica", "Frigia", "Lidia", "Misolidia",
+    private String[] modiMaggiori = {"Ionica", "Dorica", "Frigia", "Lidia", "Misolidia",
             "Eolia", "Locria"};
-    String[] modiMinArm = {"Min Armonica", "Locria #6", "Ionica #5", "Dorica #4",
+    private String[] modiMinArm = {"Min Armonica", "Locria #6", "Ionica #5", "Dorica #4",
             "Frigia beq3", "Lidia #2", "Superlocria b7"};
-    String[] modiMinMel = {"Jazz Minor", "Dorica b2", "Lidia aumentata", "Lidia di dominante",
+    private String[] modiMinMel = {"Jazz Minor", "Dorica b2", "Lidia aumentata", "Lidia di dominante",
             "Misolidia b6", "Locria beq2", "SuperLocria"};
 
-    JLabel l = new JLabel("Inserisci tonica, scala e modo: ");
-    JComboBox nota = new JComboBox();
-    JComboBox gen = new JComboBox();
-    JComboBox modo = new JComboBox();
-    JButton ok = new JButton("Ok");
+    private JLabel l = new JLabel("Inserisci tonica, scala e modo: ");
+    private JComboBox nota = new JComboBox();
+    private JComboBox gen = new JComboBox();
+    private JComboBox modo = new JComboBox();
+    private JButton ok = new JButton("Ok");
 
-    JTextArea ta = new JTextArea();
+    private JTextArea ta = new JTextArea();
 
-    String tonica;
+    private String tonica;
 
-    Mode m = null;
-    int[] generatrice;
-    Scales s = new Scales();
-    Notes n = new Notes();
-    Player p = null;
+    private Mode m = null;
+    private int[] generatrice;
+    private Scales s = new Scales();
+    private Notes n = new Notes();
+    private Player p = null;
 
-    int oct = 0;
-    MusicExpert me = null;
+    private int oct = 0;
+    private MusicExpert me = null;
 
     public ModeGui(MusicExpert me) {
         super(new BorderLayout());
@@ -137,7 +137,7 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
             if (p == null)
                 p = new Player(distanze);
             p.inizializza();
-            p.setInstrument(me.instr);
+            p.setInstrument(me.getInstrument());
             p.costruisciMelodia(distanze, 45 + n.getIndex(ris[0]), oct);
             p.start();
         }
@@ -178,21 +178,17 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
         }
     }
 
-
     public void setInstrument(int instr) {
         p.setInstrument(instr);
     }
-
 
     public void loop(boolean isSelected) {
         // TODO Auto-generated method stub
 
     }
 
-
     public void ChangeBPM(int bpm) {
         // TODO Auto-generated method stub
 
     }
-
 }

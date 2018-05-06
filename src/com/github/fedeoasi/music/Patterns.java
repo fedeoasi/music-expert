@@ -8,16 +8,16 @@ import java.util.Scanner;
 
 
 public class Patterns {
-    File file;
-    FileReader fr;
-    BufferedReader br;
-    ArrayList<ArrayList<Integer>> gradi = new ArrayList<ArrayList<Integer>>();
-    ArrayList<ArrayList<Integer>> durate = new ArrayList<ArrayList<Integer>>();
-    Pattern pat1 = null;
-    Scanner s;
+    private File file;
+    private FileReader fr;
+    private BufferedReader br;
+    private ArrayList<ArrayList<Integer>> gradi = new ArrayList<ArrayList<Integer>>();
+    private ArrayList<ArrayList<Integer>> durate = new ArrayList<ArrayList<Integer>>();
+    private Pattern pat1 = null;
+    private Scanner s;
 
-    ArrayList<Integer> g = new ArrayList<Integer>();
-    ArrayList<Integer> d = new ArrayList<Integer>();
+    private ArrayList<Integer> g = new ArrayList<Integer>();
+    private ArrayList<Integer> d = new ArrayList<Integer>();
 
     public Patterns() {
         initialize();

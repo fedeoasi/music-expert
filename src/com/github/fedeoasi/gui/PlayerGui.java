@@ -11,14 +11,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PlayerGui extends JPanel implements ActionListener, ChangeListener {
-    JButton play = new JButton("Play");
-    JButton stop = new JButton("Stop");
-    JButton save = new JButton("Save");
-    JCheckBox ottava = new JCheckBox("+1 ottava");
-    JCheckBox loop = new JCheckBox("Loop");
-    JSpinner bpm = new JSpinner();
-    Player p = null;
-    Playable playable = null;
+    private JButton play = new JButton("Play");
+    private JButton stop = new JButton("Stop");
+    private JButton save = new JButton("Save");
+    private JCheckBox ottava = new JCheckBox("+1 ottava");
+    private JCheckBox loop = new JCheckBox("Loop");
+    private JSpinner bpm = new JSpinner();
+    private Player p = null;
+    private Playable playable = null;
 
     public PlayerGui(Playable playable) {
         super(new FlowLayout());

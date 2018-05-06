@@ -13,22 +13,21 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 public class MusicExpert extends JFrame implements ActionListener{
-    JMenuBar mb = new JMenuBar();
-    JMenu file = new JMenu("File");
-    JMenu options = new JMenu("Opzioni");
-    JMenuItem generaPentagramma = new JMenuItem("Genera Pentagramma");
-    JMenuItem cambiaStrumento = new JMenuItem("Cambia Strumento");
-    JMenuItem cambiaStile = new JMenuItem("Cambia stile");
-    JMenuItem exit = new JMenuItem("exit");
-    JTabbedPane tp = new JTabbedPane();
-    int indice;
-    ChordsPanel accordi = new ChordsPanel(this);
-    ScaleGui scale = new ScaleGui(this);
-    ModeGui modi = new ModeGui(this);
-    ChordProgressionPanel giroAccordi = new ChordProgressionPanel(this);
-    PentagramPanel pentagramma = new PentagramPanel();
-    JPanel pentaPanel = new JPanel(new BorderLayout());
-    int instr = 0;
+    private JMenuBar mb = new JMenuBar();
+    private JMenu file = new JMenu("File");
+    private JMenu options = new JMenu("Opzioni");
+    private JMenuItem generaPentagramma = new JMenuItem("Genera Pentagramma");
+    private JMenuItem cambiaStrumento = new JMenuItem("Cambia Strumento");
+    private JMenuItem cambiaStile = new JMenuItem("Cambia stile");
+    private JMenuItem exit = new JMenuItem("exit");
+    private JTabbedPane tp = new JTabbedPane();
+    private ChordsPanel accordi = new ChordsPanel(this);
+    private ScaleGui scale = new ScaleGui(this);
+    private ModeGui modi = new ModeGui(this);
+    private ChordProgressionPanel giroAccordi = new ChordProgressionPanel(this);
+    private PentagramPanel pentagramma = new PentagramPanel();
+    private JPanel pentaPanel = new JPanel(new BorderLayout());
+    private int instr = 0;
 
     public MusicExpert(){
         super("Music Expert");
