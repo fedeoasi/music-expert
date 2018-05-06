@@ -51,8 +51,8 @@ public class Note {
             if (y > 170)
                 for (int i = 0; y - (10 * i) >= 170; i++) {
                     if ((y - (10 * i)) / 10 % 2 != 0)
-                        opt.add(new Line2D.Float((float) e.getCenterX() - 17, (float) y - (10 * i),
-                                (float) e.getCenterX() + 17, (float) y - (10 * i)));
+                        opt.add(new Line2D.Float((float) e.getCenterX() - 17, y - (10 * i),
+                                (float) e.getCenterX() + 17, y - (10 * i)));
                 }
 
         } else if (y < 60) {
@@ -66,8 +66,8 @@ public class Note {
             if (y < 50)
                 for (int i = 1; y + (10 * i) <= 50; i++) {
                     if ((y + (10 * i)) / 10 % 2 != 0)
-                        opt.add(new Line2D.Float((float) e.getCenterX() - 17, (float) y + (10 * i),
-                                (float) e.getCenterX() + 17, (float) y + (10 * i)));
+                        opt.add(new Line2D.Float((float) e.getCenterX() - 17, y + (10 * i),
+                                (float) e.getCenterX() + 17, y + (10 * i)));
                 }
 
         }

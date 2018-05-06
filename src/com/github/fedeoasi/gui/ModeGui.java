@@ -93,18 +93,18 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
             String sel = ((String) gen.getSelectedItem());
             //System.out.println(sel);
             modo.removeAllItems();
-            if (sel == "Scala Maggiore")
+            if (sel.equals("Scala Maggiore"))
                 for (int i = 0; i < modiMaggiori.length; i++) {
                     modo.addItem(modiMaggiori[i]);
                     generatrice = s.scalaMaggiore;
                 }
-            else if (sel == "Scala Minore Armonica")
+            else if (sel.equals("Scala Minore Armonica"))
                 for (int i = 0; i < modiMinArm.length; i++) {
                     modo.addItem(modiMinArm[i]);
                     generatrice = s.scalaMinArm;
                 }
 
-            else if (sel == "Scala Minore Melodica")
+            else if (sel.equals("Scala Minore Melodica"))
                 for (int i = 0; i < modiMinMel.length; i++) {
                     modo.addItem(modiMinMel[i]);
                     generatrice = s.scalaMinMel;

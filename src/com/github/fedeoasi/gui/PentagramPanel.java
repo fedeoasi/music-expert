@@ -44,7 +44,7 @@ public class PentagramPanel extends JPanel implements MouseListener {
         for (int i = 0; i < 5; i++)
             g.drawLine(0, 70 + (20 * i), this.getWidth(), 70 + (20 * i));
 
-        if (accordo == true) {
+        if (accordo) {
             if (notes != null && altezze != null)
                 disegnaAccordo();
         } else {
@@ -59,7 +59,7 @@ public class PentagramPanel extends JPanel implements MouseListener {
 
         for (int i = 0; i < notes.size(); i++) {
             String nome = notes.get(i);
-            if (note.isNatural(notes.get(i)) == false) {
+            if (!note.isNatural(notes.get(i))) {
                 char[] c = {notes.get(i).charAt(0)};
                 String s = new String(c);
                 nome = new String(c);
@@ -74,7 +74,7 @@ public class PentagramPanel extends JPanel implements MouseListener {
             g2.draw(n.getL());
             for (int j = 0; j < n.getOpt().size(); j++)
                 g2.draw(n.getOpt().get(j));
-            if (n.getAlterazione() != "")
+            if (!n.getAlterazione().equals(""))
                 g2.drawString(n.getAlterazione(), (float) n.getE().getMinX() - 20,
                         (float) n.getE().getMaxY() - 3);
         }
@@ -83,7 +83,7 @@ public class PentagramPanel extends JPanel implements MouseListener {
     public void disegnaAccordo() {
         for (int i = 0; i < notes.size(); i++) {
             String nome = notes.get(i);
-            if (note.isNatural(notes.get(i)) == false) {
+            if (!note.isNatural(notes.get(i))) {
                 char[] c = {notes.get(i).charAt(0)};
                 //notes.set(i,new String(c));
                 nome = new String(c);
@@ -97,7 +97,7 @@ public class PentagramPanel extends JPanel implements MouseListener {
             //g2.draw(n.getL());
             for (int j = 0; j < n.getOpt().size(); j++)
                 g2.draw(n.getOpt().get(j));
-            if (n.getAlterazione() != "")
+            if (!n.getAlterazione().equals(""))
                 g2.drawString(n.getAlterazione(), (float) n.getE().getMinX() - 20,
                         (float) n.getE().getMaxY());
         }

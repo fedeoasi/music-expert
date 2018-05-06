@@ -67,10 +67,10 @@ public class ScaleGui extends JPanel implements ActionListener, Playable {
             String sel = ((String) scala.getSelectedItem());
             tonica = ((String) nota.getSelectedItem());
             ta.append(sel + " di " + tonica + ":\n");
-            if (sel == scale[0]) ris = s.scalaMaggiore(tonica);
-            if (sel == scale[1]) ris = s.scalaMinNat(tonica);
-            if (sel == scale[2]) ris = s.scalaMinArm(tonica);
-            if (sel == scale[3]) ris = s.scalaMinMel(tonica);
+            if (sel.equals(scale[0])) ris = s.scalaMaggiore(tonica);
+            if (sel.equals(scale[1])) ris = s.scalaMinNat(tonica);
+            if (sel.equals(scale[2])) ris = s.scalaMinArm(tonica);
+            if (sel.equals(scale[3])) ris = s.scalaMinMel(tonica);
             for (int i = 0; i < ris.length; i++) {
                 ta.append(ris[i] + "  ");
                 if (i == ris.length - 1) ta.append("\n\n");
