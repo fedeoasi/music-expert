@@ -3,9 +3,7 @@ package com.github.fedeoasi.gui;
 import com.github.fedeoasi.lang.Strings;
 import com.github.fedeoasi.music.*;
 
-import javax.sound.midi.MetaEventListener;
-import javax.sound.midi.MetaMessage;
-import javax.sound.midi.Sequencer;
+import javax.sound.midi.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -109,11 +107,11 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
                 s.addMetaEventListener(new MetaEventListener() {
 
                     public void meta(MetaMessage message) {
-                        if (message.getType() == 57 || message.getType() == 47)
-                            //System.out.println(s);
-                            //System.out.println(s.isOpen());
-                            if (s != null && s.isOpen() && loop)
+                        if (message.getType() == 57 || message.getType() == 47) {
+                            if (s != null && s.isOpen() && loop) {
                                 play();
+                            }
+                        }
                     }
                 });
             }
@@ -141,8 +139,7 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
 
     public void save() {
         if (player == null) {
-            JOptionPane.showMessageDialog(this,
-                    "Devi prima fare play almeno una volta");
+            JOptionPane.showMessageDialog(this, "Devi prima fare play almeno una volta");
         }
         else {
             player.save();
@@ -190,6 +187,7 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
         hasSolo = true;
         for (int i = 0; i < accordi.size(); i++) {
             ArrayList<Integer> a = new ArrayList<Integer>();
+            //TODO choose scale based on prior and next chords
             int[] s = accordi.get(i).getScales().get(0);
             for (int k = 1; k < s.length; k++) {
                 s[k] = s[k] + s[k - 1];

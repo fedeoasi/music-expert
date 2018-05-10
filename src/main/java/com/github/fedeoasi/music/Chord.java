@@ -41,7 +41,9 @@ public class Chord {
                 notes.add(m.getNote()[6]);
                 scales.add(m.getDistanze());
                 //notes.add(n.noteb[n.getIndex(scala[6])-1]);
-            } else scales.add(s.scalaMaggiore);
+            } else {
+                scales.add(s.scalaMaggiore);
+            }
             //aggiunge la settima maggiore
             if (hasMajorSeventh(chordType))
                 notes.add(scala[6]);
