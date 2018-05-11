@@ -12,5 +12,6 @@ lazy val root = (project in file(".")).
     libraryDependencies ++= Seq(
       "org.scala-lang" % "scala-library" % scalaVersion.value % Test,
       scalaTest % Test),
-    crossPaths := false
+    crossPaths := false,
+    fork in run := true //Needed to get the MIDI system to load properly when calling `run`
   )
