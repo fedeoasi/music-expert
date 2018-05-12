@@ -10,6 +10,7 @@ lazy val root = (project in file(".")).
     )),
     name := "Music Expert",
     libraryDependencies ++= Seq(
+      guava,
       "org.scala-lang" % "scala-library" % scalaVersion.value % Test,
       scalaTest % Test),
     crossPaths := false,
