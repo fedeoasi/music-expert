@@ -123,7 +123,7 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
             if (hasSolo) {
                 player.setVolume(100);
                 for (int i = 0; i < accordi.size(); i++)
-                    player.costruisciMelodia(soloIntervals, soloDurations, accordi.get(i).getTonic(), 0, 48 * i, i);
+                    player.costruisciMelodia(soloIntervals, soloDurations, accordi.get(i).getTonic().getName(), 0, 48 * i, i);
             }
             player.start();
             if (l != null) {
@@ -257,7 +257,6 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        String tonica = null;
         String nome = "";
 
         if (scanner != null) {
@@ -268,7 +267,7 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
             ChangeBPM(bpm);
             setStyle(stile);
             while (scanner.hasNext()) {
-                tonica = scanner.next();
+                Note tonica = Note.fromName(scanner.next());
                 if (scanner.hasNext()) {
                     nome = scanner.next();
                 } else break;

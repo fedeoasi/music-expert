@@ -9,11 +9,11 @@ class ChordScaleFinderTest extends FunSpec with Matchers with Inspectors {
   private val scaleFinder = new ChordScaleFinder
 
   it("finds all scales for a note") {
-    scaleFinder.findScales("C") should have size 21
+    scaleFinder.findScales(Note.C) should have size 21
   }
 
   it("finds all scales for a major chord") {
-    val cMajor = new Chord("C", "")
+    val cMajor = new Chord(Note.C, "")
     val foundScales = scaleFinder.findScales(cMajor).asScala
     forAll(foundScales) { scale =>
       forAll(cMajor.getNotes.asScala) { note =>
@@ -21,13 +21,13 @@ class ChordScaleFinderTest extends FunSpec with Matchers with Inspectors {
       }
     }
     foundScales should contain theSameElementsAs List(
-      Array("F", "G", "Ab", "Bb", "C", "D", "E"), //G melodic minor
-      Array("G", "A", "Bb", "C", "D", "E", "F#"), //G melodic minor
-      Array("C", "D", "E", "F", "G", "A", "B"), //C major
-      Array("G", "A", "B", "C", "D", "E", "F#"), //G major
-      Array("F", "G", "A", "Bb", "C", "D", "E"), //F major
-      Array("F", "G", "Ab", "Bb", "C", "Db", "E"), //F harmonic minor
-      Array("E", "F#", "G", "A", "B", "C", "D#") //E minor
+      Array(Note.F, Note.G, Note.AFlat, Note.BFlat, Note.C, Note.D, Note.E), //G melodic minor
+      Array(Note.G, Note.A, Note.BFlat, Note.C, Note.D, Note.E, Note.FSharp), //G melodic minor
+      Array(Note.C, Note.D, Note.E, Note.F, Note.G, Note.A, Note.B), //C major
+      Array(Note.G, Note.A, Note.B, Note.C, Note.D, Note.E, Note.FSharp), //G major
+      Array(Note.F, Note.G, Note.A, Note.BFlat, Note.C, Note.D, Note.E), //F major
+      Array(Note.F, Note.G, Note.AFlat, Note.BFlat, Note.C, Note.DFlat, Note.E), //F harmonic minor
+      Array(Note.E, Note.FSharp, Note.G, Note.A, Note.B, Note.C, Note.DSharp) //E minor
     )
   }
 }

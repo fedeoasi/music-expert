@@ -2,54 +2,42 @@ package com.github.fedeoasi.music;
 
 public class Mode {
     private String nome;
-    private String[] note;
-    private String tonica;
+    private Note[] notes;
+    private Note tonic;
     private int[] distanze = new int[8];
     private int[] generatrice;
-    private int partenza;
+    private int oneIndexedStart;
 
-    public Mode(String tonica, String nome, int[] generatrice, int partenza) {
-        this.tonica = tonica;
+    public Mode(Note tonic, String nome, int[] generatrice, int oneIndexedStart) {
+        this.tonic = tonic;
         this.nome = nome;
         this.generatrice = generatrice;
-        this.partenza = partenza;
+        this.oneIndexedStart = oneIndexedStart;
         int temp;
         int[] gen = new int[7];
         for (int i = 0; i < 7; i++)
             gen[i] = generatrice[i + 1];
         distanze[0] = 0;
-        //System.out.print(intervals[0]);
         for (int i = 1; i < gen.length + 1; i++) {
-            temp = (partenza - 2 + i) % 7;
+            temp = (oneIndexedStart - 2 + i) % 7;
             distanze[i] = gen[temp];
-            //System.out.print("  " + intervals[i]);
         }
         System.out.println();
 
         Scales s = new Scales();
-        note = s.scala(tonica, distanze);
-
-        /*for(int i=0; i<notes.length; i++)
-            System.out.print(notes[i] + "  ");
-        System.out.println();
-        */
-
+        notes = s.scala(tonic, distanze);
     }
 
-    public String getTonica() {
-        return tonica;
-    }
-
-    public void setTonica(String tonica) {
-        this.tonica = tonica;
+    public Note getTonic() {
+        return tonic;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public String[] getNote() {
-        return note;
+    public Note[] getNotes() {
+        return notes;
     }
 
     public int[] getDistanze() {
@@ -60,8 +48,7 @@ public class Mode {
         return generatrice;
     }
 
-    public int getPartenza() {
-        return partenza;
+    public int getOneIndexedStart() {
+        return oneIndexedStart;
     }
-
 }

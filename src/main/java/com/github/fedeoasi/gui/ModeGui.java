@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class ModeGui extends JPanel implements ActionListener, Playable {
     private String[] note = {"C", "G", "D", "A", "E", "B", "F#", "C#", "F", "Bb", "Eb", "Ab",
@@ -22,7 +24,7 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
             "Misolidia b6", "Locria beq2", "SuperLocria"};
 
     private JLabel l = new JLabel("Inserisci tonica, scala e modo: ");
-    private JComboBox nota = new JComboBox();
+    private JComboBox<String> nota = new JComboBox<>();
     private JComboBox gen = new JComboBox();
     private JComboBox modo = new JComboBox();
     private JButton ok = new JButton("Ok");
@@ -81,8 +83,8 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
             String tonica = ((String) nota.getSelectedItem());
             String nome = ((String) modo.getSelectedItem());
             Integer partenza = modo.getSelectedIndex() + 1;
-            m = new Mode(tonica, nome, generatrice, partenza);
-            String[] temp = m.getNote();
+            m = new Mode(Note.fromName(tonica), nome, generatrice, partenza);
+            Note[] temp = m.getNotes();
             ta.append(nome + " di " + tonica + ":\n");
             for (int i = 0; i < temp.length; i++)
                 ta.append(temp[i] + "  ");
@@ -121,25 +123,26 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
     }
 
     public void play() {
-        String[] ris = null;
+        Note[] modeNotes = null;
         if (m != null) {
-            ris = m.getNote();
+            modeNotes = m.getNotes();
         }
-        if (ris == null) {
+        if (modeNotes == null) {
             System.out.println("no input");
         } else {
             int[] distanze = new int[8];
             distanze[0] = 0;
-            for (int i = 1; i < ris.length; i++)
-                distanze[i] = n.distance(ris[i - 1], ris[i]);
+            for (int i = 1; i < modeNotes.length; i++) {
+                distanze[i] = n.distance(modeNotes[i - 1], modeNotes[i]);
+            }
             //risuona la tonica alla fine
-            distanze[7] = n.distance(ris[ris.length - 1], ris[0]);
+            distanze[7] = n.distance(modeNotes[modeNotes.length - 1], modeNotes[0]);
             if (p == null) {
                 p = new Player();
             }
             p.inizializza();
             p.setInstrument(me.getInstrument());
-            p.costruisciMelodia(distanze, 45 + n.getIndex(ris[0]), oct);
+            p.costruisciMelodia(distanze, 45 + n.getIndex(modeNotes[0]), oct);
             p.start();
         }
 
@@ -159,12 +162,11 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
     public void generaPentagramma() {
         if (m == null) JOptionPane.showMessageDialog(this, "Nessun modo selezionato");
         else {
-            ArrayList<String> notes = new ArrayList<String>();
+            ArrayList<Note> notes = new ArrayList<>();
             ArrayList<Integer> altezze = new ArrayList<Integer>();
-            for (int i = 0; i < m.getNote().length; i++)
-                notes.add(m.getNote()[i]);
-            notes.add(m.getNote()[0]);
-            altezze.add(57 + n.getIndex(m.getTonica()));
+            notes.addAll(Arrays.asList(m.getNotes()));
+            notes.add(m.getNotes()[0]);
+            altezze.add(57 + n.getIndex(m.getTonic()));
             for (int i = 1; i < notes.size(); i++)
                 altezze.add(altezze.get(i - 1) + n.distance(notes.get(i - 1), notes.get(i)));
 
@@ -175,7 +177,7 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
                 System.out.print(notes.get(i) + "  ");
             System.out.println();
 
-            me.disegnaScala(notes, altezze);
+            me.disegnaScala(notes.stream().map(Note::getName).collect(Collectors.toList()), altezze);
         }
     }
 

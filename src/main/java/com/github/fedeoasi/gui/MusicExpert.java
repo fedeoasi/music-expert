@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -97,7 +98,7 @@ public class MusicExpert extends JFrame implements ActionListener{
     }
 
 
-    public void disegnaAccordo(ArrayList<String> notes, ArrayList<Integer> altezze) {
+    public void disegnaAccordo(List<String> notes, ArrayList<Integer> altezze) {
         tp.remove(4);
         pentagramma = new PentagramPanel(notes, altezze,true);
         pentaPanel.removeAll();
@@ -107,7 +108,7 @@ public class MusicExpert extends JFrame implements ActionListener{
 
     }
 
-    public void disegnaScala(ArrayList<String> notes, ArrayList<Integer> altezze){
+    public void disegnaScala(List<String> notes, ArrayList<Integer> altezze){
         tp.remove(4);
         pentagramma = new PentagramPanel(notes,altezze,false);
         tp.add("ScalaPentagramma",pentagramma);

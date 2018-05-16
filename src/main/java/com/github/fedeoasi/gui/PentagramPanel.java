@@ -1,6 +1,7 @@
 package com.github.fedeoasi.gui;
 
 import com.github.fedeoasi.music.Note;
+import com.github.fedeoasi.music.NoteVisualization;
 import com.github.fedeoasi.music.Notes;
 
 import javax.swing.*;
@@ -8,15 +9,18 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class PentagramPanel extends JPanel implements MouseListener {
     private Graphics2D g2 = null;
     private Notes note = new Notes();
 
     private boolean accordo = false;
-    private static ArrayList<String> notes = new ArrayList<String>();
+    //TODO revisit these static fields
+    private static List<Note> notes;
     private static ArrayList<Integer> altezze = new ArrayList<Integer>();
 
     public PentagramPanel() {
@@ -27,11 +31,11 @@ public class PentagramPanel extends JPanel implements MouseListener {
         setBackground(Color.WHITE);
     }
 
-    public PentagramPanel(ArrayList<String> notes, ArrayList<Integer> altezze, boolean isAccordo) {
+    public PentagramPanel(List<String> notes, ArrayList<Integer> altezze, boolean isAccordo) {
         super();
         setFont(new Font(Font.DIALOG, Font.BOLD, 18));
         accordo = isAccordo;
-        this.notes = notes;
+        setNotes(notes);
         this.altezze = altezze;
         setBorder(new EmptyBorder(5, 5, 5, 5));
         setPreferredSize(new Dimension(300, 200));
@@ -58,48 +62,43 @@ public class PentagramPanel extends JPanel implements MouseListener {
     public void disegnaMelodia() {
 
         for (int i = 0; i < notes.size(); i++) {
-            String nome = notes.get(i);
-            if (!note.isNatural(notes.get(i))) {
-                char[] c = {notes.get(i).charAt(0)};
-                String s = new String(c);
-                nome = new String(c);
+            Note n = notes.get(i);
+            if (!note.isNatural(n)) {
+                n = Note.fromName(n.getNaturalNote().toString());
             }
-            int indice = note.getIndexInNaturalScale(nome);
+            int indice = note.getIndexInNaturalScale(n);
             int ottava = note.ottava(notes.get(i), altezze.get(i));
             //((altezze.get(i)-45)/12);
             System.out.println(altezze.get(i) + " " + ottava);
-            Note n = new Note(notes.get(i), altezze.get(i), 20 + (60 * i), 250 - (indice * 10) - (ottava * 70));
+            NoteVisualization nv = new NoteVisualization(notes.get(i).getName(), altezze.get(i), 20 + (60 * i), 250 - (indice * 10) - (ottava * 70));
             //System.out.println(g2);
-            g2.fill(n.getE());
-            g2.draw(n.getL());
-            for (int j = 0; j < n.getOpt().size(); j++)
-                g2.draw(n.getOpt().get(j));
-            if (!n.getAlterazione().equals(""))
-                g2.drawString(n.getAlterazione(), (float) n.getE().getMinX() - 20,
-                        (float) n.getE().getMaxY() - 3);
+            g2.fill(nv.getE());
+            g2.draw(nv.getL());
+            for (int j = 0; j < nv.getOpt().size(); j++)
+                g2.draw(nv.getOpt().get(j));
+            if (!nv.getAlterazione().equals(""))
+                g2.drawString(nv.getAlterazione(), (float) nv.getE().getMinX() - 20,
+                        (float) nv.getE().getMaxY() - 3);
         }
     }
 
     public void disegnaAccordo() {
         for (int i = 0; i < notes.size(); i++) {
-            String nome = notes.get(i);
-            if (!note.isNatural(notes.get(i))) {
-                char[] c = {notes.get(i).charAt(0)};
-                //notes.set(i,new String(c));
-                nome = new String(c);
-                //System.out.println(notes.get(i)+ "  "+ s);
+            Note n = notes.get(i);
+            if (!note.isNatural(n)) {
+                n = Note.fromName(n.getNaturalNote().toString());
             }
-            int indice = note.getIndexInNaturalScale(nome);
+            int indice = note.getIndexInNaturalScale(n);
             int ottava = ((altezze.get(i) - 45) / 12);
-            Note n = new Note(notes.get(i), altezze.get(i), 20, 250 - (indice * 10) - (ottava * 70));
+            NoteVisualization nv = new NoteVisualization(notes.get(i).getName(), altezze.get(i), 20, 250 - (indice * 10) - (ottava * 70));
             //System.out.println(g2);
-            g2.fill(n.getE());
+            g2.fill(nv.getE());
             //g2.draw(n.getL());
-            for (int j = 0; j < n.getOpt().size(); j++)
-                g2.draw(n.getOpt().get(j));
-            if (!n.getAlterazione().equals(""))
-                g2.drawString(n.getAlterazione(), (float) n.getE().getMinX() - 20,
-                        (float) n.getE().getMaxY());
+            for (int j = 0; j < nv.getOpt().size(); j++)
+                g2.draw(nv.getOpt().get(j));
+            if (!nv.getAlterazione().equals(""))
+                g2.drawString(nv.getAlterazione(), (float) nv.getE().getMinX() - 20,
+                        (float) nv.getE().getMaxY());
         }
     }
 
@@ -114,10 +113,10 @@ public class PentagramPanel extends JPanel implements MouseListener {
         f.pack();
         f.setVisible(true);
 
-        notes.add("E");
-        notes.add("F");
-        notes.add("G");
-        notes.add("A");
+        notes.add(Note.E);
+        notes.add(Note.F);
+        notes.add(Note.G);
+        notes.add(Note.A);
         altezze.add(64);
         altezze.add(65);
         altezze.add(67);
@@ -181,8 +180,8 @@ public class PentagramPanel extends JPanel implements MouseListener {
         this.accordo = accordo;
     }
 
-    public static void setNotes(ArrayList<String> notes) {
-        PentagramPanel.notes = notes;
+    public static void setNotes(List<String> notes) {
+        PentagramPanel.notes = notes.stream().map(Note::fromName).collect(Collectors.toList());
     }
 
     public static void setAltezze(ArrayList<Integer> altezze) {

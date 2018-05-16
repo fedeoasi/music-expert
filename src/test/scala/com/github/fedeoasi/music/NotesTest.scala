@@ -7,42 +7,45 @@ class NotesTest extends FunSpec with Matchers {
 
   describe("isNatural") {
     it("is true for natural notes") {
-      notes.isNatural("A") shouldBe true
-      notes.isNatural("G") shouldBe true
-      notes.isNatural("C") shouldBe true
+      notes.isNatural(Note.A) shouldBe true
+      notes.isNatural(Note.G) shouldBe true
+      notes.isNatural(Note.C) shouldBe true
     }
 
     it("is false for altered notes") {
-      notes.isNatural("C#") shouldBe false
-      notes.isNatural("Gb") shouldBe false
-      notes.isNatural("C##") shouldBe false
+      notes.isNatural(Note.CSharp) shouldBe false
+      notes.isNatural(Note.GFlat) shouldBe false
+      notes.isNatural(Note.CDoubleSharp) shouldBe false
     }
   }
 
   describe("nextNatural") {
     it("finds the natural successor") {
-      notes.nextNatural("B") shouldBe "C"
-      notes.nextNatural("E") shouldBe "F"
-      notes.nextNatural("C#") shouldBe "D"
-      notes.nextNatural("E#") shouldBe "F"
-      notes.nextNatural("Bb") shouldBe "C"
+      notes.nextNatural(Note.B) shouldBe Note.C
+      notes.nextNatural(Note.E) shouldBe Note.F
+      notes.nextNatural(Note.CSharp) shouldBe Note.D
+      notes.nextNatural(Note.ESharp) shouldBe Note.F
+      notes.nextNatural(Note.BFlat) shouldBe Note.C
+      notes.nextNatural(Note.CDoubleSharp) shouldBe Note.D
+      notes.nextNatural(Note.BDoubleFlat) shouldBe Note.C
+      notes.nextNatural(Note.GSharp) shouldBe Note.A
     }
   }
 
   describe("distance") {
     it("computes the distance between two notes") {
-      notes.distance("C", "D") shouldBe 2
-      notes.distance("Bb", "Bb") shouldBe 0
-      notes.distance("C#", "Db") shouldBe 0
-      notes.distance("Bb", "Ab") shouldBe 10
-      notes.distance("D", "C") shouldBe 10
-      notes.distance("F", "A") shouldBe 4
+      notes.distance(Note.C, Note.D) shouldBe 2
+      notes.distance(Note.BFlat, Note.BFlat) shouldBe 0
+      notes.distance(Note.CSharp, Note.DFlat) shouldBe 0
+      notes.distance(Note.BFlat, Note.AFlat) shouldBe 10
+      notes.distance(Note.D, Note.C) shouldBe 10
+      notes.distance(Note.F, Note.A) shouldBe 4
     }
   }
 
   describe("getIndex") {
     it("starts from A zero-indexed") {
-      notes.getIndex("A") shouldBe 0
+      notes.getIndex(Note.A) shouldBe 0
     }
   }
 }

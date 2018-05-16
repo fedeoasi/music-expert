@@ -1,114 +1,78 @@
 package com.github.fedeoasi.music;
 
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.util.ArrayList;
+import java.util.Arrays;
 
-public class Note {
-    private Ellipse2D e;
-    private Line2D l;
-    private String nome;
-    private int altezza;
-    private ArrayList<Line2D> opt = new ArrayList<Line2D>();
-    private String alterazione = "";
-    private Notes n = new Notes();
+public enum Note {
+    A(NaturalNote.A, Accidental.None),
+    B(NaturalNote.B, Accidental.None),
+    C(NaturalNote.C, Accidental.None),
+    D(NaturalNote.D, Accidental.None),
+    E(NaturalNote.E, Accidental.None),
+    F(NaturalNote.F, Accidental.None),
+    G(NaturalNote.G, Accidental.None),
 
-    public Note(String nome, int altezza, float x, float y) {
-        e = new Ellipse2D.Float(x, y, 25, 20);
-        this.nome = nome;
-        this.altezza = altezza;
+    ASharp(NaturalNote.A, Accidental.Sharp),
+    BSharp(NaturalNote.B, Accidental.Sharp),
+    CSharp(NaturalNote.C, Accidental.Sharp),
+    DSharp(NaturalNote.D, Accidental.Sharp),
+    ESharp(NaturalNote.E, Accidental.Sharp),
+    FSharp(NaturalNote.F, Accidental.Sharp),
+    GSharp(NaturalNote.G, Accidental.Sharp),
 
-        if (!n.isNatural(nome)) {
-            char[] nomeNota = nome.toCharArray();
-            if (nomeNota.length == 2) {
-                char[] alt = new char[1];
-                alt[0] = nomeNota[1];
-                alterazione = new String(alt);
-            } else if (nomeNota.length == 3) {
-                char[] alt = new char[2];
-                alt[0] = nomeNota[1];
-                alt[1] = nomeNota[2];
-                alterazione = new String(alt);
-            }
+    AFlat(NaturalNote.A, Accidental.Flat),
+    BFlat(NaturalNote.B, Accidental.Flat),
+    CFlat(NaturalNote.C, Accidental.Flat),
+    DFlat(NaturalNote.D, Accidental.Flat),
+    EFlat(NaturalNote.E, Accidental.Flat),
+    FFlat(NaturalNote.F, Accidental.Flat),
+    GFlat(NaturalNote.G, Accidental.Flat),
 
-        }
-
-        //aggiunge la linea verticale della nota
-        if (altezza < 71)
-            l = new Line2D.Float((float) e.getMaxX(), (float) e.getCenterY(),
-                    (float) e.getMaxX(), (float) e.getCenterY() - 60);
-        else l = new Line2D.Float((float) e.getMinX(), (float) e.getCenterY(),
-                (float) e.getMinX(), (float) e.getCenterY() + 60);
-
-        if (y >= 160) {
-            {
-                if (y / 10 % 2 == 0)
-                    opt.add(new Line2D.Float((float) e.getCenterX() - 17, (float) e.getCenterY(),
-                            (float) e.getCenterX() + 17, (float) e.getCenterY()));
-                else opt.add(new Line2D.Float((float) e.getCenterX() - 17, (float) e.getMinY(),
-                        (float) e.getCenterX() + 17, (float) e.getMinY()));
-            }
-            if (y > 170)
-                for (int i = 0; y - (10 * i) >= 170; i++) {
-                    if ((y - (10 * i)) / 10 % 2 != 0)
-                        opt.add(new Line2D.Float((float) e.getCenterX() - 17, y - (10 * i),
-                                (float) e.getCenterX() + 17, y - (10 * i)));
-                }
-
-        } else if (y < 60) {
-            {
-                if (y / 10 % 2 == 0)
-                    opt.add(new Line2D.Float((float) e.getCenterX() - 17, (float) e.getCenterY(),
-                            (float) e.getCenterX() + 17, (float) e.getCenterY()));
-                else opt.add(new Line2D.Float((float) e.getCenterX() - 17, (float) e.getMaxY(),
-                        (float) e.getCenterX() + 17, (float) e.getMaxY()));
-            }
-            if (y < 50)
-                for (int i = 1; y + (10 * i) <= 50; i++) {
-                    if ((y + (10 * i)) / 10 % 2 != 0)
-                        opt.add(new Line2D.Float((float) e.getCenterX() - 17, y + (10 * i),
-                                (float) e.getCenterX() + 17, y + (10 * i)));
-                }
-
-        }
+    ADoubleSharp(NaturalNote.A, Accidental.DoubleSharp),
+    BDoubleSharp(NaturalNote.B, Accidental.DoubleSharp),
+    CDoubleSharp(NaturalNote.C, Accidental.DoubleSharp),
+    DDoubleSharp(NaturalNote.D, Accidental.DoubleSharp),
+    EDoubleSharp(NaturalNote.E, Accidental.DoubleSharp),
+    FDoubleSharp(NaturalNote.F, Accidental.DoubleSharp),
+    GDoubleSharp(NaturalNote.G, Accidental.DoubleSharp),
 
 
+    ADoubleFlat(NaturalNote.A, Accidental.DoubleFlat),
+    BDoubleFlat(NaturalNote.B, Accidental.DoubleFlat),
+    CDoubleFlat(NaturalNote.C, Accidental.DoubleFlat),
+    DDoubleFlat(NaturalNote.D, Accidental.DoubleFlat),
+    EDoubleFlat(NaturalNote.E, Accidental.DoubleFlat),
+    FDoubleFlat(NaturalNote.F, Accidental.DoubleFlat),
+    GDoubleFlat(NaturalNote.G, Accidental.DoubleFlat);
+
+    private NaturalNote naturalNote;
+    private Accidental accidental;
+
+    Note(NaturalNote naturalNote, Accidental accidental) {
+        this.naturalNote = naturalNote;
+        this.accidental = accidental;
     }
 
-    public Line2D getL() {
-        return l;
+    public NaturalNote getNaturalNote() {
+        return naturalNote;
     }
 
-    public Ellipse2D getE() {
-        return e;
+    public Note getNaturalNoteAsNote() { return Note.fromName(naturalNote.toString()); }
+
+    public Accidental getAccidental() {
+        return accidental;
     }
 
-    public void setE(Ellipse2D e) {
-        this.e = e;
+    public String getName() {
+        return getNaturalNote().toString() + getAccidental().getSymbol();
     }
 
-    public String getNome() {
-        return nome;
+    public static Note fromName(String name) {
+        return Arrays.stream(values()).filter(n -> n.getName().equals(name)).findFirst().get();
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 
-    public int getAltezza() {
-        return altezza;
-    }
-
-    public void setAltezza(int altezza) {
-        this.altezza = altezza;
-    }
-
-    public ArrayList<Line2D> getOpt() {
-        return opt;
-    }
-
-    public String getAlterazione() {
-        return alterazione;
+    @Override
+    public String toString() {
+        return getName();
     }
 }
-

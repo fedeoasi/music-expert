@@ -2,6 +2,7 @@ package com.github.fedeoasi.gui;
 
 import com.github.fedeoasi.music.Chord;
 import com.github.fedeoasi.music.Chords;
+import com.github.fedeoasi.music.Note;
 import com.github.fedeoasi.music.Player;
 
 import javax.swing.*;
@@ -12,9 +13,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ChordsPanel extends JPanel implements ActionListener {
-    private JComboBox noteBox = new JComboBox();
+    private JComboBox<Note> noteBox = new JComboBox<>();
     private JComboBox chordBox = new JComboBox();
     private JButton okButton = new JButton("Ok");
     private JTextArea textArea = new JTextArea();
@@ -35,8 +38,8 @@ public class ChordsPanel extends JPanel implements ActionListener {
         this.me = me;
         setBorder(new EmptyBorder(5, 5, 5, 5));
         setLayout(new BorderLayout());
-        for (int i = 0; i < Chords.note.length; i++) {
-            noteBox.addItem(Chords.note[i]);
+        for (Note note: Chords.notes) {
+            noteBox.addItem(note);
         }
         for (int i = 0; i < Chords.chords.length; i++) {
             chordBox.addItem(Chords.chords[i]);
@@ -73,9 +76,9 @@ public class ChordsPanel extends JPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == okButton) {
-            selectedChord = new Chord(((String) noteBox.getSelectedItem()),
+            selectedChord = new Chord(((Note) noteBox.getSelectedItem()),
                     ((String) chordBox.getSelectedItem()));
-            ArrayList<String> temp = selectedChord.getNotes();
+            ArrayList<Note> temp = selectedChord.getNotes();
             textArea.append(selectedChord.getSigla() + "\n");
             for (int i = 0; i < temp.size(); i++) {
                 textArea.append(temp.get(i) + "  ");
@@ -91,7 +94,7 @@ public class ChordsPanel extends JPanel implements ActionListener {
             player.inizializza();
             player.setInstrument(me.getInstrument());
             player.setNotapartenza(player.getNotapartenza() + oct);
-            Chord chord = new Chord((String) noteBox.getSelectedItem(), ((String) chordBox.getSelectedItem()));
+            Chord chord = new Chord((Note) noteBox.getSelectedItem(), ((String) chordBox.getSelectedItem()));
             player.costruisciTraccia(chord);
             player.start();
         } else if (e.getSource() == stopButton) {
@@ -118,7 +121,8 @@ public class ChordsPanel extends JPanel implements ActionListener {
         if (selectedChord == null) {
             JOptionPane.showMessageDialog(this, "Nessun Accordo selezionato");
         } else {
-            me.disegnaAccordo(selectedChord.getNotes(), selectedChord.getPitches());
+            List<String> chordNotes = selectedChord.getNotes().stream().map(Note::getName).collect(Collectors.toList());
+            me.disegnaAccordo(chordNotes, selectedChord.getPitches());
         }
     }
 

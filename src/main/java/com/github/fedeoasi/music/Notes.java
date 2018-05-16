@@ -4,47 +4,42 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Notes {
-    public String[] noteNaturali = {"A", "B", "C", "D", "E", "F", "G"};
-    public String[] noted = {"A", "A#", "B", "B#", "C#", "D", "D#", "E", "E#", "F#", "G", "G#"};
-    public String[] noteb = {"A", "Bb", "Cb", "C", "Db", "D", "Eb", "Fb", "F", "Gb", "G", "Ab"};
-    public String[] noted1 = {"A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"};
-    public String[] noteb1 = {"A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab"};
-    public String[] noted2 = {"G##", "A#", "A##", "B#", "C#", "C##", "D#", "D##", "E#", "F#", "F##", "G#"};
-    public String[] noteb2 = {"Bbb", "Bb", "Cb", "Dbb", "Db", "Ebb", "Eb", "Fb", "Gbb", "Gb", "Abb", "Ab"};
+    public Note[] naturalNotes = {Note.A, Note.B, Note.C, Note.D, Note.E, Note.F, Note.G};
+    public Note[] sharpNotes = {Note.A, Note.ASharp, Note.B, Note.BSharp, Note.CSharp, Note.D, Note.DSharp, Note.E, Note.ESharp, Note.FSharp, Note.G, Note.GSharp};
+    public Note[] flatNotes = {Note.A, Note.BFlat, Note.CFlat, Note.C, Note.DFlat, Note.D, Note.EFlat, Note.FFlat, Note.F, Note.GFlat, Note.G, Note.AFlat};
+    public Note[] doubleSharpNotes = {Note.GDoubleSharp, Note.ASharp, Note.ADoubleSharp, Note.BSharp, Note.CSharp, Note.CDoubleSharp, Note.DSharp, Note.DDoubleSharp,
+        Note.ESharp, Note.FSharp, Note.FDoubleSharp, Note.GSharp};
+    public Note[] doubleFlatNotes = {Note.BDoubleFlat, Note.BFlat, Note.CFlat, Note.DDoubleFlat, Note.DFlat, Note.EDoubleFlat, Note.EFlat, Note.FFlat,
+        Note.GDoubleFlat, Note.GFlat, Note.ADoubleFlat, Note.AFlat};
 
-    private Map<String, Integer> indexByNote;
+    private Map<Note, Integer> indexByNote;
 
-    public boolean isNatural(String nota) {
-        for (int i = 0; i < noteNaturali.length; i++)
-            if (noteNaturali[i].equals(nota))
+    public boolean isNatural(Note nota) {
+        for (int i = 0; i < naturalNotes.length; i++)
+            if (naturalNotes[i].equals(nota))
                 return true;
         return false;
     }
 
-    public String nextNatural(String nota) {
-        for (int i = 0; i < noteNaturali.length; i++) {
-            if (noteNaturali[i].equals(nota)) {
-                if (i + 1 < 7) {
-                    return noteNaturali[i + 1];
-                } else {
-                    return noteNaturali[(i + 1) % 7];
-                }
+    public Note nextNatural(Note nota) {
+        for (int i = 0; i < naturalNotes.length; i++) {
+            if (naturalNotes[i].equals(nota.getNaturalNoteAsNote())) {
+                return naturalNotes[(i + 1) % 7];
             }
         }
-        char[] c = { nota.charAt(0) };
-        return nextNatural(new String(c));
+        throw new RuntimeException("Note not found: " + nota);
     }
 
-    public int indexOf(String nota, String[] note) {
+    public int indexOf(Note nota, Note[] note) {
         for (int i = 0; i < note.length; i++)
             if (note[i].equals(nota))
                 return i;
         return -1;
     }
 
-    public int distance(String nota1, String nota2) {
-        int n1 = getIndex(nota1);
-        int n2 = getIndex(nota2);
+    public int distance(Note from, Note to) {
+        int n1 = getIndex(from);
+        int n2 = getIndex(to);
         int diff = n2 - n1;
         if (diff >= 0) {
             return diff;
@@ -52,13 +47,8 @@ public class Notes {
         return 12 + diff;
     }
 
-    public boolean exists(String nota) {
-        return true;
-    }
-
-    public int getIndexInNaturalScale(String nota) {
-        int indice = -1;
-        indice = indexOf(nota, noteNaturali);
+    public int getIndexInNaturalScale(Note nota) {
+        int indice = indexOf(nota, naturalNotes);
         if (indice == -1) {
             System.out.println("bu!Errore nota " + nota);
             return -1;
@@ -66,38 +56,33 @@ public class Notes {
         return indice;
     }
 
-    public int getIndex(String nota) {
+    public int getIndex(Note note) {
         ensureIndexByNote();
-        Integer index = indexByNote.get(nota);
+        Integer index = indexByNote.get(note);
         if(index == null) {
             index = -1;
         }
         return index;
     }
 
-    public String noteb(int i) {
-        if (i < 12) return noteb[i];
-        else return noteb[i % 12];
+    public Note flatNotes(int i) {
+        if (i < 12) return flatNotes[i];
+        else return flatNotes[i % 12];
     }
 
-    public String noted(int i) {
-        if (i < 12) return noted[i];
-        else return noted[i % 12];
+    public Note sharpNotes(int i) {
+        if (i < 12) return sharpNotes[i];
+        else return sharpNotes[i % 12];
     }
 
-    public String noteb2(int i) {
-        if (i < 12) return noteb2[i];
-        else return noteb2[i % 12];
+    public Note doubleFlatNotes(int i) {
+        if (i < 12) return doubleFlatNotes[i];
+        else return doubleFlatNotes[i % 12];
     }
 
-    public String noted2(int i) {
-        if (i < 12) return noted2[i];
-        else return noted2[i % 12];
-    }
-
-    public String radice(String nota) {
-        char[] c = {nota.charAt(0)};
-        return new String(c);
+    public Note doubleSharpNotes(int i) {
+        if (i < 12) return doubleSharpNotes[i];
+        else return doubleSharpNotes[i % 12];
     }
 
     public static void main(String[] args) {
@@ -105,98 +90,76 @@ public class Notes {
         Scales s = new Scales();
 
         System.out.println("Giro delle Quinte");
-        s.printScala(s.scalaMaggiore("C"));
-        s.printScala(s.scalaMaggiore("G"));
-        s.printScala(s.scalaMaggiore("D"));
-        s.printScala(s.scalaMaggiore("A"));
-        s.printScala(s.scalaMaggiore("E"));
-        s.printScala(s.scalaMaggiore("B"));
-        s.printScala(s.scalaMaggiore("F#"));
-        s.printScala(s.scalaMaggiore("C#"));
+        s.printScala(s.scalaMaggiore(Note.C));
+        s.printScala(s.scalaMaggiore(Note.G));
+        s.printScala(s.scalaMaggiore(Note.D));
+        s.printScala(s.scalaMaggiore(Note.A));
+        s.printScala(s.scalaMaggiore(Note.E));
+        s.printScala(s.scalaMaggiore(Note.B));
+        s.printScala(s.scalaMaggiore(Note.FSharp));
+        s.printScala(s.scalaMaggiore(Note.CSharp));
 
         System.out.println("Giro delle quarte");
-        s.printScala(s.scalaMaggiore("C"));
-        s.printScala(s.scalaMaggiore("F"));
-        s.printScala(s.scalaMaggiore("Bb"));
-        s.printScala(s.scalaMaggiore("Eb"));
-        s.printScala(s.scalaMaggiore("Ab"));
-        s.printScala(s.scalaMaggiore("Db"));
-        s.printScala(s.scalaMaggiore("Gb"));
-        s.printScala(s.scalaMaggiore("Cb"));
+        s.printScala(s.scalaMaggiore(Note.C));
+        s.printScala(s.scalaMaggiore(Note.F));
+        s.printScala(s.scalaMaggiore(Note.BFlat));
+        s.printScala(s.scalaMaggiore(Note.EFlat));
+        s.printScala(s.scalaMaggiore(Note.AFlat));
+        s.printScala(s.scalaMaggiore(Note.DFlat));
+        s.printScala(s.scalaMaggiore(Note.GFlat));
+        s.printScala(s.scalaMaggiore(Note.CFlat));
 
         System.out.println("Scale minori di la");
-        s.printScala(s.scalaMinNat("A"));
-        s.printScala(s.scalaMinArm("A"));
-        s.printScala(s.scalaMinMel("A"));
+        s.printScala(s.scalaMinNat(Note.A));
+        s.printScala(s.scalaMinArm(Note.A));
+        s.printScala(s.scalaMinMel(Note.A));
 
         System.out.println("Scale minori di sol");
-        s.printScala(s.scalaMinNat("G"));
-        s.printScala(s.scalaMinArm("G"));
-        s.printScala(s.scalaMinMel("G"));
+        s.printScala(s.scalaMinNat(Note.G));
+        s.printScala(s.scalaMinArm(Note.G));
+        s.printScala(s.scalaMinMel(Note.G));
 
         System.out.println("Scale minori di re");
-        s.printScala(s.scalaMinNat("D"));
-        s.printScala(s.scalaMinArm("D"));
-        s.printScala(s.scalaMinMel("D"));
+        s.printScala(s.scalaMinNat(Note.D));
+        s.printScala(s.scalaMinArm(Note.D));
+        s.printScala(s.scalaMinMel(Note.D));
 
-        new Chord("C", "");
-        new Chord("C", "M7");
-        new Chord("D", "M13");
-        new Chord("G", "M9");
-        new Chord("A", "");
-        new Chord("A", "m");
-        new Chord("A", "m6");
-        new Chord("A", "m13");
+        new Chord(Note.C, "");
+        new Chord(Note.C, "M7");
+        new Chord(Note.D, "M13");
+        new Chord(Note.G, "M9");
+        new Chord(Note.A, "");
+        new Chord(Note.A, "m");
+        new Chord(Note.A, "m6");
+        new Chord(Note.A, "m13");
     }
 
-    public int ottava(String nome, int altezza) {
-        System.out.println(nome + " " + alterazione(nome) + " " + altezza);
-        if (isNatural(nome))
+    public int ottava(Note note, int altezza) {
+        Accidental accidental = note.getAccidental();
+        if (isNatural(note))
             return ((altezza - 45) / 12);
-        if (alterazione(nome).equals("b"))
+        if (accidental.equals(Accidental.Flat))
             return ((altezza - 44) / 12);
-        if (alterazione(nome).equals("#"))
+        if (accidental.equals(Accidental.Sharp))
             return ((altezza - 46) / 12);
-        if (alterazione(nome).equals("bb"))
+        if (accidental.equals(Accidental.DoubleFlat))
             return ((altezza - 43) / 12);
-        if (alterazione(nome).equals("##"))
+        if (accidental.equals(Accidental.DoubleSharp))
             return ((altezza - 47) / 12);
         return 0;
-
-    }
-
-    public String alterazione(String nome) {
-        String alterazione = "";
-        if (!isNatural(nome)) {
-            char[] nomeNota = nome.toCharArray();
-            if (nomeNota.length == 2) {
-                char[] alt = new char[1];
-                alt[0] = nomeNota[1];
-                alterazione = new String(alt);
-            } else if (nomeNota.length == 3) {
-                char[] alt = new char[2];
-                alt[0] = nomeNota[1];
-                alt[1] = nomeNota[2];
-                alterazione = new String(alt);
-            }
-
-        }
-        return alterazione;
     }
 
     private void ensureIndexByNote() {
         if(indexByNote == null) {
-            indexByNote = new HashMap<String, Integer>();
-            indexNotes(noteb);
-            indexNotes(noted);
-            indexNotes(noteb1);
-            indexNotes(noted1);
-            indexNotes(noteb2);
-            indexNotes(noted2);
+            indexByNote = new HashMap<>();
+            indexNotes(flatNotes);
+            indexNotes(sharpNotes);
+            indexNotes(doubleFlatNotes);
+            indexNotes(doubleSharpNotes);
         }
     }
 
-    private void indexNotes(String[] notes) {
+    private void indexNotes(Note[] notes) {
         for (int i = 0; i < notes.length; i++) {
             indexByNote.put(notes[i], i);
         }

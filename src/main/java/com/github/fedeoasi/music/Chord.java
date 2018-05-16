@@ -5,19 +5,19 @@ import java.util.ArrayList;
 public class Chord {
     private String sigla;
     private String chordType;
-    private ArrayList<Integer> intervals = new ArrayList<Integer>();
-    private ArrayList<String> notes = new ArrayList<String>();
-    private ArrayList<Integer> pitches = new ArrayList<Integer>();
-    private ArrayList<int[]> scales = new ArrayList<int[]>();
-    private String tonic;
+    private ArrayList<Integer> intervals = new ArrayList<>();
+    private ArrayList<Note> notes = new ArrayList<>();
+    private ArrayList<Integer> pitches = new ArrayList<>();
+    private ArrayList<int[]> scales = new ArrayList<>();
+    private Note tonic;
 
-    public Chord(String tonic, String chordType) {
+    public Chord(Note tonic, String chordType) {
         this.tonic = tonic;
         this.chordType = chordType;
         boolean esiste = false;
         Scales s = new Scales();
         Notes n = new Notes();
-        String[] scala;
+        Note[] scala;
 
         if (isMajor(chordType) || isDominant(chordType)) {
             esiste = true;
@@ -31,14 +31,14 @@ public class Chord {
                 notes.add(scala[4]);
             else {
                 Mode m = new Mode(tonic, chordType, s.scalaMinMel, 3);
-                notes.add(m.getNote()[4]);
+                notes.add(m.getNotes()[4]);
                 m = new Mode(tonic, chordType, s.scalaMinMel, 7);
                 scales.add(m.getDistanze());
             }
             //aggiunge la settima minore
             if (isDominant(chordType)) {
                 Mode m = new Mode(tonic, chordType, s.scalaMaggiore, 5);
-                notes.add(m.getNote()[6]);
+                notes.add(m.getNotes()[6]);
                 scales.add(m.getDistanze());
                 //notes.add(n.noteb[n.getIndex(scala[6])-1]);
             } else {
@@ -71,12 +71,12 @@ public class Chord {
                 notes.add(scala[4]);
             } else {
                 Mode m = new Mode(tonic, chordType, s.scalaMaggiore, 7);
-                notes.add(m.getNote()[4]);
+                notes.add(m.getNotes()[4]);
                 scales.add(m.getDistanze());
                 //notes.add(n.noteb[(n.getIndex(scala[4])-1)%12]);
             }
             if (chordType.equals("m6")) {
-                notes.add(n.noted[(n.getIndex(scala[5]) + 1) % 12]);
+                notes.add(n.sharpNotes[(n.getIndex(scala[5]) + 1) % 12]);
             }
             if (chordType.equals("m7") || chordType.equals("m9") || chordType.equals("m13") || chordType.equals("m7b5") || chordType.equals("m9b5")) {
                 notes.add(scala[6]);
@@ -85,7 +85,7 @@ public class Chord {
                 notes.add(scala[8 % 7]);
             }
             if (chordType.equals("m13")) {
-                notes.add(n.noted[(n.getIndex(scala[5]) + 1) % 12]);
+                notes.add(n.sharpNotes[(n.getIndex(scala[5]) + 1) % 12]);
             }
             sigla = tonic + chordType;
         }
@@ -141,7 +141,7 @@ public class Chord {
         return intervals;
     }
 
-    public ArrayList<String> getNotes() {
+    public ArrayList<Note> getNotes() {
         return notes;
     }
 
@@ -161,7 +161,7 @@ public class Chord {
         return chordType;
     }
 
-    public String getTonic() {
+    public Note getTonic() {
         return tonic;
     }
 }

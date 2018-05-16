@@ -16,49 +16,47 @@ public class Scales {
         n = new Notes();
     }
 
-    public String[] scala(String nota, int[] ts) {
-        String[] scala = new String[7];
-        if (!n.exists(nota)) return null;
+    public Note[] scala(Note nota, int[] ts) {
+        Note[] scala = new Note[7];
         scala[0] = nota;
         for (int i = 1; i < 7; i++) {
-            int distn = n.distance(scala[i - 1], n.nextNatural(scala[i - 1]));
+            Note nextNatural = n.nextNatural(scala[i - 1]);
+            int distn = n.distance(scala[i - 1], nextNatural);
             if (distn == ts[i])
-                scala[i] = n.nextNatural(scala[i - 1]);
+                scala[i] = nextNatural;
             else if (distn > ts[i])
-                scala[i] = n.noteb(n.getIndex(scala[i - 1]) + ts[i]);
+                scala[i] = n.flatNotes(n.getIndex(scala[i - 1]) + ts[i]);
             else if (distn < ts[i])
-                scala[i] = n.noted(n.getIndex(scala[i - 1]) + ts[i]);
+                scala[i] = n.sharpNotes(n.getIndex(scala[i - 1]) + ts[i]);
 
-            char[] n1 = {scala[i - 1].charAt(0)};
-            char[] n2 = {scala[i].charAt(0)};
-            String nota1 = new String(n1);
-            String nota2 = new String(n2);
-            if (nota2.equals(nota1)) {
-                scala[i] = n.noteb2(n.getIndex(scala[i - 1]) + ts[i]);
-            } else if (nota2.equals(n.nextNatural(n.nextNatural(nota1)))) {
-                scala[i] = n.noted2(n.getIndex(scala[i - 1]) + ts[i]);
+            Note note1 = scala[i - 1].getNaturalNoteAsNote();
+            Note note2 = scala[i].getNaturalNoteAsNote();
+            if (note2.equals(note1)) {
+                scala[i] = n.doubleFlatNotes(n.getIndex(scala[i - 1]) + ts[i]);
+            } else if (note2.equals(n.nextNatural(n.nextNatural(note1)))) {
+                scala[i] = n.doubleSharpNotes(n.getIndex(scala[i - 1]) + ts[i]);
             }
         }
         return scala;
     }
 
-    public String[] scalaMaggiore(String nota) {
+    public Note[] scalaMaggiore(Note nota) {
         return scala(nota, scalaMaggiore);
     }
 
-    public String[] scalaMinNat(String nota) {
-        return scala(nota, scalaMinNat);
+    public Note[] scalaMinNat(Note note) {
+        return scala(note, scalaMinNat);
     }
 
-    public String[] scalaMinArm(String nota) {
-        return scala(nota, scalaMinArm);
+    public Note[] scalaMinArm(Note note) {
+        return scala(note, scalaMinArm);
     }
 
-    public String[] scalaMinMel(String nota) {
-        return scala(nota, scalaMinMel);
+    public Note[] scalaMinMel(Note note) {
+        return scala(note, scalaMinMel);
     }
 
-    public int getNumAlterazioni(String[] scala) {
+    public int getNumAlterazioni(Note[] scala) {
         if (scala == null) return -1;
         int num = 0;
         for (int i = 0; i < scala.length; i++)
@@ -67,7 +65,7 @@ public class Scales {
         return num;
     }
 
-    public void printScala(String[] scala) {
+    public void printScala(Note[] scala) {
         for (int i = 0; i < scala.length; i++)
             System.out.print(scala[i] + "  ");
         System.out.print(getNumAlterazioni(scala));
