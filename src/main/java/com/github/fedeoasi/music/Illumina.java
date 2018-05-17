@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Illumina implements Runnable {
     private int n, bpm;
-    private ChordProgressionPanel g = null;
+    private ChordProgressionPanel g;
     private boolean playing = true;
 
     public Illumina(int numAccordi, int bpm, ChordProgressionPanel g) {

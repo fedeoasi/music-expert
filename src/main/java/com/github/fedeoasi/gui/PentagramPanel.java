@@ -12,7 +12,6 @@ import java.awt.event.MouseListener;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class PentagramPanel extends JPanel implements MouseListener {
     private Graphics2D g2 = null;
@@ -31,7 +30,7 @@ public class PentagramPanel extends JPanel implements MouseListener {
         setBackground(Color.WHITE);
     }
 
-    public PentagramPanel(List<String> notes, ArrayList<Integer> altezze, boolean isAccordo) {
+    public PentagramPanel(List<Note> notes, ArrayList<Integer> altezze, boolean isAccordo) {
         super();
         setFont(new Font(Font.DIALOG, Font.BOLD, 18));
         accordo = isAccordo;
@@ -64,20 +63,20 @@ public class PentagramPanel extends JPanel implements MouseListener {
         for (int i = 0; i < notes.size(); i++) {
             Note n = notes.get(i);
             if (!note.isNatural(n)) {
-                n = Note.fromName(n.getNaturalNote().toString());
+                n = n.getNaturalNoteAsNote();
             }
             int indice = note.getIndexInNaturalScale(n);
             int ottava = note.ottava(notes.get(i), altezze.get(i));
             //((altezze.get(i)-45)/12);
             System.out.println(altezze.get(i) + " " + ottava);
-            NoteVisualization nv = new NoteVisualization(notes.get(i).getName(), altezze.get(i), 20 + (60 * i), 250 - (indice * 10) - (ottava * 70));
+            NoteVisualization nv = new NoteVisualization(notes.get(i), altezze.get(i), 20 + (60 * i), 250 - (indice * 10) - (ottava * 70));
             //System.out.println(g2);
             g2.fill(nv.getE());
             g2.draw(nv.getL());
             for (int j = 0; j < nv.getOpt().size(); j++)
                 g2.draw(nv.getOpt().get(j));
-            if (!nv.getAlterazione().equals(""))
-                g2.drawString(nv.getAlterazione(), (float) nv.getE().getMinX() - 20,
+            if (!nv.getAccidental().equals(""))
+                g2.drawString(nv.getAccidental(), (float) nv.getE().getMinX() - 20,
                         (float) nv.getE().getMaxY() - 3);
         }
     }
@@ -86,18 +85,18 @@ public class PentagramPanel extends JPanel implements MouseListener {
         for (int i = 0; i < notes.size(); i++) {
             Note n = notes.get(i);
             if (!note.isNatural(n)) {
-                n = Note.fromName(n.getNaturalNote().toString());
+                n = n.getNaturalNoteAsNote();
             }
             int indice = note.getIndexInNaturalScale(n);
             int ottava = ((altezze.get(i) - 45) / 12);
-            NoteVisualization nv = new NoteVisualization(notes.get(i).getName(), altezze.get(i), 20, 250 - (indice * 10) - (ottava * 70));
+            NoteVisualization nv = new NoteVisualization(notes.get(i), altezze.get(i), 20, 250 - (indice * 10) - (ottava * 70));
             //System.out.println(g2);
             g2.fill(nv.getE());
             //g2.draw(n.getL());
             for (int j = 0; j < nv.getOpt().size(); j++)
                 g2.draw(nv.getOpt().get(j));
-            if (!nv.getAlterazione().equals(""))
-                g2.drawString(nv.getAlterazione(), (float) nv.getE().getMinX() - 20,
+            if (!nv.getAccidental().equals(""))
+                g2.drawString(nv.getAccidental(), (float) nv.getE().getMinX() - 20,
                         (float) nv.getE().getMaxY());
         }
     }
@@ -107,7 +106,7 @@ public class PentagramPanel extends JPanel implements MouseListener {
      */
     public static void main(String[] args) {
         JFrame f = new JFrame("Pentagramma");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         PentagramPanel p = new PentagramPanel();
         f.add(p);
         f.pack();
@@ -180,8 +179,8 @@ public class PentagramPanel extends JPanel implements MouseListener {
         this.accordo = accordo;
     }
 
-    public static void setNotes(List<String> notes) {
-        PentagramPanel.notes = notes.stream().map(Note::fromName).collect(Collectors.toList());
+    public static void setNotes(List<Note> notes) {
+        PentagramPanel.notes = notes;
     }
 
     public static void setAltezze(ArrayList<Integer> altezze) {

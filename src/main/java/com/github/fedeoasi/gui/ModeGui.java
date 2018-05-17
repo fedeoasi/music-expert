@@ -9,11 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class ModeGui extends JPanel implements ActionListener, Playable {
-    private String[] note = {"C", "G", "D", "A", "E", "B", "F#", "C#", "F", "Bb", "Eb", "Ab",
-            "Db", "Gb", "Cb"};
+    private Note[] notes = {Note.C, Note.G, Note.D, Note.A, Note.E, Note.B, Note.FSharp, Note.CSharp, Note.F, Note.BFlat, Note.EFlat, Note.AFlat,
+            Note.DFlat, Note.GFlat, Note.CFlat};
     private String[] scale = {"Scala Maggiore", "Scala Minore Armonica",
             "Scala Minore Melodica"};
     private String[] modiMaggiori = {"Ionica", "Dorica", "Frigia", "Lidia", "Misolidia",
@@ -24,14 +23,12 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
             "Misolidia b6", "Locria beq2", "SuperLocria"};
 
     private JLabel l = new JLabel("Inserisci tonica, scala e modo: ");
-    private JComboBox<String> nota = new JComboBox<>();
-    private JComboBox gen = new JComboBox();
-    private JComboBox modo = new JComboBox();
+    private JComboBox<Note> noteBox = new JComboBox<>();
+    private JComboBox<String> gen = new JComboBox<>();
+    private JComboBox<String> modo = new JComboBox<>();
     private JButton ok = new JButton("Ok");
 
     private JTextArea ta = new JTextArea();
-
-    private String tonica;
 
     private Mode m = null;
     private int[] generatrice;
@@ -40,15 +37,15 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
     private Player p = null;
 
     private int oct = 0;
-    private MusicExpert me = null;
+    private MusicExpert me;
 
     public ModeGui(MusicExpert me) {
         super(new BorderLayout());
         setBorder(new EmptyBorder(5, 5, 5, 5));
         this.me = me;
 
-        for (int i = 0; i < note.length; i++) {
-            nota.addItem(note[i]);
+        for (int i = 0; i < notes.length; i++) {
+            noteBox.addItem(notes[i]);
         }
         for (int i = 0; i < scale.length; i++) {
             gen.addItem(scale[i]);
@@ -60,7 +57,7 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
 
         JPanel north = new JPanel(new FlowLayout());
         north.add(l);
-        north.add(nota);
+        north.add(noteBox);
         north.add(gen);
         north.add(modo);
         ok.addActionListener(this);
@@ -80,10 +77,10 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == ok) {
-            String tonica = ((String) nota.getSelectedItem());
+            Note tonica = ((Note) noteBox.getSelectedItem());
             String nome = ((String) modo.getSelectedItem());
             Integer partenza = modo.getSelectedIndex() + 1;
-            m = new Mode(Note.fromName(tonica), nome, generatrice, partenza);
+            m = new Mode(tonica, nome, generatrice, partenza);
             Note[] temp = m.getNotes();
             ta.append(nome + " di " + tonica + ":\n");
             for (int i = 0; i < temp.length; i++)
@@ -177,7 +174,7 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
                 System.out.print(notes.get(i) + "  ");
             System.out.println();
 
-            me.disegnaScala(notes.stream().map(Note::getName).collect(Collectors.toList()), altezze);
+            me.disegnaScala(notes, altezze);
         }
     }
 

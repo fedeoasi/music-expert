@@ -1,17 +1,13 @@
 package com.github.fedeoasi.gui;
 
+import com.github.fedeoasi.music.Note;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 
 public class MusicExpert extends JFrame implements ActionListener{
     private JMenuBar mb = new JMenuBar();
@@ -32,7 +28,7 @@ public class MusicExpert extends JFrame implements ActionListener{
 
     public MusicExpert(){
         super("Music Expert");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         exit.addActionListener(this);
@@ -98,7 +94,7 @@ public class MusicExpert extends JFrame implements ActionListener{
     }
 
 
-    public void disegnaAccordo(List<String> notes, ArrayList<Integer> altezze) {
+    public void disegnaAccordo(List<Note> notes, ArrayList<Integer> altezze) {
         tp.remove(4);
         pentagramma = new PentagramPanel(notes, altezze,true);
         pentaPanel.removeAll();
@@ -108,7 +104,7 @@ public class MusicExpert extends JFrame implements ActionListener{
 
     }
 
-    public void disegnaScala(List<String> notes, ArrayList<Integer> altezze){
+    public void disegnaScala(List<Note> notes, ArrayList<Integer> altezze){
         tp.remove(4);
         pentagramma = new PentagramPanel(notes,altezze,false);
         tp.add("ScalaPentagramma",pentagramma);

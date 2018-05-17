@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -37,8 +38,8 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
     private boolean loop = false;
     private Sequencer s;
 
-    private ArrayList<ArrayList<Integer>> soloIntervals = new ArrayList<ArrayList<Integer>>();
-    private ArrayList<ArrayList<Integer>> soloDurations = new ArrayList<ArrayList<Integer>>();
+    private List<List<Integer>> soloIntervals = new ArrayList<>();
+    private List<List<Integer>> soloDurations = new ArrayList<>();
 
     private int style = 1;
 
@@ -123,7 +124,7 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
             if (hasSolo) {
                 player.setVolume(100);
                 for (int i = 0; i < accordi.size(); i++)
-                    player.costruisciMelodia(soloIntervals, soloDurations, accordi.get(i).getTonic().getName(), 0, 48 * i, i);
+                    player.costruisciMelodia(soloIntervals, soloDurations, accordi.get(i).getTonic(), 0, 48 * i, i);
             }
             player.start();
             if (l != null) {
@@ -169,11 +170,11 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
     }
 
     public void clear() {
-        accordi = new ArrayList<Chord>();
-        soloIntervals = new ArrayList<ArrayList<Integer>>();
-        soloDurations = new ArrayList<ArrayList<Integer>>();
-        labels = new ArrayList<JLabel>();
-        panels = new ArrayList<JPanel>();
+        accordi = new ArrayList<>();
+        soloIntervals = new ArrayList<>();
+        soloDurations = new ArrayList<>();
+        labels = new ArrayList<>();
+        panels = new ArrayList<>();
         centro.removeAll();
         inizializzaGriglia();
         setVisible(false);

@@ -9,5 +9,9 @@ class NoteTest extends FunSpec with Matchers {
 
   it("finds notes by name") {
     Note.fromName("A") shouldBe Note.A
+    Note.fromName("B#") shouldBe Note.BSharp
+    Note.fromName("B##") shouldBe Note.BDoubleSharp
+    Note.fromName("Db") shouldBe Note.DFlat
+    Note.fromName("Dbb") shouldBe Note.DDoubleFlat
   }
 }

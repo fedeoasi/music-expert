@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static javax.sound.midi.ShortMessage.NOTE_OFF;
 import static javax.sound.midi.ShortMessage.NOTE_ON;
@@ -77,7 +78,7 @@ public class Player {
     }
 
     public void costruisciTraccia(Chord a) {
-        costruisciAccordo(a.getIntervals(), a.getTonic().getName(), 0, 15);
+        costruisciAccordo(a.getIntervals(), a.getTonic(), 0, 15);
     }
 
     public void costruisciGiro(ArrayList<Chord> chords) {
@@ -85,7 +86,7 @@ public class Player {
             for (int j = 0; j < tempo.getNum(); j++) {
                 int start = resolution * tempo.getNum() * (i) + resolution * j;
                 int end = resolution * tempo.getNum() * i + resolution * (j + 1);
-                costruisciAccordo(chords.get(i).getIntervals(), chords.get(i).getTonic().getName(), start, end);
+                costruisciAccordo(chords.get(i).getIntervals(), chords.get(i).getTonic(), start, end);
             }
         }
     }
@@ -108,7 +109,7 @@ public class Player {
 
     }
 
-    public void costruisciAccordo(ArrayList<Integer> distanze, String tonica,
+    public void costruisciAccordo(ArrayList<Integer> distanze, Note tonic,
                                   int inizio, int fine) {
         try {
             Notes n = new Notes();
@@ -116,7 +117,7 @@ public class Player {
             inizioTraccia();
 
             //System.out.println(tonic);
-            int l = notapartenza + n.getIndex(Note.fromName(tonica));
+            int l = notapartenza + n.getIndex(tonic);
 
 
             for (int i = 0; i < distanze.size(); i++) {
@@ -287,15 +288,15 @@ public class Player {
         this.notapartenza = notapartenza;
     }
 
-    public void costruisciMelodia(ArrayList<ArrayList<Integer>> distanze2,
-                                  ArrayList<ArrayList<Integer>> durate, String tonica,
+    public void costruisciMelodia(List<List<Integer>> distanze2,
+                                  List<List<Integer>> durate, Note tonic,
                                   int oct, int inizio, int numAccordo) {
         int in;
         int fine;
 
         try {
             inizioTraccia();
-            int l = notapartenza + oct + n.getIndex(Note.fromName(tonica)) + 12;
+            int l = notapartenza + oct + n.getIndex(tonic) + 12;
             in = inizio;
             for (int i = 0; i < distanze2.get(numAccordo).size(); i++) {
                 fine = in + 3 * durate.get(numAccordo).get(i);

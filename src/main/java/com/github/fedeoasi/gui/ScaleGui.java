@@ -142,7 +142,7 @@ public class ScaleGui extends JPanel implements ActionListener, Playable {
             }
             System.out.println();
 
-            me.disegnaScala(notes.stream().map(Note::getName).collect(Collectors.toList()), altezze);
+            me.disegnaScala(notes, altezze);
         }
 
 

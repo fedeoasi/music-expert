@@ -7,31 +7,18 @@ import java.util.ArrayList;
 public class NoteVisualization {
     private Ellipse2D e;
     private Line2D l;
-    private String nome;
+    private Note note;
     private int altezza;
     private ArrayList<Line2D> opt = new ArrayList<Line2D>();
-    private String alterazione = "";
+    private String accidental;
     private Notes n = new Notes();
 
-    public NoteVisualization(String nome, int altezza, float x, float y) {
+    public NoteVisualization(Note note, int altezza, float x, float y) {
         e = new Ellipse2D.Float(x, y, 25, 20);
-        this.nome = nome;
+        this.note = note;
         this.altezza = altezza;
 
-        if (!n.isNatural(Note.fromName(nome))) {
-            char[] nomeNota = nome.toCharArray();
-            if (nomeNota.length == 2) {
-                char[] alt = new char[1];
-                alt[0] = nomeNota[1];
-                alterazione = new String(alt);
-            } else if (nomeNota.length == 3) {
-                char[] alt = new char[2];
-                alt[0] = nomeNota[1];
-                alt[1] = nomeNota[2];
-                alterazione = new String(alt);
-            }
-
-        }
+        accidental = note.getAccidental().getSymbol();
 
         //aggiunge la linea verticale della nota
         if (altezza < 71)
@@ -87,12 +74,12 @@ public class NoteVisualization {
         this.e = e;
     }
 
-    public String getNome() {
-        return nome;
+    public Note getNote() {
+        return note;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNote(Note note) {
+        this.note = note;
     }
 
     public int getAltezza() {
@@ -107,8 +94,8 @@ public class NoteVisualization {
         return opt;
     }
 
-    public String getAlterazione() {
-        return alterazione;
+    public String getAccidental() {
+        return accidental;
     }
 }
 

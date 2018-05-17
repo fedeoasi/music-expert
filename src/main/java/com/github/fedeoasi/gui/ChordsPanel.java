@@ -121,8 +121,7 @@ public class ChordsPanel extends JPanel implements ActionListener {
         if (selectedChord == null) {
             JOptionPane.showMessageDialog(this, "Nessun Accordo selezionato");
         } else {
-            List<String> chordNotes = selectedChord.getNotes().stream().map(Note::getName).collect(Collectors.toList());
-            me.disegnaAccordo(chordNotes, selectedChord.getPitches());
+            me.disegnaAccordo(selectedChord.getNotes(), selectedChord.getPitches());
         }
     }
 

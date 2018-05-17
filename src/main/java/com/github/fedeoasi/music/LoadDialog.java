@@ -17,8 +17,8 @@ import com.github.fedeoasi.gui.MusicExpert;
 public class LoadDialog extends JDialog implements ActionListener {
 	private JComboBox canzone = new JComboBox();
 	private JButton ok = new JButton("Ok");
-    private ChordProgressionPanel g = null;
-	private File f = null;
+    private ChordProgressionPanel g;
+	private File f;
 	private String[] files;
 	private String[] canzoni;
 	
