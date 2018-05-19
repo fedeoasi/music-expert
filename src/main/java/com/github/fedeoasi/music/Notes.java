@@ -123,15 +123,6 @@ public class Notes {
         s.printScala(s.scalaMinNat(Note.D));
         s.printScala(s.scalaMinArm(Note.D));
         s.printScala(s.scalaMinMel(Note.D));
-
-        new Chord(Note.C, "");
-        new Chord(Note.C, "M7");
-        new Chord(Note.D, "M13");
-        new Chord(Note.G, "M9");
-        new Chord(Note.A, "");
-        new Chord(Note.A, "m");
-        new Chord(Note.A, "m6");
-        new Chord(Note.A, "m13");
     }
 
     public int ottava(Note note, int altezza) {

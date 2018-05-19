@@ -277,8 +277,7 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
                     n = scanner.nextInt();
                 else break;
                 for (int i = 0; i < n; i++)
-                    addAccordo(new Chord(tonica, nome));
-
+                    addAccordo(new Chord(tonica, ChordType.fromName(nome)));
             }
         }
     }

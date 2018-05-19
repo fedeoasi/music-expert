@@ -11,16 +11,14 @@ public class Chord {
     private ArrayList<int[]> scales = new ArrayList<>();
     private Note tonic;
 
-    public Chord(Note tonic, String chordType) {
+    public Chord(Note tonic, ChordType type) {
         this.tonic = tonic;
-        this.chordType = chordType;
-        boolean esiste = false;
+        this.chordType = type.toString();
         Scales s = new Scales();
         Notes n = new Notes();
         Note[] scala;
 
-        if (isMajor(chordType) || isDominant(chordType)) {
-            esiste = true;
+        if (type.isMajor()) {
             scala = s.scalaMaggiore(tonic);
             //aggiunge la tonica
             notes.add(scala[0]);
@@ -36,11 +34,10 @@ public class Chord {
                 scales.add(m.getDistanze());
             }
             //aggiunge la settima minore
-            if (isDominant(chordType)) {
+            if (type.isDominant()) {
                 Mode m = new Mode(tonic, chordType, s.scalaMaggiore, 5);
                 notes.add(m.getNotes()[6]);
                 scales.add(m.getDistanze());
-                //notes.add(n.noteb[n.getIndex(scala[6])-1]);
             } else {
                 scales.add(s.scalaMaggiore);
             }
@@ -58,8 +55,7 @@ public class Chord {
         }
 
         //Accordi minori e semidiminuiti 
-        else if (isMinor(chordType) || isSemiDiminished(chordType)) {
-            esiste = true;
+        else if (type.isMinor() || type.isSemiDiminished()) {
             scala = s.scalaMinNat(tonic);
             //aggiunge la tonic
             notes.add(scala[0]);
@@ -90,18 +86,13 @@ public class Chord {
             sigla = tonic + chordType;
         }
 
-        if (!esiste) {
-            System.out.println("Errore accordo inesistente");
-        }
-        else {
-            intervals.add(0);
-            for (int i = 1; i < notes.size(); i++)
-                intervals.add(n.distance(notes.get(i - 1), notes.get(i)));
+        intervals.add(0);
+        for (int i = 1; i < notes.size(); i++)
+            intervals.add(n.distance(notes.get(i - 1), notes.get(i)));
 
-            pitches.add(57 + n.getIndex(tonic));
-            for (int i = 1; i < intervals.size(); i++)
-                pitches.add(pitches.get(i - 1) + intervals.get(i));
-        }
+        pitches.add(57 + n.getIndex(tonic));
+        for (int i = 1; i < intervals.size(); i++)
+            pitches.add(pitches.get(i - 1) + intervals.get(i));
     }
 
     private boolean hasThirteenth(String name) {
@@ -116,25 +107,8 @@ public class Chord {
         return name.equals("M7") || name.equals("M9") || name.equals("M13");
     }
 
-    private boolean isSemiDiminished(String name) {
-        return name.equals("m7b5") || name.equals("m9b5");
-    }
-
-    private boolean isMinor(String name) {
-        return name.equals("m") || name.equals("m7") || name.equals("m9") || name.equals("m13") || name.equals("m6");
-    }
-
     private boolean isNotAugmented(String name) {
         return !name.equals("7#5");
-    }
-
-    private boolean isDominant(String nome) {
-        return nome.equals("7") || nome.equals("9") || nome.equals("13")
-                || nome.equals("7#5") || nome.equals("7b9") || nome.equals("7#5");
-    }
-
-    private boolean isMajor(String nome) {
-        return nome.equals("") || nome.equals("M7") || nome.equals("M9") || nome.equals("M13");
     }
 
     public ArrayList<Integer> getIntervals() {
@@ -155,10 +129,6 @@ public class Chord {
 
     public String getSigla() {
         return sigla;
-    }
-
-    public String getChordType() {
-        return chordType;
     }
 
     public Note getTonic() {

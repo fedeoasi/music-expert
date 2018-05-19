@@ -1,6 +1,7 @@
 package com.github.fedeoasi.gui;
 
 import com.github.fedeoasi.music.Chord;
+import com.github.fedeoasi.music.ChordType;
 import com.github.fedeoasi.music.Chords;
 import com.github.fedeoasi.music.Note;
 
@@ -10,10 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Objects;
 
 public class ChordsDialog extends JDialog implements ActionListener, KeyListener {
     private JComboBox<Note> noteBox = new JComboBox<>();
-    private JComboBox<String> chordBox = new JComboBox<String>();
+    private JComboBox<ChordType> chordBox = new JComboBox<>();
     private JComboBox nBox = new JComboBox();
     private JButton ok = new JButton("Ok");
 
@@ -28,7 +30,7 @@ public class ChordsDialog extends JDialog implements ActionListener, KeyListener
         for (Note aNote : Chords.notes) {
             noteBox.addItem(aNote);
         }
-        for (String chord : Chords.chords) {
+        for (ChordType chord : ChordType.values()) {
             chordBox.addItem(chord);
         }
         for (int i = 0; i < 16; i++) {
@@ -51,7 +53,7 @@ public class ChordsDialog extends JDialog implements ActionListener, KeyListener
         if (e.getSource() == ok)
             for (int i = 0; i < nBox.getSelectedIndex() + 1; i++) {
                 Note chosenNote = (Note) noteBox.getSelectedItem();
-                String chosenChord = (String) chordBox.getSelectedItem();
+                ChordType chosenChord = (ChordType) Objects.requireNonNull(chordBox.getSelectedItem());
                 me.getGiroAccordi().addAccordo(new Chord(chosenNote, chosenChord));
             }
         setVisible(false);
