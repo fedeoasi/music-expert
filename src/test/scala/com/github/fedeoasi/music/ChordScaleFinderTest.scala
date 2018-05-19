@@ -13,7 +13,7 @@ class ChordScaleFinderTest extends FunSpec with Matchers with Inspectors {
   }
 
   it("finds all scales for a major chord") {
-    val cMajor = new Chord(Note.C, "")
+    val cMajor = new Chord(Note.C, ChordType.Major)
     val foundScales = scaleFinder.findScales(cMajor).asScala
     forAll(foundScales) { scale =>
       forAll(cMajor.getNotes.asScala) { note =>

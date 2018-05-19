@@ -15,7 +15,7 @@ class ChordTest extends FunSpec with Matchers {
   }
 
   it("understands a B minor") {
-    val gMajor = new Chord(Note.B, "m")
+    val gMajor = new Chord(Note.B, ChordType.m)
     gMajor.getTonic shouldBe Note.B
     gMajor.getIntervals.asScala shouldBe Seq(0, 3, 4)
   }
