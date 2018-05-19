@@ -94,7 +94,7 @@ public class MusicExpert extends JFrame implements ActionListener{
     }
 
 
-    public void disegnaAccordo(List<Note> notes, ArrayList<Integer> altezze) {
+    public void disegnaAccordo(List<Note> notes, List<Integer> altezze) {
         tp.remove(4);
         pentagramma = new PentagramPanel(notes, altezze,true);
         pentaPanel.removeAll();
@@ -104,7 +104,7 @@ public class MusicExpert extends JFrame implements ActionListener{
 
     }
 
-    public void disegnaScala(List<Note> notes, ArrayList<Integer> altezze){
+    public void disegnaScala(List<Note> notes, List<Integer> altezze){
         tp.remove(4);
         pentagramma = new PentagramPanel(notes,altezze,false);
         tp.add("ScalaPentagramma",pentagramma);

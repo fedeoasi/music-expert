@@ -81,7 +81,7 @@ public class Player {
         costruisciAccordo(a.getIntervals(), a.getTonic(), 0, 15);
     }
 
-    public void costruisciGiro(ArrayList<Chord> chords) {
+    public void costruisciGiro(List<Chord> chords) {
         for (int i = 0; i < chords.size(); i++) {
             for (int j = 0; j < tempo.getNum(); j++) {
                 int start = resolution * tempo.getNum() * (i) + resolution * j;
@@ -109,7 +109,7 @@ public class Player {
 
     }
 
-    public void costruisciAccordo(ArrayList<Integer> distanze, Note tonic,
+    public void costruisciAccordo(List<Integer> distanze, Note tonic,
                                   int inizio, int fine) {
         try {
             Notes n = new Notes();

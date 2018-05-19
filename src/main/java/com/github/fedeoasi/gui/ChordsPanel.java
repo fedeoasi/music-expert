@@ -9,7 +9,7 @@ import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class ChordsPanel extends JPanel implements ActionListener {
@@ -73,7 +73,7 @@ public class ChordsPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == okButton) {
             selectedChord = selectedChord();
-            ArrayList<Note> temp = selectedChord.getNotes();
+            List<Note> temp = selectedChord.getNotes();
             textArea.append(selectedChord.getSigla() + "\n");
             for (int i = 0; i < temp.size(); i++) {
                 textArea.append(temp.get(i) + "  ");

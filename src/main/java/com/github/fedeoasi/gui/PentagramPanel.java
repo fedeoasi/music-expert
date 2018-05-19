@@ -20,7 +20,7 @@ public class PentagramPanel extends JPanel implements MouseListener {
     private boolean accordo = false;
     //TODO revisit these static fields
     private static List<Note> notes;
-    private static ArrayList<Integer> altezze = new ArrayList<Integer>();
+    private static List<Integer> altezze = new ArrayList<Integer>();
 
     public PentagramPanel() {
         super();
@@ -30,7 +30,7 @@ public class PentagramPanel extends JPanel implements MouseListener {
         setBackground(Color.WHITE);
     }
 
-    public PentagramPanel(List<Note> notes, ArrayList<Integer> altezze, boolean isAccordo) {
+    public PentagramPanel(List<Note> notes, List<Integer> altezze, boolean isAccordo) {
         super();
         setFont(new Font(Font.DIALOG, Font.BOLD, 18));
         accordo = isAccordo;
@@ -183,7 +183,7 @@ public class PentagramPanel extends JPanel implements MouseListener {
         PentagramPanel.notes = notes;
     }
 
-    public static void setAltezze(ArrayList<Integer> altezze) {
+    public static void setAltezze(List<Integer> altezze) {
         PentagramPanel.altezze = altezze;
     }
 

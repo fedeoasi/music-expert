@@ -1,14 +1,15 @@
 package com.github.fedeoasi.music;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Chord {
     private String sigla;
     private String chordType;
-    private ArrayList<Integer> intervals = new ArrayList<>();
-    private ArrayList<Note> notes = new ArrayList<>();
-    private ArrayList<Integer> pitches = new ArrayList<>();
-    private ArrayList<int[]> scales = new ArrayList<>();
+    private List<Integer> intervals = new ArrayList<>();
+    private List<Note> notes = new ArrayList<>();
+    private List<Integer> pitches = new ArrayList<>();
+    private List<int[]> scales = new ArrayList<>();
     private Note tonic;
 
     public Chord(Note tonic, ChordType type) {
@@ -111,19 +112,19 @@ public class Chord {
         return !name.equals("7#5");
     }
 
-    public ArrayList<Integer> getIntervals() {
+    public List<Integer> getIntervals() {
         return intervals;
     }
 
-    public ArrayList<Note> getNotes() {
+    public List<Note> getNotes() {
         return notes;
     }
 
-    public ArrayList<Integer> getPitches() {
+    public List<Integer> getPitches() {
         return pitches;
     }
 
-    public ArrayList<int[]> getScales() {
+    public List<int[]> getScales() {
         return scales;
     }
 

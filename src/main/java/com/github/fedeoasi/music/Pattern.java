@@ -1,21 +1,22 @@
 package com.github.fedeoasi.music;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Pattern {
-    private ArrayList<Integer> gradi = new ArrayList<Integer>();
-    private ArrayList<Integer> durate = new ArrayList<Integer>();
+    private List<Integer> gradi = new ArrayList<Integer>();
+    private List<Integer> durate = new ArrayList<Integer>();
 
-    public Pattern(ArrayList<Integer> gradi, ArrayList<Integer> durate) {
+    public Pattern(List<Integer> gradi, List<Integer> durate) {
         this.gradi = gradi;
         this.durate = durate;
     }
 
-    public ArrayList<Integer> getGradi() {
+    public List<Integer> getGradi() {
         return gradi;
     }
 
-    public ArrayList<Integer> getDurate() {
+    public List<Integer> getDurate() {
         return durate;
     }
 }

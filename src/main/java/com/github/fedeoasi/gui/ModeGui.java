@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -159,8 +160,8 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
     public void generaPentagramma() {
         if (m == null) JOptionPane.showMessageDialog(this, "Nessun modo selezionato");
         else {
-            ArrayList<Note> notes = new ArrayList<>();
-            ArrayList<Integer> altezze = new ArrayList<Integer>();
+            List<Note> notes = new ArrayList<>();
+            List<Integer> altezze = new ArrayList<Integer>();
             notes.addAll(Arrays.asList(m.getNotes()));
             notes.add(m.getNotes()[0]);
             altezze.add(57 + n.getIndex(m.getTonic()));

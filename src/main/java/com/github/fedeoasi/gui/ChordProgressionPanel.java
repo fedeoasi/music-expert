@@ -17,9 +17,9 @@ import java.util.Scanner;
 
 public class ChordProgressionPanel extends JPanel implements Playable, ActionListener {
     private Random random = new Random();
-    private ArrayList<Chord> accordi = new ArrayList<Chord>();
-    private ArrayList<JLabel> labels = new ArrayList<JLabel>();
-    private ArrayList<JPanel> panels = new ArrayList<JPanel>();
+    private List<Chord> accordi = new ArrayList<>();
+    private List<JLabel> labels = new ArrayList<>();
+    private List<JPanel> panels = new ArrayList<>();
     private int bpm;
 
     private JButton ins = new JButton(Strings.INSERT_CHORD);
@@ -187,7 +187,7 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
 
         hasSolo = true;
         for (int i = 0; i < accordi.size(); i++) {
-            ArrayList<Integer> a = new ArrayList<Integer>();
+            List<Integer> a = new ArrayList<>();
             //TODO choose scale based on prior and next chords
             int[] s = accordi.get(i).getScales().get(0);
             for (int k = 1; k < s.length; k++) {
@@ -207,7 +207,7 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
     }
 
 
-    public ArrayList<Chord> getAccordi() {
+    public List<Chord> getAccordi() {
         return accordi;
 
     }

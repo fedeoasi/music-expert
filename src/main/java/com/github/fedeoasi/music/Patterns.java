@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -11,13 +12,13 @@ public class Patterns {
     private File file;
     private FileReader fr;
     private BufferedReader br;
-    private ArrayList<ArrayList<Integer>> gradi = new ArrayList<ArrayList<Integer>>();
-    private ArrayList<ArrayList<Integer>> durate = new ArrayList<ArrayList<Integer>>();
+    private List<List<Integer>> gradi = new ArrayList<>();
+    private List<List<Integer>> durate = new ArrayList<>();
     private Pattern pat1 = null;
     private Scanner s;
 
-    private ArrayList<Integer> g = new ArrayList<Integer>();
-    private ArrayList<Integer> d = new ArrayList<Integer>();
+    private List<Integer> g = new ArrayList<>();
+    private List<Integer> d = new ArrayList<>();
 
     public Patterns() {
         initialize();
@@ -55,15 +56,15 @@ public class Patterns {
         }
     }
 
-    public ArrayList<ArrayList<Integer>> getGradi() {
+    public List<List<Integer>> getGradi() {
         return gradi;
     }
 
-    public ArrayList<ArrayList<Integer>> getDurate() {
+    public List<List<Integer>> getDurate() {
         return durate;
     }
 
-    public void setDurate(ArrayList<ArrayList<Integer>> durate) {
+    public void setDurate(List<List<Integer>> durate) {
         this.durate = durate;
     }
 

@@ -3,13 +3,14 @@ package com.github.fedeoasi.music;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.List;
 
 public class NoteVisualization {
     private Ellipse2D e;
     private Line2D l;
     private Note note;
     private int altezza;
-    private ArrayList<Line2D> opt = new ArrayList<Line2D>();
+    private List<Line2D> opt = new ArrayList<>();
     private String accidental;
     private Notes n = new Notes();
 
@@ -90,7 +91,7 @@ public class NoteVisualization {
         this.altezza = altezza;
     }
 
-    public ArrayList<Line2D> getOpt() {
+    public List<Line2D> getOpt() {
         return opt;
     }
 

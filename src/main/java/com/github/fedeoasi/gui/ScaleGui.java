@@ -9,9 +9,9 @@ import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 public class ScaleGui extends JPanel implements ActionListener, Playable {
     private Scales s = new Scales();
@@ -125,8 +125,8 @@ public class ScaleGui extends JPanel implements ActionListener, Playable {
     public void generaPentagramma() {
         if (ris == null) JOptionPane.showMessageDialog(this, "Nessuna scala selezionata");
         else {
-            ArrayList<Note> notes = new ArrayList<>();
-            ArrayList<Integer> altezze = new ArrayList<Integer>();
+            List<Note> notes = new ArrayList<>();
+            List<Integer> altezze = new ArrayList<>();
             Collections.addAll(notes, ris);
             notes.add(ris[0]);
             altezze.add(57 + n.getIndex(tonica));
