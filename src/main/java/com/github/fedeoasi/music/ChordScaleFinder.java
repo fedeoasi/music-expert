@@ -18,11 +18,36 @@ public class ChordScaleFinder {
     }
 
     public List<Note[]> findScales(Chord chord) {
-        List<HashSet<Note[]>> scaleSets = chord.getNotes().stream()
-            .map(note -> new HashSet<>(scalesByNote.get(note))).collect(Collectors.toList());
-        Set<Note[]> intersection = scaleSets.stream().skip(1)
-            .collect(() -> new HashSet<>(scaleSets.get(0)), Set::retainAll, Set::retainAll);
+        Stream<Note> notesStream = chord.getNotes().stream();
+        Set<Note[]> intersection = scalesForNotes(notesStream);
         return new ArrayList<>(intersection);
+    }
+
+    public List<Note[]> findScales(Optional<Chord> prior, Chord chord, Optional<Chord> after) {
+        Stream<Note> allNotes = Stream.concat(toNoteStream(prior), chord.getNotes().stream());
+        ArrayList<Note[]> scalesForChordAndPrior = new ArrayList<>(scalesForNotes(allNotes));
+        //Only use the chord after if there is ambiguity
+        if (scalesForChordAndPrior.size() > 1) {
+            Stream<Note> streamWithPrior = Stream.concat(toNoteStream(prior), chord.getNotes().stream());
+            Stream<Note> noteStream = Stream.concat(streamWithPrior, toNoteStream(after));
+            return new ArrayList<>(scalesForNotes(noteStream));
+        }
+        return scalesForChordAndPrior;
+    }
+
+    private Stream<Note> toNoteStream(Optional<Chord> chord) {
+        Stream<Note> notes = Stream.empty();
+        if (chord.isPresent()) {
+            notes = chord.get().getNotes().stream();
+        }
+        return notes;
+    }
+
+    private Set<Note[]> scalesForNotes(Stream<Note> notesStream) {
+        List<HashSet<Note[]>> scaleSets = notesStream
+            .map(note -> new HashSet<>(scalesByNote.get(note))).collect(Collectors.toList());
+        return scaleSets.stream().skip(1)
+            .collect(() -> new HashSet<>(scaleSets.get(0)), Set::retainAll, Set::retainAll);
     }
 
     private Set<Note> buildAllNotes() {
@@ -33,6 +58,7 @@ public class ChordScaleFinder {
         return allNotes.collect(Collectors.toSet());
     }
 
+    //TODO represent scales as first class objects
     private List<Note[]> buildAllScales(Set<Note> allNotes) {
         return allNotes
             .stream()
