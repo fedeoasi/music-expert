@@ -9,7 +9,6 @@ public class Chord {
     private List<Integer> intervals = new ArrayList<>();
     private List<Note> notes = new ArrayList<>();
     private List<Integer> pitches = new ArrayList<>();
-    private List<int[]> scales = new ArrayList<>();
     private Note tonic;
 
     public Chord(Note tonic, ChordType type) {
@@ -32,15 +31,11 @@ public class Chord {
                 Mode m = new Mode(tonic, chordType, s.scalaMinMel, 3);
                 notes.add(m.getNotes()[4]);
                 m = new Mode(tonic, chordType, s.scalaMinMel, 7);
-                scales.add(m.getDistanze());
             }
             //aggiunge la settima minore
             if (type.isDominant()) {
                 Mode m = new Mode(tonic, chordType, s.scalaMaggiore, 5);
                 notes.add(m.getNotes()[6]);
-                scales.add(m.getDistanze());
-            } else {
-                scales.add(s.scalaMaggiore);
             }
             //aggiunge la settima maggiore
             if (hasMajorSeventh(chordType))
@@ -63,13 +58,10 @@ public class Chord {
             notes.add(scala[2]);
             if (!chordType.equals("m7b5") && !chordType.equals("m9b5")) {
                 Mode m = new Mode(tonic, chordType, s.scalaMaggiore, 2);
-                scales.add(m.getDistanze());
-                scales.add(s.scalaMinNat);
                 notes.add(scala[4]);
             } else {
                 Mode m = new Mode(tonic, chordType, s.scalaMaggiore, 7);
                 notes.add(m.getNotes()[4]);
-                scales.add(m.getDistanze());
                 //notes.add(n.noteb[(n.getIndex(scala[4])-1)%12]);
             }
             if (chordType.equals("m6")) {
@@ -124,16 +116,16 @@ public class Chord {
         return pitches;
     }
 
-    public List<int[]> getScales() {
-        return scales;
-    }
-
     public String getSigla() {
         return sigla;
     }
 
     public Note getTonic() {
         return tonic;
+    }
+
+    public String getChordType() {
+        return chordType;
     }
 
     @Override

@@ -11,7 +11,6 @@ class ChordTest extends FunSpec with Matchers {
     val gMajor = new Chord(Note.G, ChordType.Major)
     gMajor.getTonic shouldBe Note.G
     gMajor.getIntervals.asScala shouldBe Seq(0, 4, 3)
-    gMajor.getScales.asScala should contain theSameElementsAs Seq(s.scalaMaggiore)
   }
 
   it("understands a B minor") {
