@@ -11,26 +11,30 @@ public class ChordScaleFinder {
     private Scales scales = new Scales();
     private Notes notes = new Notes();
 
-    private Multimap<Note, Note[]> scalesByNote = buildAllScalesByNote();
+    private Multimap<Note, Scale> scalesByNote = buildAllScalesByNote();
 
-    public Collection<Note[]> findScales(Note note) {
+    public Collection<Scale> findScales(Note note) {
         return scalesByNote.get(note);
     }
 
-    public List<Note[]> findScales(Chord chord) {
+    public List<Scale> findScales(Chord chord) {
         Stream<Note> notesStream = chord.getNotes().stream();
-        Set<Note[]> intersection = scalesForNotes(notesStream);
-        return new ArrayList<>(intersection);
+        Set<Scale> intersection = scalesForNotes(notesStream);
+        return adjustScales(chord.getTonic(), intersection);
     }
 
-    public List<Note[]> findScales(Optional<Chord> prior, Chord chord, Optional<Chord> after) {
+    private List<Scale> adjustScales(Note tonic, Set<Scale> intersection) {
+        return intersection.stream().map(scale -> scale.from(tonic)).collect(Collectors.toList());
+    }
+
+    public List<Scale> findScales(Optional<Chord> prior, Chord chord, Optional<Chord> after) {
         Stream<Note> allNotes = Stream.concat(toNoteStream(prior), chord.getNotes().stream());
-        ArrayList<Note[]> scalesForChordAndPrior = new ArrayList<>(scalesForNotes(allNotes));
+        List<Scale> scalesForChordAndPrior = adjustScales(chord.getTonic(), scalesForNotes(allNotes));
         //Only use the chord after if there is ambiguity
         if (scalesForChordAndPrior.size() > 1) {
             Stream<Note> streamWithPrior = Stream.concat(toNoteStream(prior), chord.getNotes().stream());
             Stream<Note> noteStream = Stream.concat(streamWithPrior, toNoteStream(after));
-            return new ArrayList<>(scalesForNotes(noteStream));
+            return adjustScales(chord.getTonic(), (scalesForNotes(noteStream)));
         }
         return scalesForChordAndPrior;
     }
@@ -43,8 +47,8 @@ public class ChordScaleFinder {
         return notes;
     }
 
-    private Set<Note[]> scalesForNotes(Stream<Note> notesStream) {
-        List<HashSet<Note[]>> scaleSets = notesStream
+    private Set<Scale> scalesForNotes(Stream<Note> notesStream) {
+        List<HashSet<Scale>> scaleSets = notesStream
             .map(note -> new HashSet<>(scalesByNote.get(note))).collect(Collectors.toList());
         return scaleSets.stream().skip(1)
             .collect(() -> new HashSet<>(scaleSets.get(0)), Set::retainAll, Set::retainAll);
@@ -59,18 +63,22 @@ public class ChordScaleFinder {
     }
 
     //TODO represent scales as first class objects
-    private List<Note[]> buildAllScales(Set<Note> allNotes) {
+
+    private List<Scale> buildAllScales(Set<Note> allNotes) {
         return allNotes
             .stream()
-            .flatMap(note -> Stream.of(scales.scalaMaggiore(note), scales.scalaMinArm(note), scales.scalaMinMel(note)))
+            .flatMap(note -> Stream.of(
+                new Scale(note, scales.scalaMaggiore),
+                new Scale(note, scales.scalaMinArm),
+                new Scale(note, scales.scalaMinMel)))
             .collect(Collectors.toList());
     }
 
-    private Multimap<Note, Note[]> buildAllScalesByNote() {
+    private Multimap<Note, Scale> buildAllScalesByNote() {
         Set<Note> allNotes = buildAllNotes();
-        List<Note[]> allScales = buildAllScales(allNotes);
-        Multimap<Note, Note[]> multimap = ArrayListMultimap.create();
-        allScales.forEach(scale -> Arrays.stream(scale).forEach(note -> multimap.put(note, scale)));
+        List<Scale> allScales = buildAllScales(allNotes);
+        Multimap<Note, Scale> multimap = ArrayListMultimap.create();
+        allScales.forEach(scale -> Arrays.stream(scale.getNotes()).forEach(note -> multimap.put(note, scale)));
         return multimap;
     }
 }

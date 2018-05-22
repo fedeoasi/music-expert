@@ -135,4 +135,9 @@ public class Chord {
     public Note getTonic() {
         return tonic;
     }
+
+    @Override
+    public String toString() {
+        return sigla;
+    }
 }

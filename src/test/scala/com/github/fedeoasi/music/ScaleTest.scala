@@ -16,4 +16,19 @@ class ScaleTest extends FunSpec with Matchers {
       Array(Note.D, Note.E, Note.F, Note.G, Note.A, Note.B, Note.CSharp)
     }
   }
+
+  it("rotates a scale") {
+    new Scale(Note.C, s.scalaMaggiore).from(Note.C).getNotes shouldBe {
+      Array(Note.C, Note.D, Note.E, Note.F, Note.G, Note.A, Note.B)
+    }
+    new Scale(Note.C, s.scalaMaggiore).from(Note.F).getNotes shouldBe {
+      Array(Note.F, Note.G, Note.A, Note.B, Note.C, Note.D, Note.E)
+    }
+    new Scale(Note.C, s.scalaMaggiore).from(Note.G).getNotes shouldBe {
+      Array(Note.G, Note.A, Note.B, Note.C, Note.D, Note.E, Note.F)
+    }
+    new Scale(Note.C, s.scalaMaggiore).from(Note.E).getNotes shouldBe {
+      Array(Note.E, Note.F, Note.G, Note.A, Note.B, Note.C, Note.D)
+    }
+  }
 }

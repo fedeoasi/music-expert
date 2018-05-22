@@ -1,5 +1,8 @@
 package com.github.fedeoasi.music;
 
+import java.util.*;
+import java.util.stream.IntStream;
+
 public class Scale {
     private Note tonic;
     private int[] intervals;
@@ -47,5 +50,21 @@ public class Scale {
 
     public Note[] getNotes() {
         return notes;
+    }
+
+    public Scale from(Note note) {
+        OptionalInt indexOpt = IntStream.range(0, notes.length)
+            .filter(i -> note.equals(notes[i]))
+            .findFirst();
+
+        List<Note> asList = Arrays.asList(notes);
+        Collections.rotate(asList, notes.length - indexOpt.getAsInt());
+        Note[] newNotes = (Note[]) asList.toArray();
+        return new Scale(note, n.distances(newNotes));
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.asList(notes).toString();
     }
 }

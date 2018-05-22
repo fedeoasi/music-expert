@@ -48,4 +48,12 @@ class NotesTest extends FunSpec with Matchers {
       notes.getIndex(Note.A) shouldBe 0
     }
   }
+
+  describe("distances") {
+    it("finds distances") {
+      notes.distances(Array(Note.C, Note.D, Note.E, Note.F, Note.G, Note.A, Note.B)) shouldBe Array(
+        0, 2, 2, 1, 2, 2, 2, 1
+      )
+    }
+  }
 }

@@ -47,6 +47,14 @@ public class Notes {
         return 12 + diff;
     }
 
+    public int[] distances(Note[] notes) {
+        int[] distances = new int[notes.length + 1];
+        for (int i = 1; i <= notes.length; i++) {
+            distances[i] = distance(notes[i - 1], notes[i % notes.length]);
+        }
+        return distances;
+    }
+
     public int getIndexInNaturalScale(Note nota) {
         int indice = indexOf(nota, naturalNotes);
         if (indice == -1) {

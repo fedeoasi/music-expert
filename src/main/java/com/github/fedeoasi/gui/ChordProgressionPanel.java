@@ -3,17 +3,17 @@ package com.github.fedeoasi.gui;
 import com.github.fedeoasi.lang.Strings;
 import com.github.fedeoasi.music.*;
 
-import javax.sound.midi.*;
+import javax.sound.midi.MetaEventListener;
+import javax.sound.midi.MetaMessage;
+import javax.sound.midi.Sequencer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.*;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
 
 public class ChordProgressionPanel extends JPanel implements Playable, ActionListener {
     private Random random = new Random();
@@ -45,6 +45,8 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
 
     private Thread t = null;
     private Illumina l = null;
+
+    private ChordScaleFinder scaleFinder = new ChordScaleFinder();
 
     public ChordProgressionPanel(MusicExpert me) {
         super(new BorderLayout());
@@ -183,26 +185,54 @@ public class ChordProgressionPanel extends JPanel implements Playable, ActionLis
 
     private void generaSolista() {
         Patterns p = new Patterns();
-        //if(player==null) JOptionPane.showMessageDialog(this,"Nessun giro selezionato");
-
         hasSolo = true;
+
         for (int i = 0; i < accordi.size(); i++) {
             List<Integer> a = new ArrayList<>();
             //TODO choose scale based on prior and next chords
-            int[] s = accordi.get(i).getScales().get(0);
+
+            Chord currentChord = accordi.get(i);
+
+            Optional<Chord> priorChord = Optional.empty();
+            boolean foundPriorChord = false;
+            int t = i - 1;
+            while (!foundPriorChord && t >= 0) {
+                if (!accordi.get(t).getSigla().equals(currentChord.getSigla())) {
+                    priorChord = Optional.of(accordi.get(t));
+                    foundPriorChord = true;
+                }
+                t--;
+            }
+
+            Optional<Chord> nextChord = Optional.empty();
+            int u = i + 1;
+            boolean foundNextChord = false;
+            while (!foundNextChord && u <= accordi.size() - 1) {
+                if (!accordi.get(u).getSigla().equals(currentChord.getSigla())) {
+                    nextChord = Optional.of(accordi.get(u));
+                    foundNextChord = true;
+                }
+                u++;
+            }
+
+            System.out.println(priorChord + " " + currentChord + " " + nextChord);
+            List<Scale> scales = scaleFinder.findScales(priorChord, currentChord, nextChord);
+            Scale firstScale = scales.get(0);
+            System.out.println(firstScale);
+            int[] s = firstScale.getIntervals();
+
             for (int k = 1; k < s.length; k++) {
                 s[k] = s[k] + s[k - 1];
             }
             int rand = random.nextInt(p.getGradi().size());
-            //System.out.println("rand: "+ rand);
-            for (int j = 0; j < p.getGradi().get(rand).size(); j++) {
-                //System.out.println(p.gradi.get(rand).get(j)-1);
-                a.add(s[p.getGradi().get(rand).get(j) - 1]);
-                //System.out.println(a.get(j));
-                //a.add();
+            //These should be a single object
+            List<Integer> patternGradi = p.getGradi().get(rand);
+            List<Integer> patternDurations = p.getDurate().get(rand);
+            for (int j = 0; j < patternGradi.size(); j++) {
+                a.add(s[patternGradi.get(j) - 1]);
             }
             soloIntervals.add(a);
-            soloDurations.add(p.getDurate().get(rand));
+            soloDurations.add(patternDurations);
         }
     }
 
