@@ -4,6 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -13,6 +14,63 @@ public class ChordScaleFinder {
 
     private Multimap<Note, Scale> scalesByNote = buildAllScalesByNote();
 
+    public List<List<ScoredScale>> progression(List<Chord> chords) {
+        List<Chord> chordChanges = new ArrayList<>();
+        List<Integer> changeIndices = new ArrayList<>();
+        if (!chords.isEmpty()) {
+            chordChanges.add(chords.get(0));
+            changeIndices.add(0);
+        }
+        for (int i = 1; i < chords.size(); i++) {
+            Chord currentChord = chords.get(i);
+            Chord priorChord = chords.get(i - 1);
+            if (!currentChord.getSigla().equals(priorChord.getSigla())) {
+                chordChanges.add(currentChord);
+            }
+            changeIndices.add(chordChanges.size() - 1);
+        }
+        Collection<ScoredScale> overallScales = rankScales(chordChanges);
+        System.out.println(overallScales);
+
+        List<List<ScoredScale>> returnValue = new ArrayList<>();
+        for (int i = 0; i < chords.size(); i++) {
+            final Chord currentChord = chords.get(i);
+            Integer changeIndex = changeIndices.get(i);
+            int priorChordIndex = changeIndex == 0 ? chordChanges.size() - 1 : changeIndex - 1;
+            Optional<Chord> priorChord = Optional.of(chordChanges.get(priorChordIndex));
+            int nextChordIndex = changeIndex == chordChanges.size() - 1 ? 0 : changeIndex + 1;
+            Optional<Chord> nextChord = Optional.of(chordChanges.get(nextChordIndex));
+
+            List<ScoredScale> scales = findScales(priorChord, chords.get(i), nextChord).stream()
+                .map(s -> {
+                    Optional<ScoredScale> first = overallScales.stream().filter(o -> o.getScale() == s).findFirst();
+                    return new ScoredScale(s.from(currentChord.getTonic()), first.get().getRank());
+                }).collect(Collectors.toList());
+            returnValue.add(scales);
+        }
+        return returnValue;
+    }
+
+    public Collection<ScoredScale> rankScales(List<Chord> chords) {
+        System.out.println("progression: " + chords);
+        List<Scale> allScales = new ArrayList<>();
+        for (int i = 0; i < chords.size(); i++) {
+            Chord currentChord = chords.get(i);
+            int priorChordIndex = i == 0 ? chords.size() - 1 : i - 1;
+            Optional<Chord> priorChord = Optional.of(chords.get(priorChordIndex));
+            int nextChordIndex = i == chords.size() - 1 ? 0 : i + 1;
+            Optional<Chord> nextChord = Optional.of(chords.get(nextChordIndex));
+            System.out.println(priorChord + " " + currentChord + " " + nextChord);
+            allScales.addAll(findScales(priorChord, currentChord, nextChord));
+        }
+        Map<Scale, Long> counted = allScales.stream()
+            .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        return counted.entrySet().stream()
+            .map(e -> new ScoredScale(e.getKey(), e.getValue().intValue()))
+            .sorted(Comparator.comparing(ScoredScale::getRank).reversed())
+            .collect(Collectors.toList());
+    }
+
     public Collection<Scale> findScales(Note note) {
         return scalesByNote.get(note);
     }
@@ -20,23 +78,34 @@ public class ChordScaleFinder {
     public List<Scale> findScales(Chord chord) {
         Stream<Note> notesStream = chord.getNotes().stream();
         Set<Scale> intersection = scalesForNotes(notesStream);
+        return new ArrayList<>(intersection);
+    }
+
+    public List<Scale> findModes(Chord chord) {
+        Stream<Note> notesStream = chord.getNotes().stream();
+        Set<Scale> intersection = scalesForNotes(notesStream);
         return adjustScales(chord.getTonic(), intersection);
     }
 
-    private List<Scale> adjustScales(Note tonic, Set<Scale> intersection) {
-        return intersection.stream().map(scale -> scale.from(tonic)).collect(Collectors.toList());
-    }
 
     public List<Scale> findScales(Optional<Chord> prior, Chord chord, Optional<Chord> after) {
         Stream<Note> allNotes = Stream.concat(toNoteStream(prior), chord.getNotes().stream());
-        List<Scale> scalesForChordAndPrior = adjustScales(chord.getTonic(), scalesForNotes(allNotes));
+        List<Scale> scalesForChordAndPrior = new ArrayList<>(scalesForNotes(allNotes));
         //Only use the chord after if there is ambiguity
         if (scalesForChordAndPrior.size() > 1) {
             Stream<Note> streamWithPrior = Stream.concat(toNoteStream(prior), chord.getNotes().stream());
             Stream<Note> noteStream = Stream.concat(streamWithPrior, toNoteStream(after));
-            return adjustScales(chord.getTonic(), (scalesForNotes(noteStream)));
+            return new ArrayList<>(scalesForNotes(noteStream));
         }
         return scalesForChordAndPrior;
+    }
+
+    public List<Scale> findModes(Optional<Chord> prior, Chord chord, Optional<Chord> after) {
+        return adjustScales(chord.getTonic(), findScales(prior, chord, after));
+    }
+
+    private List<Scale> adjustScales(Note tonic, Collection<Scale> intersection) {
+        return intersection.stream().map(scale -> scale.from(tonic)).collect(Collectors.toList());
     }
 
     private Stream<Note> toNoteStream(Optional<Chord> chord) {

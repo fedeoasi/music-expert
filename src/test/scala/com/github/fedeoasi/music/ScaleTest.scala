@@ -17,6 +17,12 @@ class ScaleTest extends FunSpec with Matchers {
     }
   }
 
+  it("generates an E harmonic minor") {
+    new Scale(Note.E, s.scalaMinArm).getNotes shouldBe {
+      Array(Note.E, Note.FSharp, Note.G, Note.A, Note.B, Note.C, Note.DSharp)
+    }
+  }
+
   it("rotates a scale") {
     new Scale(Note.C, s.scalaMaggiore).from(Note.C).getNotes shouldBe {
       Array(Note.C, Note.D, Note.E, Note.F, Note.G, Note.A, Note.B)
@@ -29,6 +35,16 @@ class ScaleTest extends FunSpec with Matchers {
     }
     new Scale(Note.C, s.scalaMaggiore).from(Note.E).getNotes shouldBe {
       Array(Note.E, Note.F, Note.G, Note.A, Note.B, Note.C, Note.D)
+    }
+  }
+
+  it("does not mutate the original note array") {
+    val scale = new Scale(Note.C, s.scalaMaggiore)
+    scale.from(Note.F).getNotes shouldBe {
+      Array(Note.F, Note.G, Note.A, Note.B, Note.C, Note.D, Note.E)
+    }
+    scale.getNotes shouldBe {
+      Array(Note.C, Note.D, Note.E, Note.F, Note.G, Note.A, Note.B)
     }
   }
 }

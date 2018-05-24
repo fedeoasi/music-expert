@@ -57,8 +57,9 @@ public class Scale {
             .filter(i -> note.equals(notes[i]))
             .findFirst();
 
-        List<Note> asList = Arrays.asList(notes);
-        Collections.rotate(asList, notes.length - indexOpt.getAsInt());
+        Note[] notesCopy = Arrays.copyOf(this.notes, notes.length);
+        List<Note> asList = Arrays.asList(notesCopy);
+        Collections.rotate(asList, this.notes.length - indexOpt.getAsInt());
         Note[] newNotes = (Note[]) asList.toArray();
         return new Scale(note, n.distances(newNotes));
     }
@@ -66,5 +67,21 @@ public class Scale {
     @Override
     public String toString() {
         return Arrays.asList(notes).toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Scale scale = (Scale) o;
+        return tonic == scale.tonic &&
+            Arrays.equals(intervals, scale.intervals);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(tonic);
+        result = 31 * result + Arrays.hashCode(intervals);
+        return result;
     }
 }
