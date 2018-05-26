@@ -14,12 +14,10 @@ public class Chord {
     public Chord(Note tonic, ChordType type) {
         this.tonic = tonic;
         this.chordType = type.toString();
-        Scales s = new Scales();
-        Notes n = new Notes();
         Note[] scala;
 
         if (type.isMajor()) {
-            scala = s.scalaMaggiore(tonic);
+            scala = Scales.scalaMaggiore(tonic);
             //aggiunge la tonica
             notes.add(scala[0]);
             //aggiunge la terza maggiore
@@ -28,13 +26,13 @@ public class Chord {
             if (isNotAugmented(chordType))
                 notes.add(scala[4]);
             else {
-                Mode m = new Mode(tonic, chordType, s.scalaMinMel, 3);
+                Mode m = new Mode(tonic, chordType, Scales.scalaMinMel, 3);
                 notes.add(m.getNotes()[4]);
-                m = new Mode(tonic, chordType, s.scalaMinMel, 7);
+                m = new Mode(tonic, chordType, Scales.scalaMinMel, 7);
             }
             //aggiunge la settima minore
             if (type.isDominant()) {
-                Mode m = new Mode(tonic, chordType, s.scalaMaggiore, 5);
+                Mode m = new Mode(tonic, chordType, Scales.scalaMaggiore, 5);
                 notes.add(m.getNotes()[6]);
             }
             //aggiunge la settima maggiore
@@ -52,20 +50,20 @@ public class Chord {
 
         //Accordi minori e semidiminuiti 
         else if (type.isMinor() || type.isSemiDiminished()) {
-            scala = s.scalaMinNat(tonic);
+            scala = Scales.scalaMinNat(tonic);
             //aggiunge la tonic
             notes.add(scala[0]);
             notes.add(scala[2]);
             if (!chordType.equals("m7b5") && !chordType.equals("m9b5")) {
-                Mode m = new Mode(tonic, chordType, s.scalaMaggiore, 2);
+                Mode m = new Mode(tonic, chordType, Scales.scalaMaggiore, 2);
                 notes.add(scala[4]);
             } else {
-                Mode m = new Mode(tonic, chordType, s.scalaMaggiore, 7);
+                Mode m = new Mode(tonic, chordType, Scales.scalaMaggiore, 7);
                 notes.add(m.getNotes()[4]);
                 //notes.add(n.noteb[(n.getIndex(scala[4])-1)%12]);
             }
             if (chordType.equals("m6")) {
-                notes.add(n.sharpNotes[(n.getIndex(scala[5]) + 1) % 12]);
+                notes.add(Notes.sharpNotes[(Notes.getIndex(scala[5]) + 1) % 12]);
             }
             if (chordType.equals("m7") || chordType.equals("m9") || chordType.equals("m13") || chordType.equals("m7b5") || chordType.equals("m9b5")) {
                 notes.add(scala[6]);
@@ -74,16 +72,16 @@ public class Chord {
                 notes.add(scala[8 % 7]);
             }
             if (chordType.equals("m13")) {
-                notes.add(n.sharpNotes[(n.getIndex(scala[5]) + 1) % 12]);
+                notes.add(Notes.sharpNotes[(Notes.getIndex(scala[5]) + 1) % 12]);
             }
             sigla = tonic + chordType;
         }
 
         intervals.add(0);
         for (int i = 1; i < notes.size(); i++)
-            intervals.add(n.distance(notes.get(i - 1), notes.get(i)));
+            intervals.add(Notes.distance(notes.get(i - 1), notes.get(i)));
 
-        pitches.add(57 + n.getIndex(tonic));
+        pitches.add(57 + Notes.getIndex(tonic));
         for (int i = 1; i < intervals.size(); i++)
             pitches.add(pitches.get(i - 1) + intervals.get(i));
     }

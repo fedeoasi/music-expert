@@ -12,7 +12,6 @@ public class NoteVisualization {
     private int altezza;
     private List<Line2D> opt = new ArrayList<>();
     private String accidental;
-    private Notes n = new Notes();
 
     public NoteVisualization(Note note, int altezza, float x, float y) {
         e = new Ellipse2D.Float(x, y, 25, 20);

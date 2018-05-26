@@ -27,8 +27,6 @@ public class Player {
     private int chan = 10;
     private int instr = 3;
 
-    private Notes n = new Notes();
-
     private int volume = 100;
     private int bpm = 120;
     private int resolution = 12;
@@ -112,12 +110,11 @@ public class Player {
     public void costruisciAccordo(List<Integer> distanze, Note tonic,
                                   int inizio, int fine) {
         try {
-            Notes n = new Notes();
             //inizio
             inizioTraccia();
 
             //System.out.println(tonic);
-            int l = notapartenza + n.getIndex(tonic);
+            int l = notapartenza + Notes.getIndex(tonic);
 
 
             for (int i = 0; i < distanze.size(); i++) {
@@ -296,7 +293,7 @@ public class Player {
 
         try {
             inizioTraccia();
-            int l = notapartenza + oct + n.getIndex(tonic) + 12;
+            int l = notapartenza + oct + Notes.getIndex(tonic) + 12;
             in = inizio;
             for (int i = 0; i < distanze2.get(numAccordo).size(); i++) {
                 fine = in + 3 * durate.get(numAccordo).get(i);

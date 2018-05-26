@@ -33,8 +33,6 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
 
     private Mode m = null;
     private int[] generatrice;
-    private Scales s = new Scales();
-    private Notes n = new Notes();
     private Player p = null;
 
     private int oct = 0;
@@ -72,7 +70,7 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
         PlayerGui p = new PlayerGui(this);
         add(p, BorderLayout.SOUTH);
 
-        generatrice = s.scalaMaggiore;
+        generatrice = Scales.scalaMaggiore;
     }
 
 
@@ -96,18 +94,18 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
             if (sel.equals("Scala Maggiore"))
                 for (int i = 0; i < modiMaggiori.length; i++) {
                     modo.addItem(modiMaggiori[i]);
-                    generatrice = s.scalaMaggiore;
+                    generatrice = Scales.scalaMaggiore;
                 }
             else if (sel.equals("Scala Minore Armonica"))
                 for (int i = 0; i < modiMinArm.length; i++) {
                     modo.addItem(modiMinArm[i]);
-                    generatrice = s.scalaMinArm;
+                    generatrice = Scales.scalaMinArm;
                 }
 
             else if (sel.equals("Scala Minore Melodica"))
                 for (int i = 0; i < modiMinMel.length; i++) {
                     modo.addItem(modiMinMel[i]);
-                    generatrice = s.scalaMinMel;
+                    generatrice = Scales.scalaMinMel;
                 }
 
         }
@@ -131,16 +129,16 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
             int[] distanze = new int[8];
             distanze[0] = 0;
             for (int i = 1; i < modeNotes.length; i++) {
-                distanze[i] = n.distance(modeNotes[i - 1], modeNotes[i]);
+                distanze[i] = Notes.distance(modeNotes[i - 1], modeNotes[i]);
             }
             //risuona la tonica alla fine
-            distanze[7] = n.distance(modeNotes[modeNotes.length - 1], modeNotes[0]);
+            distanze[7] = Notes.distance(modeNotes[modeNotes.length - 1], modeNotes[0]);
             if (p == null) {
                 p = new Player();
             }
             p.inizializza();
             p.setInstrument(me.getInstrument());
-            p.costruisciMelodia(distanze, 45 + n.getIndex(modeNotes[0]), oct);
+            p.costruisciMelodia(distanze, 45 + Notes.getIndex(modeNotes[0]), oct);
             p.start();
         }
 
@@ -164,9 +162,9 @@ public class ModeGui extends JPanel implements ActionListener, Playable {
             List<Integer> altezze = new ArrayList<Integer>();
             notes.addAll(Arrays.asList(m.getNotes()));
             notes.add(m.getNotes()[0]);
-            altezze.add(57 + n.getIndex(m.getTonic()));
+            altezze.add(57 + Notes.getIndex(m.getTonic()));
             for (int i = 1; i < notes.size(); i++)
-                altezze.add(altezze.get(i - 1) + n.distance(notes.get(i - 1), notes.get(i)));
+                altezze.add(altezze.get(i - 1) + Notes.distance(notes.get(i - 1), notes.get(i)));
 
             for (int i = 0; i < notes.size(); i++)
                 System.out.print(notes.get(i) + "  ");

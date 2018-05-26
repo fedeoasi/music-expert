@@ -9,9 +9,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ChordScaleFinder {
-    private Scales scales = new Scales();
-    private Notes notes = new Notes();
-
     private Multimap<Note, Scale> scalesByNote = buildAllScalesByNote();
 
     public List<List<ScoredScale>> progression(List<Chord> chords) {
@@ -137,9 +134,9 @@ public class ChordScaleFinder {
     }
 
     private Set<Note> buildAllNotes() {
-        Stream<Note> naturalNotes = Arrays.stream(notes.naturalNotes);
-        Stream<Note> sharpNotes = Arrays.stream(notes.sharpNotes);
-        Stream<Note> flatNotes = Arrays.stream(notes.flatNotes);
+        Stream<Note> naturalNotes = Arrays.stream(Notes.naturalNotes);
+        Stream<Note> sharpNotes = Arrays.stream(Notes.sharpNotes);
+        Stream<Note> flatNotes = Arrays.stream(Notes.flatNotes);
         Stream<Note> allNotes = Stream.concat(naturalNotes, Stream.concat(sharpNotes, flatNotes));
         return allNotes.collect(Collectors.toSet());
     }
@@ -150,9 +147,9 @@ public class ChordScaleFinder {
         return allNotes
             .stream()
             .flatMap(note -> Stream.of(
-                new Scale(note, scales.scalaMaggiore),
-                new Scale(note, scales.scalaMinArm),
-                new Scale(note, scales.scalaMinMel)))
+                new Scale(note, Scales.scalaMaggiore),
+                new Scale(note, Scales.scalaMinArm),
+                new Scale(note, Scales.scalaMinMel)))
             .collect(Collectors.toList());
     }
 

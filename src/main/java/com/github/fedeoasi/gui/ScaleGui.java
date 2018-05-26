@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class ScaleGui extends JPanel implements ActionListener, Playable {
-    private Scales s = new Scales();
-    private Notes n = new Notes();
     private Note[] ris;
     private Note[] notes = {Note.G, Note.D, Note.A, Note.E, Note.B, Note.FSharp, Note.CSharp, Note.F, Note.BFlat, Note.EFlat, Note.AFlat,
             Note.DFlat , Note.GFlat , Note.CFlat };
@@ -66,10 +64,10 @@ public class ScaleGui extends JPanel implements ActionListener, Playable {
             String sel = ((String) scala.getSelectedItem());
             tonica = (Note) nota.getSelectedItem();
             ta.append(sel + " di " + tonica + ":\n");
-            if (sel.equals(scale[0])) ris = s.scalaMaggiore(tonica);
-            if (sel.equals(scale[1])) ris = s.scalaMinNat(tonica);
-            if (sel.equals(scale[2])) ris = s.scalaMinArm(tonica);
-            if (sel.equals(scale[3])) ris = s.scalaMinMel(tonica);
+            if (sel.equals(scale[0])) ris = Scales.scalaMaggiore(tonica);
+            if (sel.equals(scale[1])) ris = Scales.scalaMinNat(tonica);
+            if (sel.equals(scale[2])) ris = Scales.scalaMinArm(tonica);
+            if (sel.equals(scale[3])) ris = Scales.scalaMinMel(tonica);
             for (int i = 0; i < ris.length; i++) {
                 ta.append(ris[i] + "  ");
                 if (i == ris.length - 1) ta.append("\n\n");
@@ -85,15 +83,15 @@ public class ScaleGui extends JPanel implements ActionListener, Playable {
             int[] distanze = new int[8];
             distanze[0] = 0;
             for (int i = 1; i < ris.length; i++)
-                distanze[i] = n.distance(ris[i - 1], ris[i]);
+                distanze[i] = Notes.distance(ris[i - 1], ris[i]);
             //risuona la tonic alla fine
-            distanze[7] = n.distance(ris[ris.length - 1], ris[0]);
+            distanze[7] = Notes.distance(ris[ris.length - 1], ris[0]);
             if (p == null) {
                 p = new Player();
             }
             p.inizializza();
             p.setInstrument(me.getInstrument());
-            p.costruisciMelodia(distanze, 45 + n.getIndex(ris[0]), oct);
+            p.costruisciMelodia(distanze, 45 + Notes.getIndex(ris[0]), oct);
             p.start();
         }
     }
@@ -129,9 +127,9 @@ public class ScaleGui extends JPanel implements ActionListener, Playable {
             List<Integer> altezze = new ArrayList<>();
             Collections.addAll(notes, ris);
             notes.add(ris[0]);
-            altezze.add(57 + n.getIndex(tonica));
+            altezze.add(57 + Notes.getIndex(tonica));
             for (int i = 1; i < notes.size(); i++)
-                altezze.add(altezze.get(i - 1) + n.distance(notes.get(i - 1), notes.get(i)));
+                altezze.add(altezze.get(i - 1) + Notes.distance(notes.get(i - 1), notes.get(i)));
 
             for (Note note : notes) {
                 System.out.print(note + "  ");

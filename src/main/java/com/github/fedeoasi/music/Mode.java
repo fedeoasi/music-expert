@@ -24,8 +24,7 @@ public class Mode {
         }
         System.out.println();
 
-        Scales s = new Scales();
-        notes = s.scala(tonic, distanze);
+        notes = Scales.scala(tonic, distanze);
     }
 
     public Note getTonic() {

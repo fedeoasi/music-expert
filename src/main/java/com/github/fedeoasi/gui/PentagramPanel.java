@@ -15,8 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 public class PentagramPanel extends JPanel implements MouseListener {
     private Graphics2D g2 = null;
-    private Notes note = new Notes();
-
+    
     private boolean accordo = false;
     //TODO revisit these static fields
     private static List<Note> notes;
@@ -62,11 +61,11 @@ public class PentagramPanel extends JPanel implements MouseListener {
 
         for (int i = 0; i < notes.size(); i++) {
             Note n = notes.get(i);
-            if (!note.isNatural(n)) {
+            if (!Notes.isNatural(n)) {
                 n = n.getNaturalNoteAsNote();
             }
-            int indice = note.getIndexInNaturalScale(n);
-            int ottava = note.ottava(notes.get(i), altezze.get(i));
+            int indice = Notes.getIndexInNaturalScale(n);
+            int ottava = Notes.ottava(notes.get(i), altezze.get(i));
             //((altezze.get(i)-45)/12);
             System.out.println(altezze.get(i) + " " + ottava);
             NoteVisualization nv = new NoteVisualization(notes.get(i), altezze.get(i), 20 + (60 * i), 250 - (indice * 10) - (ottava * 70));
@@ -84,10 +83,10 @@ public class PentagramPanel extends JPanel implements MouseListener {
     public void disegnaAccordo() {
         for (int i = 0; i < notes.size(); i++) {
             Note n = notes.get(i);
-            if (!note.isNatural(n)) {
+            if (!Notes.isNatural(n)) {
                 n = n.getNaturalNoteAsNote();
             }
-            int indice = note.getIndexInNaturalScale(n);
+            int indice = Notes.getIndexInNaturalScale(n);
             int ottava = ((altezze.get(i) - 45) / 12);
             NoteVisualization nv = new NoteVisualization(notes.get(i), altezze.get(i), 20, 250 - (indice * 10) - (ottava * 70));
             //System.out.println(g2);

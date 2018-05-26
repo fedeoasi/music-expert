@@ -7,7 +7,6 @@ import org.scalatest.{FunSpec, Inspectors, Matchers}
 import scala.collection.JavaConverters._
 
 class ChordScaleFinderTest extends FunSpec with Matchers with Inspectors {
-  private val s = new Scales
   private val scaleFinder = new ChordScaleFinder
 
   val cMajor = new Chord(Note.C, ChordType.Major)
@@ -69,7 +68,7 @@ class ChordScaleFinderTest extends FunSpec with Matchers with Inspectors {
     val c7 = new Chord(Note.C, ChordType.Seventh)
     val gMajor = new Chord(Note.G, ChordType.Major)
     scaleFinder.findScales(Optional.of(gMajor), dMajor, Optional.of(c7)) should contain theSameElementsAs Seq(
-      new Scale(Note.D, s.scalaMaggiore), new Scale(Note.G, s.scalaMaggiore)
+      new Scale(Note.D, Scales.scalaMaggiore), new Scale(Note.G, Scales.scalaMaggiore)
     )
   }
 
@@ -78,33 +77,33 @@ class ChordScaleFinderTest extends FunSpec with Matchers with Inspectors {
     val dMajor = new Chord(Note.D, ChordType.Major)
     val gMajor = new Chord(Note.G, ChordType.Major)
     scaleFinder.findScales(Optional.of(dMajor), fSharpMinor, Optional.of(gMajor)) should contain theSameElementsAs Seq(
-      new Scale(Note.D, s.scalaMaggiore)
+      new Scale(Note.D, Scales.scalaMaggiore)
     )
   }
 
   describe("Scale Ranking") {
     it("ranks scales for a single chord") {
       scaleFinder.rankScales(Seq(cMajor).asJava).asScala should contain theSameElementsAs Seq(
-        new ScoredScale(new Scale(Note.G, s.scalaMaggiore), 1),
-        new ScoredScale(new Scale(Note.F, s.scalaMinMel), 1),
-        new ScoredScale(new Scale(Note.E, s.scalaMinArm), 1),
-        new ScoredScale(new Scale(Note.G, s.scalaMinMel), 1),
-        new ScoredScale(new Scale(Note.C, s.scalaMaggiore), 1),
-        new ScoredScale(new Scale(Note.F, s.scalaMaggiore), 1),
-        new ScoredScale(new Scale(Note.F, s.scalaMinArm), 1)
+        new ScoredScale(new Scale(Note.G, Scales.scalaMaggiore), 1),
+        new ScoredScale(new Scale(Note.F, Scales.scalaMinMel), 1),
+        new ScoredScale(new Scale(Note.E, Scales.scalaMinArm), 1),
+        new ScoredScale(new Scale(Note.G, Scales.scalaMinMel), 1),
+        new ScoredScale(new Scale(Note.C, Scales.scalaMaggiore), 1),
+        new ScoredScale(new Scale(Note.F, Scales.scalaMaggiore), 1),
+        new ScoredScale(new Scale(Note.F, Scales.scalaMinArm), 1)
       )
     }
 
     it("ranks scales for two chords") {
       scaleFinder.rankScales(Seq(cMajor, fMajor).asJava).asScala should contain theSameElementsAs Seq(
-        new ScoredScale(new Scale(Note.C, s.scalaMaggiore), 2),
-        new ScoredScale(new Scale(Note.F, s.scalaMaggiore), 2)
+        new ScoredScale(new Scale(Note.C, Scales.scalaMaggiore), 2),
+        new ScoredScale(new Scale(Note.F, Scales.scalaMaggiore), 2)
       )
     }
 
     it("ranks scales for three chords") {
       scaleFinder.rankScales(Seq(cMajor, fMajor, gMajor).asJava).asScala should contain theSameElementsAs Seq(
-        new ScoredScale(new Scale(Note.C, s.scalaMaggiore), 3)
+        new ScoredScale(new Scale(Note.C, Scales.scalaMaggiore), 3)
       )
     }
   }
@@ -112,41 +111,41 @@ class ChordScaleFinderTest extends FunSpec with Matchers with Inspectors {
   describe("Progression") {
     it("returns scales for a single chord") {
       scaleFinder.progression(Seq(cMajor).asJava).asScala.head should contain theSameElementsAs Seq(
-        new ScoredScale(new Scale(Note.G, s.scalaMaggiore).from(Note.C), 1),
-        new ScoredScale(new Scale(Note.F, s.scalaMinMel).from(Note.C), 1),
-        new ScoredScale(new Scale(Note.E, s.scalaMinArm).from(Note.C), 1),
-        new ScoredScale(new Scale(Note.G, s.scalaMinMel).from(Note.C), 1),
-        new ScoredScale(new Scale(Note.C, s.scalaMaggiore), 1),
-        new ScoredScale(new Scale(Note.F, s.scalaMaggiore).from(Note.C), 1),
-        new ScoredScale(new Scale(Note.F, s.scalaMinArm).from(Note.C), 1)
+        new ScoredScale(new Scale(Note.G, Scales.scalaMaggiore).from(Note.C), 1),
+        new ScoredScale(new Scale(Note.F, Scales.scalaMinMel).from(Note.C), 1),
+        new ScoredScale(new Scale(Note.E, Scales.scalaMinArm).from(Note.C), 1),
+        new ScoredScale(new Scale(Note.G, Scales.scalaMinMel).from(Note.C), 1),
+        new ScoredScale(new Scale(Note.C, Scales.scalaMaggiore), 1),
+        new ScoredScale(new Scale(Note.F, Scales.scalaMaggiore).from(Note.C), 1),
+        new ScoredScale(new Scale(Note.F, Scales.scalaMinArm).from(Note.C), 1)
       )
     }
 
     it("returns scales for a two chords") {
       val Seq(first, second) = scaleFinder.progression(Seq(cMajor, fMajor).asJava).asScala
       first should contain theSameElementsAs Seq(
-        new ScoredScale(new Scale(Note.C, s.scalaMaggiore), 2),
-        new ScoredScale(new Scale(Note.F, s.scalaMaggiore).from(Note.C), 2)
+        new ScoredScale(new Scale(Note.C, Scales.scalaMaggiore), 2),
+        new ScoredScale(new Scale(Note.F, Scales.scalaMaggiore).from(Note.C), 2)
       )
       second should contain theSameElementsAs Seq(
-        new ScoredScale(new Scale(Note.C, s.scalaMaggiore).from(Note.F), 2),
-        new ScoredScale(new Scale(Note.F, s.scalaMaggiore), 2)
+        new ScoredScale(new Scale(Note.C, Scales.scalaMaggiore).from(Note.F), 2),
+        new ScoredScale(new Scale(Note.F, Scales.scalaMaggiore), 2)
       )
     }
 
     it("returns scales for three chords") {
       val Seq(first, second, third, fourth) = scaleFinder.progression(Seq(cMajor, cMajor, fMajor, gMajor).asJava).asScala
       first should contain theSameElementsAs Seq(
-        new ScoredScale(new Scale(Note.C, s.scalaMaggiore), 3)
+        new ScoredScale(new Scale(Note.C, Scales.scalaMaggiore), 3)
       )
       second should contain theSameElementsAs Seq(
-        new ScoredScale(new Scale(Note.C, s.scalaMaggiore), 3)
+        new ScoredScale(new Scale(Note.C, Scales.scalaMaggiore), 3)
       )
       third should contain theSameElementsAs Seq(
-        new ScoredScale(new Scale(Note.C, s.scalaMaggiore).from(Note.F), 3)
+        new ScoredScale(new Scale(Note.C, Scales.scalaMaggiore).from(Note.F), 3)
       )
       fourth should contain theSameElementsAs Seq(
-        new ScoredScale(new Scale(Note.C, s.scalaMaggiore).from(Note.G), 3)
+        new ScoredScale(new Scale(Note.C, Scales.scalaMaggiore).from(Note.G), 3)
       )
     }
 
@@ -156,20 +155,20 @@ class ChordScaleFinderTest extends FunSpec with Matchers with Inspectors {
       val dMajor = new Chord(Note.D, ChordType.Major)
       val Seq(first, second, third, fourth) = scaleFinder.progression(Seq(aMajor, aMajor, fSharpMinor, dMajor).asJava).asScala
       first should contain theSameElementsAs Seq(
-        new ScoredScale(new Scale(Note.A, s.scalaMaggiore), 3),
-        new ScoredScale(new Scale(Note.D, s.scalaMaggiore).from(Note.A), 3)
+        new ScoredScale(new Scale(Note.A, Scales.scalaMaggiore), 3),
+        new ScoredScale(new Scale(Note.D, Scales.scalaMaggiore).from(Note.A), 3)
       )
       second should contain theSameElementsAs Seq(
-        new ScoredScale(new Scale(Note.A, s.scalaMaggiore), 3),
-        new ScoredScale(new Scale(Note.D, s.scalaMaggiore).from(Note.A), 3)
+        new ScoredScale(new Scale(Note.A, Scales.scalaMaggiore), 3),
+        new ScoredScale(new Scale(Note.D, Scales.scalaMaggiore).from(Note.A), 3)
       )
       third should contain theSameElementsAs Seq(
-        new ScoredScale(new Scale(Note.A, s.scalaMaggiore).from(Note.FSharp), 3),
-        new ScoredScale(new Scale(Note.D, s.scalaMaggiore).from(Note.FSharp), 3)
+        new ScoredScale(new Scale(Note.A, Scales.scalaMaggiore).from(Note.FSharp), 3),
+        new ScoredScale(new Scale(Note.D, Scales.scalaMaggiore).from(Note.FSharp), 3)
       )
       fourth should contain theSameElementsAs Seq(
-        new ScoredScale(new Scale(Note.A, s.scalaMaggiore).from(Note.D), 3),
-        new ScoredScale(new Scale(Note.D, s.scalaMaggiore), 3)
+        new ScoredScale(new Scale(Note.A, Scales.scalaMaggiore).from(Note.D), 3),
+        new ScoredScale(new Scale(Note.D, Scales.scalaMaggiore), 3)
       )
     }
   }

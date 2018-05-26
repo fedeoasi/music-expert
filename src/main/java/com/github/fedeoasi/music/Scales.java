@@ -1,71 +1,66 @@
 package com.github.fedeoasi.music;
 
 public class Scales {
-    public int[] scalaMaggiore = {0, 2, 2, 1, 2, 2, 2, 1};
-    public int[] scalaMinNat = {0, 2, 1, 2, 2, 1, 2, 2};
-    public int[] scalaMinArm = {0, 2, 1, 2, 2, 1, 3, 1};
-    public int[] scalaMinMel = {0, 2, 1, 2, 2, 2, 2, 1};
-    public int[] pentaMaggiore = {0, 2, 2, 3, 2, 3};
-    public int[] pentaMinore = {0, 3, 2, 2, 3, 2};
-    public int[] esatonale = {0, 2, 2, 2, 2, 2};
-    public int[] tonoSemitono = {0, 2, 1, 2, 1, 2, 1, 2, 1};
-    public int[] semitonoTono = {0, 1, 2, 1, 2, 1, 2, 1, 2};
-    private Notes n;
+    public static int[] scalaMaggiore = {0, 2, 2, 1, 2, 2, 2, 1};
+    public static int[] scalaMinNat = {0, 2, 1, 2, 2, 1, 2, 2};
+    public static int[] scalaMinArm = {0, 2, 1, 2, 2, 1, 3, 1};
+    public static int[] scalaMinMel = {0, 2, 1, 2, 2, 2, 2, 1};
+    public static int[] pentaMaggiore = {0, 2, 2, 3, 2, 3};
+    public static int[] pentaMinore = {0, 3, 2, 2, 3, 2};
+    public static int[] esatonale = {0, 2, 2, 2, 2, 2};
+    public static int[] tonoSemitono = {0, 2, 1, 2, 1, 2, 1, 2, 1};
+    public static int[] semitonoTono = {0, 1, 2, 1, 2, 1, 2, 1, 2};
 
-    public Scales() {
-        n = new Notes();
-    }
-
-    public Note[] scala(Note nota, int[] ts) {
+    public static Note[] scala(Note nota, int[] ts) {
         Note[] scala = new Note[7];
         scala[0] = nota;
         for (int i = 1; i < 7; i++) {
-            Note nextNatural = n.nextNatural(scala[i - 1]);
-            int distn = n.distance(scala[i - 1], nextNatural);
+            Note nextNatural = Notes.nextNatural(scala[i - 1]);
+            int distn = Notes.distance(scala[i - 1], nextNatural);
             if (distn == ts[i])
                 scala[i] = nextNatural;
             else if (distn > ts[i])
-                scala[i] = n.flatNotes(n.getIndex(scala[i - 1]) + ts[i]);
+                scala[i] = Notes.flatNotes(Notes.getIndex(scala[i - 1]) + ts[i]);
             else if (distn < ts[i])
-                scala[i] = n.sharpNotes(n.getIndex(scala[i - 1]) + ts[i]);
+                scala[i] = Notes.sharpNotes(Notes.getIndex(scala[i - 1]) + ts[i]);
 
             Note note1 = scala[i - 1].getNaturalNoteAsNote();
             Note note2 = scala[i].getNaturalNoteAsNote();
             if (note2.equals(note1)) {
-                scala[i] = n.doubleFlatNotes(n.getIndex(scala[i - 1]) + ts[i]);
-            } else if (note2.equals(n.nextNatural(n.nextNatural(note1)))) {
-                scala[i] = n.doubleSharpNotes(n.getIndex(scala[i - 1]) + ts[i]);
+                scala[i] = Notes.doubleFlatNotes(Notes.getIndex(scala[i - 1]) + ts[i]);
+            } else if (note2.equals(Notes.nextNatural(Notes.nextNatural(note1)))) {
+                scala[i] = Notes.doubleSharpNotes(Notes.getIndex(scala[i - 1]) + ts[i]);
             }
         }
         return scala;
     }
 
-    public Note[] scalaMaggiore(Note nota) {
+    public static Note[] scalaMaggiore(Note nota) {
         return scala(nota, scalaMaggiore);
     }
 
-    public Note[] scalaMinNat(Note note) {
+    public static Note[] scalaMinNat(Note note) {
         return scala(note, scalaMinNat);
     }
 
-    public Note[] scalaMinArm(Note note) {
+    public static Note[] scalaMinArm(Note note) {
         return scala(note, scalaMinArm);
     }
 
-    public Note[] scalaMinMel(Note note) {
+    public static Note[] scalaMinMel(Note note) {
         return scala(note, scalaMinMel);
     }
 
-    public int getNumAlterazioni(Note[] scala) {
+    private static int getNumAlterazioni(Note[] scala) {
         if (scala == null) return -1;
         int num = 0;
         for (int i = 0; i < scala.length; i++)
-            if (!n.isNatural(scala[i]))
+            if (!Notes.isNatural(scala[i]))
                 num++;
         return num;
     }
 
-    public void printScala(Note[] scala) {
+    static void printScala(Note[] scala) {
         for (int i = 0; i < scala.length; i++)
             System.out.print(scala[i] + "  ");
         System.out.print(getNumAlterazioni(scala));

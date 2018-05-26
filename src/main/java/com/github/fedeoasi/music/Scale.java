@@ -8,8 +8,6 @@ public class Scale {
     private int[] intervals;
     private Note[] notes;
 
-    private Notes n = new Notes();
-
     public Scale(Note tonic, int[] intervals) {
         this.tonic = tonic;
         this.intervals = intervals;
@@ -20,21 +18,21 @@ public class Scale {
         Note[] scala = new Note[7];
         scala[0] = tonic;
         for (int i = 1; i < 7; i++) {
-            Note nextNatural = n.nextNatural(scala[i - 1]);
-            int distn = n.distance(scala[i - 1], nextNatural);
+            Note nextNatural = Notes.nextNatural(scala[i - 1]);
+            int distn = Notes.distance(scala[i - 1], nextNatural);
             if (distn == intervals[i])
                 scala[i] = nextNatural;
             else if (distn > intervals[i])
-                scala[i] = n.flatNotes(n.getIndex(scala[i - 1]) + intervals[i]);
+                scala[i] = Notes.flatNotes(Notes.getIndex(scala[i - 1]) + intervals[i]);
             else if (distn < intervals[i])
-                scala[i] = n.sharpNotes(n.getIndex(scala[i - 1]) + intervals[i]);
+                scala[i] = Notes.sharpNotes(Notes.getIndex(scala[i - 1]) + intervals[i]);
 
             Note note1 = scala[i - 1].getNaturalNoteAsNote();
             Note note2 = scala[i].getNaturalNoteAsNote();
             if (note2.equals(note1)) {
-                scala[i] = n.doubleFlatNotes(n.getIndex(scala[i - 1]) + intervals[i]);
-            } else if (note2.equals(n.nextNatural(n.nextNatural(note1)))) {
-                scala[i] = n.doubleSharpNotes(n.getIndex(scala[i - 1]) + intervals[i]);
+                scala[i] = Notes.doubleFlatNotes(Notes.getIndex(scala[i - 1]) + intervals[i]);
+            } else if (note2.equals(Notes.nextNatural(Notes.nextNatural(note1)))) {
+                scala[i] = Notes.doubleSharpNotes(Notes.getIndex(scala[i - 1]) + intervals[i]);
             }
         }
         return scala;
@@ -61,7 +59,7 @@ public class Scale {
         List<Note> asList = Arrays.asList(notesCopy);
         Collections.rotate(asList, this.notes.length - indexOpt.getAsInt());
         Note[] newNotes = (Note[]) asList.toArray();
-        return new Scale(note, n.distances(newNotes));
+        return new Scale(note, Notes.distances(newNotes));
     }
 
     @Override
