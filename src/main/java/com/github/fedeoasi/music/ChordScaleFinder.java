@@ -30,7 +30,6 @@ public class ChordScaleFinder {
             changeIndices.add(chordChanges.size() - 1);
         }
         Collection<ScoredScale> overallScales = rankScales(chordChanges);
-        System.out.println(overallScales);
 
         List<List<ScoredScale>> returnValue = new ArrayList<>();
         for (int i = 0; i < chords.size(); i++) {
@@ -52,7 +51,6 @@ public class ChordScaleFinder {
     }
 
     public Collection<ScoredScale> rankScales(List<Chord> chords) {
-        System.out.println("progression: " + chords);
         List<Scale> allScales = new ArrayList<>();
         for (int i = 0; i < chords.size(); i++) {
             Chord currentChord = chords.get(i);
@@ -60,7 +58,6 @@ public class ChordScaleFinder {
             Optional<Chord> priorChord = Optional.of(chords.get(priorChordIndex));
             int nextChordIndex = i == chords.size() - 1 ? 0 : i + 1;
             Optional<Chord> nextChord = Optional.of(chords.get(nextChordIndex));
-            System.out.println(priorChord + " " + currentChord + " " + nextChord);
             allScales.addAll(findScales(priorChord, currentChord, nextChord));
         }
         Map<Scale, Long> counted = allScales.stream()
@@ -88,16 +85,32 @@ public class ChordScaleFinder {
     }
 
 
-    public List<Scale> findScales(Optional<Chord> prior, Chord chord, Optional<Chord> after) {
+    public List<Scale> findScales(Optional<Chord> prior, Chord chord, Optional<Chord> next) {
         Stream<Note> allNotes = Stream.concat(toNoteStream(prior), chord.getNotes().stream());
         List<Scale> scalesForChordAndPrior = new ArrayList<>(scalesForNotes(allNotes));
-        //Only use the chord after if there is ambiguity
-        if (scalesForChordAndPrior.size() > 1) {
+
+        if (scalesForChordAndPrior.isEmpty()) {
+            Stream<Note> notesWithNext = Stream.concat(toNoteStream(next), chord.getNotes().stream());
+            List<Scale> scalesForChordAndNext = new ArrayList<>(scalesForNotes(notesWithNext));
+            if (scalesForChordAndNext.isEmpty()) {
+                return new ArrayList<>(scalesForChordAndNext);
+            } else {
+                return new ArrayList<>(scalesForNotes(chord.getNotes().stream()));
+            }
+        } else if (scalesForChordAndPrior.size() > 1) {
+            //Use the prior, chord, and after to try and resolve the ambiguity
             Stream<Note> streamWithPrior = Stream.concat(toNoteStream(prior), chord.getNotes().stream());
-            Stream<Note> noteStream = Stream.concat(streamWithPrior, toNoteStream(after));
-            return new ArrayList<>(scalesForNotes(noteStream));
+            Stream<Note> noteStream = Stream.concat(streamWithPrior, toNoteStream(next));
+            ArrayList<Scale> scalesWithPriorAndNext = new ArrayList<>(scalesForNotes(noteStream));
+            if (scalesWithPriorAndNext.isEmpty()) {
+                return new ArrayList<>(scalesForChordAndPrior);
+            } else {
+                return scalesWithPriorAndNext;
+            }
+        } else {
+            //found exactly one scale for chord and prior
+            return scalesForChordAndPrior;
         }
-        return scalesForChordAndPrior;
     }
 
     public List<Scale> findModes(Optional<Chord> prior, Chord chord, Optional<Chord> after) {

@@ -64,6 +64,24 @@ class ChordScaleFinderTest extends FunSpec with Matchers with Inspectors {
     )
   }
 
+  it("finds two possible for a D preceded by a G (D major) and followed by a C7") {
+    val dMajor = new Chord(Note.D, ChordType.Major)
+    val c7 = new Chord(Note.C, ChordType.Seventh)
+    val gMajor = new Chord(Note.G, ChordType.Major)
+    scaleFinder.findScales(Optional.of(gMajor), dMajor, Optional.of(c7)) should contain theSameElementsAs Seq(
+      new Scale(Note.D, s.scalaMaggiore), new Scale(Note.G, s.scalaMaggiore)
+    )
+  }
+
+  it("finds one scale for an F# minor preceded by a D major and followed by a G") {
+    val fSharpMinor = new Chord(Note.FSharp, ChordType.m)
+    val dMajor = new Chord(Note.D, ChordType.Major)
+    val gMajor = new Chord(Note.G, ChordType.Major)
+    scaleFinder.findScales(Optional.of(dMajor), fSharpMinor, Optional.of(gMajor)) should contain theSameElementsAs Seq(
+      new Scale(Note.D, s.scalaMaggiore)
+    )
+  }
+
   describe("Scale Ranking") {
     it("ranks scales for a single chord") {
       scaleFinder.rankScales(Seq(cMajor).asJava).asScala should contain theSameElementsAs Seq(
