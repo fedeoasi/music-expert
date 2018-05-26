@@ -61,7 +61,7 @@ public class PentagramPanel extends JPanel implements MouseListener {
 
         for (int i = 0; i < notes.size(); i++) {
             Note n = notes.get(i);
-            if (!Notes.isNatural(n)) {
+            if (!n.isNatural()) {
                 n = n.getNaturalNoteAsNote();
             }
             int indice = Notes.getIndexInNaturalScale(n);
@@ -83,7 +83,7 @@ public class PentagramPanel extends JPanel implements MouseListener {
     public void disegnaAccordo() {
         for (int i = 0; i < notes.size(); i++) {
             Note n = notes.get(i);
-            if (!Notes.isNatural(n)) {
+            if (!n.isNatural()) {
                 n = n.getNaturalNoteAsNote();
             }
             int indice = Notes.getIndexInNaturalScale(n);

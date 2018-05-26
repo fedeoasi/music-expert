@@ -14,14 +14,6 @@ public class Notes {
 
     private static Map<Note, Integer> indexByNote;
 
-    //TODO move to Note enum
-    public static boolean isNatural(Note nota) {
-        for (int i = 0; i < naturalNotes.length; i++)
-            if (naturalNotes[i].equals(nota))
-                return true;
-        return false;
-    }
-
     public static Note nextNatural(Note nota) {
         for (int i = 0; i < naturalNotes.length; i++) {
             if (naturalNotes[i].equals(nota.getNaturalNoteAsNote())) {
@@ -133,7 +125,7 @@ public class Notes {
 
     public static int ottava(Note note, int altezza) {
         Accidental accidental = note.getAccidental();
-        if (isNatural(note))
+        if (note.isNatural())
             return ((altezza - 45) / 12);
         if (accidental.equals(Accidental.Flat))
             return ((altezza - 44) / 12);

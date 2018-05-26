@@ -3,20 +3,6 @@ package com.github.fedeoasi.music
 import org.scalatest.{FunSpec, Matchers}
 
 class NotesTest extends FunSpec with Matchers {
-  describe("isNatural") {
-    it("is true for natural notes") {
-      Notes.isNatural(Note.A) shouldBe true
-      Notes.isNatural(Note.G) shouldBe true
-      Notes.isNatural(Note.C) shouldBe true
-    }
-
-    it("is false for altered notes") {
-      Notes.isNatural(Note.CSharp) shouldBe false
-      Notes.isNatural(Note.GFlat) shouldBe false
-      Notes.isNatural(Note.CDoubleSharp) shouldBe false
-    }
-  }
-
   describe("nextNatural") {
     it("finds the natural successor") {
       Notes.nextNatural(Note.B) shouldBe Note.C

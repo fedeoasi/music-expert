@@ -70,6 +70,9 @@ public enum Note {
         return Arrays.stream(values()).filter(n -> n.getName().equals(name)).findFirst().get();
     }
 
+    public boolean isNatural() {
+        return accidental.equals(Accidental.None);
+    }
 
     @Override
     public String toString() {
